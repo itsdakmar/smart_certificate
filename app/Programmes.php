@@ -54,4 +54,18 @@ class Programmes extends Model
     {
         return $this->hasMany('App\Document');
     }
+
+    /**
+     * Set the programme's status based on value.
+     * @var integer
+     * @return string
+     */
+    public function getStatusAttribute($value)
+    {
+        if($value == 1){
+            return $this->attributes['status'] = 'Permohonan';
+        }else {
+            return $this->attributes['status'] = 'tahi';
+        }
+    }
 }
