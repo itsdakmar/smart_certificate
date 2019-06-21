@@ -76,6 +76,7 @@
                     </div>
                 </div>
             </form>
+
             <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -84,7 +85,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#navbar-pengguna" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
+                    <a class="nav-link" href="#navbar-pengguna" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-pengguna">
                         <i class="fas fa-users" style="color: #f4645f;"></i>
                         <span class="nav-link-text">{{ __('Pengurusan Pengguna') }}</span>
                     </a>
@@ -92,12 +93,12 @@
                     <div class="collapse" id="navbar-pengguna">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile.edit') }}">
+                                <a class="nav-link @if(Route::currentRouteName() === 'profile.edit') active @endif" href="{{ route('profile.edit') }}">
                                     {{ __('Profil Pengguna') }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.index') }}">
+                                <a class="nav-link @if(Route::currentRouteName() === 'user.index') active @endif" href="{{ route('user.index') }}">
                                     {{ __('Senarai Pengguna') }}
                                 </a>
                             </li>

@@ -4,7 +4,8 @@
     @include('users.partials.header', [
         'title' => __('Pengurusan Program'),
         'description' => __('This is your profile page. You can see the progress you\'ve made with your work and manage your projects or assigned tasks'),
-        'class' => 'col-lg-7'
+        'class' => 'col-lg-7',
+        'url' => '../public/argon/img/brand/teaching.jpg'
     ])
 
     <div class="container-fluid mt--7">
@@ -17,6 +18,11 @@
                                 <h3 class="mb-0">{{ __('Users') }}</h3>
                             </div>
                             <div class="col-4 text-right">
+
+                                <button class="btn btn-icon btn-sm btn-2 btn-primary" type="button">
+                                    <span class="btn-inner--icon"><i class="fas fa-filter"></i></span>
+
+                                </button>
                                 <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">{{ __('Add user') }}</a>
                             </div>
                         </div>
@@ -48,7 +54,7 @@
                                 <tr>
                                     <td>{{ $user->name }}</td>
                                     <td>
-                                        <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+                                        <a href="mailto:{{ $user->programme_date }}">{{ $user->name }}</a>
                                     </td>
                                     <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
                                     <td class="text-right">
@@ -57,19 +63,19 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                @if ($user->id != auth()->id())
-                                                    <form action="{{ route('user.destroy', $user) }}" method="post">
-                                                        @csrf
-                                                        @method('delete')
+{{--                                                @if ($user->id != auth()->id())--}}
+{{--                                                    <form action="{{ route('user.destroy', $user) }}" method="post">--}}
+{{--                                                        @csrf--}}
+{{--                                                        @method('delete')--}}
 
-                                                        <a class="dropdown-item" href="{{ route('user.edit', $user) }}">{{ __('Edit') }}</a>
-                                                        <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
-                                                            {{ __('Delete') }}
-                                                        </button>
-                                                    </form>
-                                                @else
-                                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Edit') }}</a>
-                                                @endif
+{{--                                                        <a class="dropdown-item" href="{{ route('user.edit', $user) }}">{{ __('Edit') }}</a>--}}
+{{--                                                        <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">--}}
+{{--                                                            {{ __('Delete') }}--}}
+{{--                                                        </button>--}}
+{{--                                                    </form>--}}
+{{--                                                @else--}}
+{{--                                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Edit') }}</a>--}}
+{{--                                                @endif--}}
                                             </div>
                                         </div>
                                     </td>
