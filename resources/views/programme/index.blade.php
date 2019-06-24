@@ -19,10 +19,11 @@
                             </div>
                             <div class="col text-right">
                                 <div class="btn-group" role="group" aria-label="Third group">
-                                    <button class="btn btn-icon btn-sm btn-2 btn-primary" type="button">
+                                    <button class="btn btn-icon btn-sm btn-2 btn-primary" type="button"
+                                            data-toggle="modal" data-target="#filterProgram">
                                         <span class="btn-inner--icon"><i class="fas fa-filter"></i></span>
                                     </button>
-                                    <a href="{{ route('user.create') }}"
+                                    <a href="{{ route('programme.create') }}"
                                        class="btn btn-sm btn-primary">{{ __('Daftar program') }}</a>
                                 </div>
                             </div>
@@ -41,23 +42,23 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table align-items-center table-flush">
+                        <table class="table align-items-center table-flush table-hover">
                             <thead class="thead-light">
                             <tr>
-                                <th scope="col">{{ __('Name') }}</th>
-                                <th scope="col">{{ __('Email') }}</th>
+                                <th scope="col">{{ __('placeholder.programme_name') }}</th>
+                                <th scope="col">{{ __('placeholder.programme_date') }}</th>
                                 <th scope="col">{{ __('Creation Date') }}</th>
+                                <th scope="col">{{ __('Status Program') }}</th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach ($users as $user)
                                 <tr>
-                                    <td>{{ $user->name }}</td>
-                                    <td>
-                                        <a href="mailto:{{ $user->programme_date }}">{{ $user->name }}</a>
-                                    </td>
-                                    <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
+                                    <td>{{ $user->programme_name }}</td>
+                                    <td>{!! $user->programme_start !!}</td>
+                                    <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                                    <td>{{ $user->status }}</td>
                                     <td class="text-right">
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
@@ -65,19 +66,22 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                {{--                                                @if ($user->id != auth()->id())--}}
-                                                {{--                                                    <form action="{{ route('user.destroy', $user) }}" method="post">--}}
-                                                {{--                                                        @csrf--}}
-                                                {{--                                                        @method('delete')--}}
+                                                @if ($user->id != auth()->id())
+                                                    <form action="{{ route('user.destroy', $user) }}" method="post">
+                                                        @csrf
+                                                        @method('delete')
 
-                                                {{--                                                        <a class="dropdown-item" href="{{ route('user.edit', $user) }}">{{ __('Edit') }}</a>--}}
-                                                {{--                                                        <button type="button" class="dropdown-item" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">--}}
-                                                {{--                                                            {{ __('Delete') }}--}}
-                                                {{--                                                        </button>--}}
-                                                {{--                                                    </form>--}}
-                                                {{--                                                @else--}}
-                                                {{--                                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Edit') }}</a>--}}
-                                                {{--                                                @endif--}}
+                                                        <a class="dropdown-item"
+                                                           href="{{ route('user.edit', $user) }}">{{ __('Edit') }}</a>
+                                                        <button type="button" class="dropdown-item"
+                                                                onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
+                                                            {{ __('Delete') }}
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <a class="dropdown-item"
+                                                       href="{{ route('profile.edit') }}">{{ __('Edit') }}</a>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>
@@ -94,7 +98,10 @@
                 </div>
             </div>
         </div>
-
+        @include('component.modal',[
+              'id' => 'filterProgram',
+              'title' => 'filter'
+              ])
         @include('layouts.footers.auth')
     </div>
 @endsection

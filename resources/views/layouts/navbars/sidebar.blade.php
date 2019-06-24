@@ -106,7 +106,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('program.index') }}">
+                    <a class="nav-link" href="{{ route('programme') }}">
                         <i class="fas fa-award text-blue"></i> {{ __('Pengurusan Program') }}
                     </a>
                 </li>
