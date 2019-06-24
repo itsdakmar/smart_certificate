@@ -21,11 +21,21 @@ class ProfileController extends Controller
     /**
      * Update the profile
      *
-     * @param  \App\Http\Requests\ProfileRequest  $request
+     * @param  \App\Http\Requests\ProfileRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(ProfileRequest $request)
     {
+        $message = [
+            'required' => 'The :attribute field is required.',
+            'regex' => ':attribute tidak betul pak.'
+        ];
+
+       return $request->validate([
+            'name' => 'integer',
+            'phone' => 'regex:/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/'
+        ],$message);
+
         auth()->user()->update($request->all());
 
         return back()->withStatus(__('Profile successfully updated.'));
@@ -34,7 +44,7 @@ class ProfileController extends Controller
     /**
      * Change the password
      *
-     * @param  \App\Http\Requests\PasswordRequest  $request
+     * @param  \App\Http\Requests\PasswordRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function password(PasswordRequest $request)
