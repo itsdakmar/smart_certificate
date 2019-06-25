@@ -14,12 +14,18 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image">
-                                <a href="#">
-                                    <img src="{{ !auth()->user()->image_url ?  asset('argon').'/img/theme/default-profile.jpg' : auth()->user()->image_url }}"
-                                         class="rounded-circle">
-                                </a>
+                                <form id="update_form" method="post" action="{{ route('profile.update') }}"
+                                      autocomplete="off">
+                                    <input type="file" name="img" id="img_upload" style="display:none"/>
+                                    <a id="upload_btn" href="#">
+                                        <div class="image">
+                                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('local')->has(auth()->user()->image_url) ? route('profile.image', ['filename' => auth()->user()->image_url]) : asset('argon').'/img/theme/default-profile.jpg' }}" class="rounded-circle">
+                                        </div>
+                                    </a>
+                                </form>
                             </div>
                         </div>
+
                     </div>
                     <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                         <div class="d-flex justify-content-between">
@@ -73,7 +79,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="{{ route('profile.update') }}" autocomplete="off">
+                        <form method="post" action="{{ route('profile.update') }}" autocomplete="off"
+                              enctype="multipart/form-data">
                             @csrf
                             @method('put')
 
@@ -90,7 +97,8 @@
 
                             <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-name"> {{ __('placeholder.name') }}</label>
+                                    <label class="form-control-label"
+                                           for="input-name"> {{ __('placeholder.name') }}</label>
                                     <input type="text" name="name" id="input-name"
                                            class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                            placeholder="{{ __('Name') }}"
@@ -195,7 +203,6 @@
                 </div>
             </div>
         </div>
-
         @include('layouts.footers.auth')
     </div>
 @endsection

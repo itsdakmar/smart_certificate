@@ -17,8 +17,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'UserController', ['except' => ['show']]);
+
+    //Profile Routes
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
+    Route::get('/profile/image/{filename}', ['as' => 'profile.image', 'uses' => 'ProfileController@getProfileImage']);
+    Route::post('/profile/upload', 'ProfileController@upload')->name('profile.upload');
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 
     //Program Routes
@@ -26,6 +30,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/programme/index', 'ProgrammeController@index')->name('programme.filter');
     Route::get('/programme/create','ProgrammeController@create')->name('programme.create');
     Route::post('/programme/store', 'ProgrammeController@store')->name('programme.store');
+
+    //Template Routes
+    Route::get('/template/index', 'TemplateController@index')->name('template');
+    Route::get('/template/create', 'TemplateController@create')->name('template.create');
+
 
 });
 

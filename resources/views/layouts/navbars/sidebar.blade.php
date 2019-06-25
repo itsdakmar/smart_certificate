@@ -81,12 +81,12 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}">
-                        <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
+                        <i class="ni ni-tv-2 text-blue"></i> {{ __('Dashboard') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#navbar-pengguna" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-pengguna">
-                        <i class="fas fa-users" style="color: #f4645f;"></i>
+                        <i class="fas fa-users text-blue"></i>
                         <span class="nav-link-text">{{ __('Pengurusan Pengguna') }}</span>
                     </a>
 
@@ -111,8 +111,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}
+                    <a class="nav-link" href="{{ route('template') }}">
+                        <i class="fas fa-file-signature text-blue"></i> {{ __('Templat Sijil') }}
                     </a>
                 </li>
                 <li class="nav-item">

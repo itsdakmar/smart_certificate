@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use UxWeb\SweetAlert\SweetAlert;
 
 class ProfileController extends Controller
 {
@@ -27,16 +32,15 @@ class ProfileController extends Controller
     public function update(ProfileRequest $request)
     {
         $message = [
-            'required' => 'The :attribute field is required.',
             'regex' => ':attribute tidak betul pak.'
         ];
 
-       return $request->validate([
-            'name' => 'integer',
+        $request->validate([
             'phone' => 'regex:/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/'
-        ],$message);
+        ], $message);
 
         auth()->user()->update($request->all());
+
 
         return back()->withStatus(__('Profile successfully updated.'));
     }
@@ -52,5 +56,33 @@ class ProfileController extends Controller
         auth()->user()->update(['password' => Hash::make($request->get('password'))]);
 
         return back()->withPasswordStatus(__('Password successfully updated.'));
+    }
+
+    public function upload(Request $request)
+    {
+        $file = $request->file('img');
+        $fileName = 'avatar-' . auth()->user()->id . '.' . $request->file('img')->extension();
+
+        if ($file) {
+            if (Storage::disk('local')->has(auth()->user()->image_url)) {
+                Storage::disk('local')->delete(auth()->user()->image_url);
+            }
+
+            Storage::disk('local')->put($fileName, File::get($file));
+            auth()->user()->update(['image_url' => $fileName]);
+        }
+
+        return response()->json(200);
+    }
+
+    public function getProfileImage($filename)
+    {
+        try {
+            $file = Storage::disk('local')->get($filename);
+        } catch (FileNotFoundException $e) {
+            return response($e->getMessage(), 500);
+        }
+
+        return response($file, 200);
     }
 }
