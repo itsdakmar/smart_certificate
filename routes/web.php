@@ -29,11 +29,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/programme/index', 'ProgrammeController@index')->name('programme');
     Route::post('/programme/index', 'ProgrammeController@index')->name('programme.filter');
     Route::get('/programme/create','ProgrammeController@create')->name('programme.create');
+    Route::get('/programme/edit/{id}','ProgrammeController@edit')->name('programme.edit');
+    Route::put('/programme/update/{id}','ProgrammeController@update')->name('programme.update');
     Route::post('/programme/store', 'ProgrammeController@store')->name('programme.store');
+    Route::get('/programme/show/{id}', 'ProgrammeController@show')->name('programme.show');
+    Route::get('/programme/print', 'ProgrammeController@print')->name('programme.print');
 
     //Template Routes
     Route::get('/template/index', 'TemplateController@index')->name('template');
-    Route::get('/template/create', 'TemplateController@create')->name('template.create');
+    Route::get('/template/orientation', 'TemplateController@orientation')->name('template.orientation');
+    Route::get('/template/create/{orientation}', 'TemplateController@create')->name('template.create');
+
+
+    //Candidate Routes
+    Route::get('/programme/{id}/candidate/create',['as' => 'candidate.create', 'uses' => 'CandidateController@create']);
+    Route::post('/programme/{id}/candidate/store',['as' => 'candidate.store', 'uses' => 'CandidateController@store']);
+    Route::post('/programme/{id}/candidate/upload',['as' => 'candidate.upload', 'uses' => 'CandidateController@importExcel']);
 
 
 });

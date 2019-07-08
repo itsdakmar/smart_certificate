@@ -16,13 +16,15 @@ class CreateProgrammesTable extends Migration
         Schema::create('programmes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('programme_name');
+            $table->string('programme_location')->nullable();
             $table->date('programme_start');
             $table->date('programme_end');
             $table->unsignedBigInteger('certificate_conf');
             $table->unsignedSmallInteger('status');
-            $table->bigInteger('created_by');
+            $table->unsignedBigInteger('created_by');
             $table->timestamps();
             $table->foreign('certificate_conf')->references('id')->on('certificate_configs');
+            $table->foreign('created_by')->references('id')->on('users');
         });
     }
 

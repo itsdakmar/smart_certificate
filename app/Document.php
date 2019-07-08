@@ -7,14 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property integer $id
  * @property integer $programme_id
- * @property string $identity_card
  * @property string $name
- * @property integer $type
+ * @property string $file_url
  * @property string $created_at
  * @property string $updated_at
- * @property Programmes $programme
+ * @property Programme $programme
  */
-class Candidates extends Model
+class Document extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
@@ -26,7 +25,7 @@ class Candidates extends Model
     /**
      * @var array
      */
-    protected $fillable = ['programme_id', 'identity_card', 'name', 'type', 'created_at', 'updated_at'];
+    protected $fillable = ['programme_id', 'name', 'file_url', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

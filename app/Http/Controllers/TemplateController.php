@@ -18,8 +18,24 @@ class TemplateController extends Controller
         return view('template.index', ['users' => $model->paginate(15)]);
     }
 
-    public function create()
+    public function create($orientation)
     {
+         return ($orientation == 'portrait') ? $this->portrait() : $this->landscape();
+    }
+
+    public function orientation()
+    {
+        return view('template.orientation');
+    }
+
+    public function portrait()
+    {
+        return view('template.layout-portrait');
+    }
+
+    public function landscape()
+    {
+
         return view('template.create');
     }
 }

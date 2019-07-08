@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $certificate_type
  * @property string $created_at
  * @property string $updated_at
- * @property Programmes[] $programmes
+ * @property Programme[] $programmes
  */
-class CertificateConfigs extends Model
+class CertificateConfig extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.

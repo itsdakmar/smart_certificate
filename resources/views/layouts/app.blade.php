@@ -12,6 +12,7 @@
     <link href="{{ asset('argon') }}/img/brand/favicon.png" rel="icon" type="image/png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pinyon+Script&display=swap" rel="stylesheet">
     <!-- Icons -->
     <link href="{{ asset('argon') }}/vendor/nucleo/css/nucleo.css" rel="stylesheet">
     <link href="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
@@ -79,7 +80,33 @@
                 alert('failed to upload, please try again later.')
             }
         });
-    })
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $("#border").css("background-image", "url(" + e.target.result + ")");
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+
+    $("#template-border").change(function(){
+        readURL(this);
+    });
+
+    // $(document).ready(function($) {
+        $('#programme-table tr td:not(:last-child)').click(function () {
+            location.href = $(this).closest('tr').data('href');
+        });
+
+
+    // });
+
+
+
 </script>
 
 @stack('js')

@@ -13,7 +13,7 @@
                                 <h3 class="mb-0">{{ __('Users') }}</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('template.create') }}" class="btn btn-sm btn-primary">{{ __('Add user') }}</a>
+                                <a href="{{ route('template.orientation') }}" class="btn btn-sm btn-primary">{{ __('Add user') }}</a>
                             </div>
                         </div>
                     </div>
