@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Candidates;
+use App\Candidate;
 use App\Imports\CandidateImports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -30,7 +30,7 @@ class CandidateController extends Controller
 
         $count = count($request->candidate_name);
         for($i = 0; $i < $count; $i++){
-            $candidate = new Candidates();
+            $candidate = new Candidate();
             $candidate->name = $request->candidate_name[$i];
             $candidate->identity_card = $request->candidate_ic[$i];
             $candidate->programme_id = $programme_id;

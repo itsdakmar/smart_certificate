@@ -102,15 +102,14 @@
                             <div class="tab-pane fade show active p-3" id="one" role="tabpanel"
                                  aria-labelledby="one-tab">
                                 <div class="row justify-content-between">
-                                    <div class="col-4">
-                                        <h6 class="heading-small text-muted mb-4">{{ __('label.programme_information') }}</h6>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#" class="btn btn-sm btn-primary text-right"><i
-                                                    class="fas fa-pencil-alt mr-1"></i> {{('label.edit')}}</a>
+                                    <div class="col-6">
+
+                                        <h6 class="heading-small text-muted mb-4 ">{{ __('label.programme_information') }}
+                                            <a href="#" class="btn btn-sm btn-primary text-right ml-2"><i class="fas fa-pencil-alt mr-1"></i> {{('label.edit')}}</a></h6>
+
+
                                     </div>
                                 </div>
-                                <hr/>
                                 <div class="table-responsive">
                                     <table class="table table-borderless table-sm">
                                         <tr>
@@ -165,7 +164,21 @@
                     </div>
                 </div>
 
-                <div class="card bg-secondary shadow mt-5">
+                @if (session('status'))
+                    <div class="row mt-2">
+                        <div class="col">
+
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('status') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="card bg-secondary shadow {{ (!session('status')) ? 'mt-5' : '' }}">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
                             <h3 class="col mb-0">{{ __('label.participants') }}</h3>
@@ -194,19 +207,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if (session('status'))
-                            <div class="row mt-2">
-                                <div class="col">
 
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        {{ session('status') }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
                     </div>
                     <div class="table-responsive">
                         <table id="candidate-table"

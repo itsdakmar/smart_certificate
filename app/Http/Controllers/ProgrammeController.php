@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 use App\Programme;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
 class ProgrammeController extends Controller
@@ -103,6 +103,8 @@ class ProgrammeController extends Controller
 
     public function print()
     {
+        QrCode::format('png')->size(100)->errorCorrection('H')->generate('Make me into a QrCode!', public_path('argon/img/qrcode/qrcode.png'));
+
         return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('programme.print')->stream('download.pdf');
 //        return view('programme.print');
     }
