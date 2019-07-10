@@ -1,72 +1,92 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
-
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+   <img src="https://laravel.com/assets/img/components/logo-laravel.svg">
+</p>
+<p align="center">
+   <img src="https://www.docker.com/sites/default/files/social/docker_facebook_share.png">
 </p>
 
-## About Laravel
+## What is Docker?
+- Docker is a tool designed to make it easier to create, deploy, and run applications by using containers. Containers allow a developer to package up an application with all of the parts it needs, such as libraries and other dependencies, and ship it all out as one package.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Why Using Docker?
+- Simple answer is because : 
+    - docker is easy to use.
+    - will work on any enviroment.
+    - easy to maintain.
+    - isolated, dependencies or settings within a container will not affect any installations or configurations on your computer.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Getting Started
+- Before starting you need to have these tools installed **Docker Desktop** and **Git**.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installing Docker
+- Register at [Docker Website](https://hub.docker.com/signup).
+- Download Docker Desktop [For Mac](https://hub.docker.com/editions/community/docker-ce-desktop-mac).
+- Download Docker Desktop [For Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows).
+- Download Docker Desktop [For Linux](https://hub.docker.com/search?q=&type=edition&offering=enterprise&operating_system=linux).
+- Install as usual.
 
-## Learning Laravel
+## Installing Git
+- Downlod [Git](https://git-scm.com/downloads) and install.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Set up WebServer using Docker
+1. Open git bash.
+    -
+    <img src="https://i.ibb.co/fvn79k2/git-bsh.png">
+    
+2. Git clone [smart_certificate](https://github.com/itsdakmar/smart_certificate.git)
+    - 
+        ```
+        git clone https://github.com/itsdakmar/smart_certificate.git
+        ```
+3. Enter project directory and update git submodule
+    - 
+        ```
+        cd smart_certificate
+        git submodule update 
+        ```
+4. Enter Laradock Directory and copy env file
+   - 
+        ```
+        cd laradock
+        cp env-example .env
+        ```
+5. Then, run docker-compose 
+   - 
+        ```
+        docker-compose up -d nginx mysql phpmyadmin
+        ```
+   - Smart certificate will be using nginx as web server , mysql as database and phpmyadmin for database management.
+   - For first time compose up will took some time. Because docker need to download images from [Docker Hub](https://hub.docker.com/)
+   
+6. After docker finish up download all images. You need to ssh into docker container that we just created to run composer and migration.
+   -
+        ```
+       docker-compose exec workspace bash
+        ```
+   - Now Your inside docker container. just run composer install and migration as usual.
+   
+        ```
+       php composer install
+       php artisan migrate --seed
+       php artisan key:generate
+       npm install
+        ```
+   - Done.
+ 
+ ## System Url
+   <table>
+    <tr>
+       <td>Project Url</td>
+       <td>http://localhost</td>
+    </tr> 
+    <tr>
+       <td>PhpMyAdmin</td>
+       <td>http://localhost:8080</td>
+    </tr> 
+   </table>
+   
+   ## References
+   - [Docker Docs](https://docs.docker.com/)
+   - [Laradock Docs](https://laradock.io/documentation/)
+   - [Laravel Docs](https://laravel.com/docs/5.8)
+   
