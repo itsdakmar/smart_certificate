@@ -14,7 +14,7 @@
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="media align-items-center">
                         <span class="avatar avatar-sm rounded-circle">
-                        <img alt="Image placeholder" src="{{ asset('argon') }}/img/theme/team-1-800x800.jpg">
+                        <img alt="Image placeholder" src="{{ \Illuminate\Support\Facades\Storage::disk('local')->has(auth()->user()->image_url) ? route('profile.image', ['filename' => auth()->user()->image_url]) : asset('argon').'/img/theme/default-profile.jpg' }}">
                         </span>
                     </div>
                 </a>
@@ -54,7 +54,7 @@
                 <div class="row">
                     <div class="col-6 collapse-brand">
                         <a href="{{ route('home') }}">
-                            <img src="{{ asset('argon') }}/img/brand/blue.png">
+                            <img src="{{ asset('argon') }}/img/brand/logo-2.png">
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
