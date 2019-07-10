@@ -72,7 +72,8 @@
        npm install
         ```
    - Done.
-   
+ 
+ ## System Url
    <table>
     <tr>
        <td>Project Url</td>
@@ -83,4 +84,9 @@
        <td>http://localhost:8080</td>
     </tr> 
    </table>
+   
+   ## References
+   - [Docker Docs](https://docs.docker.com/)
+   - [Laradock Docs](https://laradock.io/documentation/)
+   - [Laravel Docs](https://laravel.com/docs/5.8)
    
