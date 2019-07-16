@@ -55,9 +55,12 @@ class CandidateController extends Controller
 
         $candidates = Excel::import(new CandidateImports($programme_id), request()->file('import_file'));
 
-       dd($candidates);
+        if($candidates){
+            return back()->with('success', 'Insert Record successfully.');
+        }else {
+            return back()->with('failed', 'Insert Record failed.');
 
+        }
 
-        return back()->with('success', 'Insert Record successfully.');
     }
 }

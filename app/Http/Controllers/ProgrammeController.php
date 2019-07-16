@@ -8,10 +8,10 @@
 
 namespace App\Http\Controllers;
 
+use App\CertificateConfig;
 use App\Programme;
-use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use PDF;
 
 
 class ProgrammeController extends Controller
@@ -36,7 +36,10 @@ class ProgrammeController extends Controller
      */
     public function create()
     {
-        return view('programme.create');
+        $participants = CertificateConfig::where(['certificate_type' => 1])->get()->sortByDesc('id');
+        $committees = CertificateConfig::where(['certificate_type' => 2])->get()->sortByDesc('id');
+
+        return view('programme.create', compact('participants','committees'));
     }
 
     /**
@@ -97,16 +100,49 @@ class ProgrammeController extends Controller
     public function show($programme_id)
     {
         $programme = Programme::findOrFail($programme_id);
-        $candidates = $programme->candidates()->paginate(7);
-        return view('programme.show', compact('programme','candidates'));
+
+        $candidates = $programme->candidates()->paginate(5, ['*'], 'candidates');
+        $committees = $programme->committees()->paginate(5, ['*'], 'committees');
+
+        return view('programme.show', compact('programme','candidates','committees'));
     }
 
-    public function print()
+    public function print($programme_id)
     {
-        QrCode::format('png')->size(100)->errorCorrection('H')->generate('Make me into a QrCode!', public_path('argon/img/qrcode/qrcode.png'));
+        $programme = Programme::findOrFail($programme_id);
+        $cert = $programme->certificateConfig()->first();
 
-        return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('programme.print')->stream('download.pdf');
-//        return view('programme.print');
+
+        PDF::SetTitle('Hello World');
+
+        PDF::setHeaderCallback(function ($pdf) use ($cert) {
+            $pdf->SetAutoPageBreak(false, 0);
+            $pdf->Image(public_path('uploaded/template/converted/'.$cert->converted), 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+            $pdf->setPageMark();
+        });
+
+        foreach ($programme->candidates()->get() as $candidate){
+            PDF::AddPage('P', 'A4');
+
+
+            $findme   = [
+                '{nama_peserta}' => '<b>'.$candidate->name.'</b>',
+                '{ic_peserta}' => '<b>'.$candidate->identity_card.'</b>',
+                '{nama_program}' => '<b>'.$programme->programme_name.'</b>',
+                '{lokasi_program}' => '<b>'.$programme->programme_location.'</b>',
+                '{tarikh_program}' => '<b>'.$programme->programme_date_for_cert.'</b>',
+            ];
+
+            foreach ($cert->certificateContents as $content) {
+                $parse_content = strtr($content->content, $findme);
+
+                PDF::SetFontSize($content->font_size);
+                PDF::SetFont('courier');
+                PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = true);
+            }
+        }
+
+        return PDF::Output('hello_world.pdf');
     }
 
 }

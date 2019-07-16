@@ -70,7 +70,6 @@
                                 <p>
                                     <a href="#"><i class="fas fa-wrench fa-8x mb-4"></i>
                                         <br/>
-
                                         <span>Change Layout.</span>
                                     </a>
                                 </p>
@@ -105,7 +104,8 @@
                                     <div class="col-6">
 
                                         <h6 class="heading-small text-muted mb-4 ">{{ __('label.programme_information') }}
-                                            <a href="#" class="btn btn-sm btn-primary text-right ml-2"><i class="fas fa-pencil-alt mr-1"></i> {{('label.edit')}}</a></h6>
+                                            <a href="#" class="btn btn-sm btn-primary text-right ml-2"><i
+                                                        class="fas fa-pencil-alt mr-1"></i> {{('label.edit')}}</a></h6>
 
 
                                     </div>
@@ -177,6 +177,93 @@
                         </div>
                     </div>
                 @endif
+
+                <div class="card bg-secondary shadow {{ (!session('status')) ? 'mt-5' : '' }}">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <h3 class="col mb-0">{{ __('label.participants') }}</h3>
+                            <div class="col text-right">
+                                <div class="btn-group" role="group" aria-label="Third group">
+                                    <button class="btn btn-icon btn-sm btn-2 btn-primary" type="button"
+                                            data-toggle="modal" data-target="#filterProgram">
+                                        <span class="btn-inner--icon"><i class="fas fa-filter"></i></span>
+                                    </button>
+                                    <a href="{{ route('candidate.create' , ['id' => $programme->id]) }}"
+                                       class="btn btn-sm btn-primary">{{ __('label.add_participants') }}</a>
+                                    <button class="btn btn-icon btn-sm btn-primary" type="button"
+                                            data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+
+                                        <a class="dropdown-item" data-toggle="modal"
+                                           data-target="#uploadCandidate">{{ __('label.upload_candidate_excel') }}</a>
+
+                                        <a class="dropdown-item"
+                                           href="#">{{ __('label.download_candidate_excel_template') }}</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="table-responsive">
+                        <table id="candidate-table"
+                               class="table align-items-center table-flush table-hover">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">{{ __('label.programme_student_name') }}</th>
+                                <th scope="col">{{ __('label.programme_student_ic') }}</th>
+                                <th scope="col">&nbsp;</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($committees as $committee)
+                                <tr>
+                                    <td>{{ $committee->name }}</td>
+                                    <td>{{ $committee->identity_card }}</td>
+                                    <td class="programme-setting text-right">
+                                        <div class="dropdown">
+                                            <a class="btn btn-sm btn-icon-only text-light" href="#"
+                                               role="button"
+                                               data-toggle="dropdown" aria-haspopup="true"
+                                               aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                @if ($committee->id != auth()->id())
+                                                    <form action="{{ route('user.destroy', $committee) }}"
+                                                          method="post">
+                                                        @csrf
+                                                        @method('delete')
+
+                                                        <a class="dropdown-item"
+                                                           href="{{ route('programme.edit', $committee) }}">{{ __('Edit') }}</a>
+                                                        <button type="button" class="dropdown-item"
+                                                                onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
+                                                            {{ __('Delete') }}
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <a class="dropdown-item"
+                                                       href="{{ route('profile.edit') }}">{{ __('Edit') }}</a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer py-4">
+                        <nav class="d-flex justify-content-end" aria-label="...">
+                            {{ $committees->links() }}
+                        </nav>
+                    </div>
+                </div>
 
                 <div class="card bg-secondary shadow {{ (!session('status')) ? 'mt-5' : '' }}">
                     <div class="card-header bg-white border-0">

@@ -23,17 +23,5 @@ class UsersTableSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
-
-        DB::table('certificate_configs')->insert([
-            'name' => 'Layout 1',
-            'logo_1' => 'logo_1',
-            'logo_2' => 'logo_2',
-            'background' => 'bg',
-            'director_signature' => 'signature',
-            'certificate_type' => 1,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-
     }
 }

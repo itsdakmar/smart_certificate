@@ -101,8 +101,6 @@
         $('#programme-table tr td:not(:last-child)').click(function () {
             location.href = $(this).closest('tr').data('href');
         });
-
-
     // });
 
 

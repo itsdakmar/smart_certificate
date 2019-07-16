@@ -84,7 +84,7 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                @if ($programme->id != auth()->id())
+                                                @if ($programme->created_by != auth()->id())
                                                     <form action="{{ route('user.destroy', $programme) }}"
                                                           method="post">
                                                         @csrf

@@ -12,7 +12,7 @@
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
-                            <h3 class="col-12 mb-0">{{ __('Template') }}</h3>
+                            <h3 class="col-12 mb-0">{{ __('label.orientation') }}</h3>
                         </div>
                     </div>
                     <div class="card-body">
@@ -31,7 +31,7 @@
                                             <img src="{{ asset('argon') }}/img/template/potrait.svg" class="img-thumbnail my-3" style="height: 200px!important;" alt="Responsive image">
                                     </div>
                                     <div class="card-footer">
-                                        <a href="{{ route('template.create' , ['orientation' => 'portrait']) }}" class="btn btn-lg btn-block btn-primary">Get started</a>
+                                        <a href="{{ route('template.create' , ['orientation' => 'Portrait']) }}" class="btn btn-lg btn-block btn-primary">Get started</a>
                                     </div>
                                 </div>
                                 <div class="card mb-4 shadow-sm">
@@ -42,7 +42,7 @@
                                         <img src="{{ asset('argon') }}/img/template/landscape.svg" class="img-thumbnail my-3" style="height: 200px!important;" alt="Responsive image">
                                     </div>
                                     <div class="card-footer">
-                                        <a href="{{ route('template.create' , ['orientation' => 'landscape']) }}" class="btn btn-lg btn-block btn-primary">Get started</a>
+                                        <a href="{{ route('template.create' , ['orientation' => 'Landscape']) }}" class="btn btn-lg btn-block btn-primary">Get started</a>
                                     </div>
                                 </div>
                             </div>

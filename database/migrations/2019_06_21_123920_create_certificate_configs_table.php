@@ -16,11 +16,10 @@ class CreateCertificateConfigsTable extends Migration
         Schema::create('certificate_configs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('logo_1');
-            $table->string('logo_2');
-            $table->string('background');
-            $table->string('director_signature');
-            $table->string('certificate_type');
+            $table->string('original');
+            $table->string('converted')->nullable();
+            $table->unsignedInteger('convert_status')->nullable();
+            $table->unsignedInteger('certificate_type')->nullable();
             $table->timestamps();
         });
     }

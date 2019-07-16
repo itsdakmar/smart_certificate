@@ -24,8 +24,6 @@ use Illuminate\Http\Request;
  */
 class Programme extends Model
 {
-    protected $appends = ['programme_date'];
-
     /**
      * The "type" of the auto-incrementing ID.
      * 
@@ -75,6 +73,13 @@ class Programme extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function committees() {
+        return $this->candidates()->where('type','=', 2);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function documents()
     {
         return $this->hasMany('App\Document');
@@ -87,11 +92,21 @@ class Programme extends Model
      */
     public function getStatusAttribute($value)
     {
-        if ($value == 1) {
-            return $this->attributes['status'] = '<span><i class="fas fa-circle text-success mr-1"></i>'.__('label.draft').'</span>';
-        } else {
-            return $this->attributes['status'] = '<span><i class="fas fa-circle text-success mr-1"></i>'.__('label.draft').'</span>';
+        switch($value) {
+            case 1:
+                $this->attributes['status'] = '<span><i class="fas fa-circle text-primary mr-1"></i>'.__('label.draft').'</span>';
+                break;
+            case 2:
+                $this->attributes['status'] = '<span><i class="fas fa-circle text-info mr-1"></i>'.__('label.wait_approval').'</span>';
+                break;
+            case 3:
+                $this->attributes['status'] = '<span><i class="fas fa-circle text-success mr-1"></i>'.__('label.approved').'</span>';
+                break;
+            default:
+                $this->attributes['status'] = '<span><i class="fas fa-circle text-danger mr-1"></i>'.__('label.unknown').'</span>';
         }
+
+        return $this->attributes['status'];
     }
 
     /**
@@ -106,6 +121,23 @@ class Programme extends Model
 
         if ($start_date !== $end_date) {
             return $start_date . '<i class="fas fa-arrow-right text-primary ml-4 mr-4"></i>' . $end_date;
+        } else {
+            return $start_date;
+        }
+    }
+
+    /**
+     * Combine start date with end date if both have same date.
+     * @return string
+     * @var string
+     */
+    public function getProgrammeDateForCertAttribute()
+    {
+        $start_date = Carbon::parse($this->programme_start)->format('d / m / Y');
+        $end_date = Carbon::parse($this->programme_end)->format('d / m / Y');
+
+        if ($start_date !== $end_date) {
+            return $start_date . ' Sehingga ' . $end_date;
         } else {
             return $start_date;
         }
