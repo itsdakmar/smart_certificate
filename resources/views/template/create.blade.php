@@ -33,11 +33,18 @@
                             @endif
 
                             <div class="pl-lg-4">
-                                <div class="form-group">
-                                    <label class="form-control-label"
-                                           for="input-name">{{ __('label.orientation') }}</label>:
-                                    <label class="form-control-label"
-                                           for="input-name">{{ $orientation }}</label>
+                                <div class="form-group {{ $errors->has('orientation') ? ' has-danger' : '' }}">
+                                    <label for="orientation">{{ __('label.orientation') }}</label>
+                                    <select name="orientation" class="form-control form-control-alternative {{ $errors->has('orientation') ? ' is-invalid' : '' }}" id="orientation" required>
+                                        <option value="P">{{ __('label.portrait') }}</option>
+                                        <option value="Lp">{{ __('label.landscape') }}</option>
+                                    </select>
+
+                                    @if ($errors->has('cert_type'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('cert_type') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('layout_name') ? ' has-danger' : '' }}">
                                     <label class="form-control-label"

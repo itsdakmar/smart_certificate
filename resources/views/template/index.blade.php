@@ -16,7 +16,7 @@
                                 <h3 class="mb-0">{{ __('label.template') }}</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('template.orientation') }}"
+                                <a href="{{ route('template.create') }}"
                                    class="btn btn-sm btn-primary">{{ __('label.add_template') }}</a>
                             </div>
                         </div>

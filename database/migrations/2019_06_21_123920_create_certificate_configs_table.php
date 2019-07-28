@@ -16,6 +16,7 @@ class CreateCertificateConfigsTable extends Migration
         Schema::create('certificate_configs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('orientation');
             $table->string('original');
             $table->string('converted')->nullable();
             $table->unsignedInteger('convert_status')->nullable();

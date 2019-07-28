@@ -19,11 +19,13 @@ class CreateProgrammesTable extends Migration
             $table->string('programme_location')->nullable();
             $table->date('programme_start');
             $table->date('programme_end');
-            $table->unsignedBigInteger('certificate_conf');
+            $table->unsignedBigInteger('cert_committees');
+            $table->unsignedBigInteger('cert_participants');
             $table->unsignedSmallInteger('status');
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
-            $table->foreign('certificate_conf')->references('id')->on('certificate_configs');
+            $table->foreign('cert_committees')->references('id')->on('certificate_configs');
+            $table->foreign('cert_participants')->references('id')->on('certificate_configs');
             $table->foreign('created_by')->references('id')->on('users');
         });
     }

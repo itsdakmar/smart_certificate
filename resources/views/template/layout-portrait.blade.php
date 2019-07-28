@@ -24,7 +24,7 @@
 
             @if (session('status'))
                 <div class="col-12">
-                    <div id="alert" class="alert alert-success alert-dismissible fade show" role="alert" >
+                    <div id="alert" class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('status') }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -49,6 +49,7 @@
                       autocomplete="off">
                     @csrf
                     @if(session('row'))
+
                         @php $row = session('row') @endphp
                         <div class="card">
                             <div class="card-header">
@@ -61,8 +62,9 @@
                                                 class="btn bg-gradient-success text-white float-right">
                                             <i class="fas fa-check"></i> Submit
                                         </button>
-                                        <a target="_blank"href="{{ route('template.preview', ['id' => $certificate_conf->id]) }}"
-                                                class="btn bg-gradient-primary text-white float-right mr-2">
+                                        <a target="_blank"
+                                           href="{{ route('template.preview', ['id' => $certificate_conf->id]) }}"
+                                           class="btn bg-gradient-primary text-white float-right mr-2">
                                             <span><i class="fas fa-eye"></i> Preview Certificate</span>
                                         </a>
                                     </div>
@@ -97,40 +99,86 @@
                                                 @endif
                                             </div>
 
-                                            <label for="cert_select">{{ __('label.position') }}</label>
-                                            <div class="form-inline ">
-                                                <div class="input-group w-lg-50 w-sm-50">
-                                                    <div class="input-group-prepend">
-                                                        <button class="btn btn-primary" type="button"
-                                                                readonly>{{ __('label.x') }}</button>
+                                            <div class="row">
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <label for="cert_select">{{ __('label.position') }}</label>
+                                                    <div class="form-inline ">
+                                                        <div class="input-group input-group-sm">
+                                                            <div class="input-group-prepend">
+                                                                <button class="btn btn-primary" type="button"
+                                                                        readonly>{{ __('label.x') }}</button>
+                                                            </div>
+                                                            <input type="number" name="x[]" min="1" max="176"
+                                                                   class="form-control px-2 {{ $errors->has('x.'.$index) ? ' is-invalid' : '' }}"
+                                                                   placeholder="{{ __('label.x') }}"
+                                                                   value="{{ old('x.'.$index) }}"
+                                                                   required {{ $errors->has('x.'.$index) ? 'autofocus' : '' }}
+                                                            >
+                                                        </div>
+                                                        <div class="input-group input-group-sm ml-xl-2">
+                                                            <div class="input-group-prepend">
+                                                                <button class="btn btn-primary" type="button"
+                                                                        readonly>{{ __('label.y') }}</button>
+                                                            </div>
+                                                            <input type="number" name="y[]" min="1" max="290"
+                                                                   class="form-control px-2 {{ $errors->has('y.'.$index) ? ' is-invalid' : '' }}"
+                                                                   placeholder="{{ __('label.y') }}"
+                                                                   value="{{ old('y.'.$index) }}"
+                                                                   required {{ $errors->has('y.'.$index) ? 'autofocus' : '' }}
+                                                            >
+                                                        </div>
+                                                        @if ($errors->has('x.'.$index))
+                                                            <span class="invalid-feedback" style="display:block;"
+                                                                  role="alert"><strong>{{ $errors->first('x.'.$index) }}</strong></span>
+                                                        @endif
+                                                        @if ($errors->has('y.'.$index))
+                                                            <span class="invalid-feedback" style="display:block;"
+                                                                  role="alert"><strong>{{ $errors->first('y.'.$index) }}</strong></span>
+                                                        @endif
                                                     </div>
-                                                    <input type="number" name="x[]" min="1" max="176"
-                                                           class="form-control px-2 {{ $errors->has('x.'.$index) ? ' is-invalid' : '' }}"
-                                                           placeholder="{{ __('label.x') }}"
-                                                           value="{{ old('x.'.$index) }}"
-                                                           required {{ $errors->has('x.'.$index) ? 'autofocus' : '' }}
-                                                    >
                                                 </div>
-                                                <div class="input-group w-lg-5- w-sm-50 ml-xl-2 ">
-                                                    <div class="input-group-prepend">
-                                                        <button class="btn btn-primary" type="button"
-                                                                readonly>{{ __('label.Y') }}</button>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <label for="cert_select">{{ __('label.font_size') }}</label>
+                                                    <div class="input-group-sm">
+                                                        <input type="text" name="font_size[]" id="font_size"
+                                                               class="form-control form-control-alternative"
+                                                               placeholder="{{ __('label.font_size') }}"
+                                                               value="{{ old('font_size.'.$index) }}"
+                                                               required
+
+                                                        >
+                                                        @if ($errors->has('font_size.'.$index))
+                                                            <span class="invalid-feedback" style="display:block;"
+                                                                  role="alert"><strong>{{ $errors->first('font_size.'.$index) }}</strong></span>
+                                                        @endif
                                                     </div>
-                                                    <input type="number" name="y[]" min="1" max="290"
-                                                           class="form-control px-2 {{ $errors->has('y.'.$index) ? ' is-invalid' : '' }}"
-                                                           placeholder="{{ __('label.y') }}"
-                                                           value="{{ old('y.'.$index) }}"
-                                                           required {{ $errors->has('y.'.$index) ? 'autofocus' : '' }}
-                                                    >
                                                 </div>
-                                                @if ($errors->has('x.'.$index))
-                                                    <span class="invalid-feedback" style="display:block;"
-                                                          role="alert"><strong>{{ $errors->first('x.'.$index) }}</strong></span>
-                                                @endif
-                                                @if ($errors->has('y.'.$index))
-                                                    <span class="invalid-feedback" style="display:block;"
-                                                          role="alert"><strong>{{ $errors->first('y.'.$index) }}</strong></span>
-                                                @endif
+                                                <div class="col-xl-2 col-sm-12">
+                                                    <label for="cert_select">{{ __('label.alignment') }}</label>
+
+                                                    <div class="btn-group btn-group-sm" role="group"
+                                                         aria-label="Basic example">
+                                                        <button type="button"
+                                                                class="btn {{ (old('alignment.'.$index) == 'l') ? 'btn-primary' : 'btn-outline-primary' }} click-me"
+                                                                data-value="L"><i class="fas fa-align-left"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn {{ (old('alignment.'.$index) == 'c') ? 'btn-primary' : 'btn-outline-primary' }} click-me"
+                                                                data-value="C"><i class="fas fa-align-center"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn {{ (old('alignment.'.$index) == 'r') ? 'btn-primary' : 'btn-outline-primary' }} click-me"
+                                                                data-value="R"><i class="fas fa-align-right"></i>
+                                                        </button>
+                                                    </div>
+                                                    <input type="hidden" name="alignment[]"
+                                                           value="{{ old('alignment.'.$index) }}" class="alignment">
+
+                                                    @if ($errors->has('alignment.'.$index))
+                                                        <span class="invalid-feedback" style="display:block;"
+                                                              role="alert"><strong>{{ $errors->first('alignment.'.$index) }}</strong></span>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +207,8 @@
                                                 class="btn bg-gradient-success text-white float-right">
                                             <i class="fas fa-check"></i> Submit
                                         </button>
-                                        <a target="_blank"href="{{ route('template.preview', ['id' => $certificate_conf->id]) }}"
+                                        <a target="_blank"
+                                           href="{{ route('template.preview', ['id' => $certificate_conf->id]) }}"
                                            class="btn bg-gradient-primary text-white float-right mr-2">
                                             <span><i class="fas fa-eye"></i> Preview Certificate</span>
                                         </a>
@@ -186,34 +235,69 @@
                                                        placeholder="{{ __('label.cert_content') }}"
                                                        value="{{ $content->content }}"
                                                        required
-                                                       >
+                                                >
                                             </div>
 
-                                            <label for="cert_select">{{ __('label.axis_position') }}</label>
-                                            <div class="form-inline ">
-                                                <div class="input-group w-lg-50 w-sm-50">
-                                                    <div class="input-group-prepend">
-                                                        <button class="btn btn-primary" type="button"
-                                                                readonly>{{ __('label.x') }}</button>
+                                            <div class="row">
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <label for="cert_select">{{ __('label.axis_position') }}</label>
+                                                    <div class="form-inline">
+                                                        <div class="input-group input-group-sm">
+                                                            <div class="input-group-prepend">
+                                                                <button class="btn btn-primary" type="button"
+                                                                        readonly>{{ __('label.x') }}</button>
+                                                            </div>
+                                                            <input type="number" name="x[]"
+                                                                   min="1" max="176"
+                                                                   class="form-control px-2"
+                                                                   placeholder="{{ __('label.x') }}"
+                                                                   value="{{ $content->x }}">
+                                                        </div>
+                                                        <div class="input-group input-group-sm ml-xl-2">
+                                                            <div class="input-group-prepend">
+                                                                <button class="btn btn-primary" type="button"
+                                                                        readonly>{{ __('label.y') }}</button>
+                                                            </div>
+                                                            <input type="number" name="y[]"
+                                                                   min="1" max="290"
+                                                                   class="form-control px-2"
+                                                                   placeholder="{{ __('label.y') }}"
+                                                                   value="{{ $content->y }}">
+                                                        </div>
                                                     </div>
-                                                    <input type="number" name="x[]"
-                                                           min="1" max="176"
-                                                           class="form-control px-2"
-                                                           placeholder="{{ __('label.x') }}"
-                                                           value="{{ $content->x }}"
-                                                    >
                                                 </div>
-                                                <div class="input-group w-lg-5- w-sm-50 ml-xl-2 ">
-                                                    <div class="input-group-prepend">
-                                                        <button class="btn btn-primary" type="button"
-                                                                readonly>{{ __('label.Y') }}</button>
+                                                <div class="col-xl-4 col-sm-12">
+                                                    <label for="cert_select">{{ __('label.font_size') }}</label>
+                                                    <div class="input-group-sm">
+                                                        <input type="text" name="font_size[]" id="font_size"
+                                                               class="form-control form-control-alternative"
+                                                               placeholder="{{ __('label.font_size') }}"
+                                                               value="{{ $content->font_size }}"
+                                                               required
+
+                                                        >
                                                     </div>
-                                                    <input type="number" name="y[]"
-                                                           min="1" max="290"
-                                                           class="form-control px-2"
-                                                           placeholder="{{ __('label.y') }}"
-                                                           value="{{ $content->y }}"
-                                                    >
+                                                </div>
+                                                <div class="col-xl-2 col-sm-12">
+                                                    <label for="cert_select">{{ __('label.alignment') }}</label>
+
+                                                    <div class="btn-group btn-group-sm" role="group"
+                                                         aria-label="Basic example">
+                                                        <button type="button"
+                                                                class="btn {{ ($content->alignment == 'L') ? 'btn-primary' : 'btn-outline-primary' }} click-me"
+                                                                data-value="L"><i class="fas fa-align-left"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn {{ ($content->alignment == 'C') ? 'btn-primary' : 'btn-outline-primary' }} click-me"
+                                                                data-value="C"><i class="fas fa-align-center"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn {{ ($content->alignment == 'R') ? 'btn-primary' : 'btn-outline-primary' }} click-me"
+                                                                data-value="R"><i class="fas fa-align-right"></i>
+                                                        </button>
+                                                    </div>
+                                                    <input type="hidden" name="alignment[]"
+                                                           value="{{ $content->alignment }}" class="alignment">
                                                 </div>
                                             </div>
                                         </div>
@@ -232,6 +316,7 @@
                             </div>
                         </div>
                     @else
+
                         <div class="card">
                             <div class="card-header">
                                 <div class="row">
@@ -243,7 +328,8 @@
                                         <button type="submit" class="btn bg-gradient-success text-white float-right">
                                             <i class="fas fa-check"></i> Submit
                                         </button>
-                                        <a target="_blank"href="{{ route('template.preview', ['id' => $certificate_conf->id]) }}"
+                                        <a target="_blank"
+                                           href="{{ route('template.preview', ['id' => $certificate_conf->id]) }}"
                                            class="btn bg-gradient-primary text-white float-right mr-2">
                                             <span><i class="fas fa-eye"></i> Preview Certificate</span>
                                         </a>
@@ -269,29 +355,59 @@
                                                    placeholder="{{ __('label.cert_content') }}"
                                                    value="{{ old('cert_content') }}"
                                                    required
-                                                   >
+                                            >
                                         </div>
-                                        <label for="cert_select">{{ __('label.axis_position') }}</label>
-                                        <div class="form-inline ">
-                                            <div class="input-group w-lg-50 w-sm-50">
-                                                <div class="input-group-prepend">
-                                                    <button class="btn btn-primary" type="button"
-                                                            readonly>{{ __('label.x') }}</button>
+                                        <div class="row">
+                                            <div class="col-xl-4 col-sm-12">
+                                                <label for="cert_select">{{ __('label.axis_position') }}</label>
+                                                <div class="form-inline">
+                                                    <div class="input-group input-group-sm ">
+                                                        <div class="input-group-prepend">
+                                                            <button class="btn btn-primary" type="button"
+                                                                    readonly>{{ __('label.x') }}</button>
+                                                        </div>
+                                                        <input type="number" name="x[]"
+                                                               min="1" max="176"
+                                                               class="form-control px-2"
+                                                               placeholder="{{ __('label.x') }}">
+                                                    </div>
+                                                    <div class="input-group input-group-sm ml-xl-2">
+                                                        <div class="input-group-prepend">
+                                                            <button class="btn btn-primary" type="button"
+                                                                    readonly>{{ __('label.y') }}</button>
+                                                        </div>
+                                                        <input type="number" name="y[]"
+                                                               min="1" max="290"
+                                                               class="form-control px-2"
+                                                               placeholder="{{ __('label.y') }}">
+                                                    </div>
                                                 </div>
-                                                <input type="number" name="x[]"
-                                                       min="1" max="176"
-                                                       class="form-control px-2"
-                                                       placeholder="{{ __('label.x') }}">
                                             </div>
-                                            <div class="input-group w-lg-5- w-sm-50 ml-xl-2 ">
-                                                <div class="input-group-prepend">
-                                                    <button class="btn btn-primary" type="button"
-                                                            readonly>{{ __('label.Y') }}</button>
+
+                                            <div class="col-xl-4 col-sm-12">
+                                                <label for="cert_select">{{ __('label.font_size') }}</label>
+                                                <div class="input-group-sm">
+                                                    <input type="text" name="font_size[]" id="font_size"
+                                                           class="form-control form-control-alternative"
+                                                           placeholder="{{ __('label.font_size') }}"
+                                                           value="{{ old('font_size') }}"
+                                                           required
+                                                    >
                                                 </div>
-                                                <input type="number" name="y[]"
-                                                       min="1" max="290"
-                                                       class="form-control px-2"
-                                                       placeholder="{{ __('label.y') }}">
+                                            </div>
+                                            <div class="col-xl-2 col-sm-12">
+                                                <label for="cert_select">{{ __('label.alignment') }}</label>
+
+                                                <div class="btn-group btn-group-sm" role="group"
+                                                     aria-label="Basic example">
+                                                    <button type="button" class="btn btn-outline-primary click-me"
+                                                            data-value="L"><i class="fas fa-align-left"></i></button>
+                                                    <button type="button" class="btn btn-outline-primary click-me"
+                                                            data-value="C"><i class="fas fa-align-center"></i></button>
+                                                    <button type="button" class="btn btn-outline-primary click-me"
+                                                            data-value="R"><i class="fas fa-align-right"></i></button>
+                                                </div>
+                                                <input type="hidden" name="alignment[]" class="alignment">
                                             </div>
                                         </div>
                                     </div>
@@ -335,17 +451,23 @@
 @push('js')
     <script>
         $(document).on('click', '.add-more', function () {
-            console.log($(".clone-me").length);
-            if ($(".clone-me").length > 4) return alert('Cannot be more than 5.');
+            if ($(".clone-me").length > 4) return alert('Content cannot be more than 5.');
             let $tr = $(this).closest('.clone-me');
             let $clone = $tr.clone();
             $clone.find(':input').val('');
+            $clone.children().find('.click-meoc').removeClass('btn-primary').addClass('btn-outline-primary')
             $tr.after($clone);
         });
 
         $(document).on('click', '.remove-me', function () {
-            if ($(".clone-me").length < 2) return alert('Must be at least 1 candidate.');
+            if ($(".clone-me").length < 2) return alert('Must be at least 1 content.');
             $(this).closest('.clone-me').remove();
+        });
+
+        $(document).on('click', '.click-me', function () {
+            $(this).parent().children().removeClass('btn-primary').addClass('btn-outline-primary');
+            $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+            $(this).parent().next().closest('.alignment').val($(this).data('value'));
         });
     </script>
 @endpush

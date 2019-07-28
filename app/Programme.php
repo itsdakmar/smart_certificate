@@ -34,7 +34,7 @@ class Programme extends Model
     /**
      * @var array
      */
-    protected $fillable = ['certificate_conf', 'created_by', 'programme_name', 'programme_location', 'programme_start', 'programme_end', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['cert_committees','cert_participants', 'created_by', 'programme_name', 'programme_location', 'programme_start', 'programme_end', 'status', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.

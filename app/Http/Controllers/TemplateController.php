@@ -27,9 +27,9 @@ class TemplateController extends Controller
         return view('template.orientation');
     }
 
-    public function create($orientation)
+    public function create()
     {
-        return view('template.create', compact('orientation'));
+        return view('template.create');
     }
 
     public function edit($layout_id)
@@ -43,13 +43,14 @@ class TemplateController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'cert_content.*' => 'required|string',
+            'alignment.*' => 'required',
+            'font_size.*' => 'required|string',
             'x.*' => 'required|numeric|min:1|max:176',
             'y.*' => 'required|numeric|min:1|max:290',
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput()->with('row', sizeof($request->get('cert_content')));
-        }
+        if ($validator->fails()) return back()->withErrors($validator)->withInput()->with('row', sizeof($request->get('cert_content')));
+
 
         CertificateContent::where(['config_id' => $layout_id])->delete();
 
@@ -60,6 +61,8 @@ class TemplateController extends Controller
             $certContent->config_id = $layout_id;
             $certContent->x = $request->x[$i];
             $certContent->y = $request->y[$i];
+            $certContent->font_size = $request->font_size[$i];
+            $certContent->alignment = $request->alignment[$i];
             $certContent->save();
         }
         return back()->withStatus(__('status.success_update'));
@@ -90,6 +93,7 @@ class TemplateController extends Controller
         CloudConvert::file(public_path('/uploaded/template/original/') . $originalName)->queue('to', public_path('/uploaded/template/converted/') . $file->getFilename() . '.jpg');
 
         CertificateConfig::create([
+            'orientation' => $request->orientation,
             'name' => $request->layout_name,
             'original' => $originalName,
             'converted' => $file->getFilename() . '.jpg',
@@ -102,7 +106,8 @@ class TemplateController extends Controller
 
     public function preview($id)
     {
-        $cert = CertificateConfig::find($id)->first();
+        $cert = CertificateConfig::where(['id' =>$id])->with('certificateContents')->first();
+
         PDF::SetTitle('Certificate {{ NAMA_PROGRAM }}');
 
         PDF::setHeaderCallback(function ($pdf) use ($cert) {
@@ -110,6 +115,8 @@ class TemplateController extends Controller
             $pdf->Image(public_path('uploaded/template/converted/'.$cert->converted), 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
             $pdf->setPageMark();
         });
+        PDF::setCellPaddings(16, 0, 6);
+
         PDF::AddPage('P', 'A4');
 
         $findme = [
@@ -125,6 +132,8 @@ class TemplateController extends Controller
             PDF::SetFontSize($content->font_size);
             PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = true);
         }
+
+
         return PDF::Output('certificate.pdf');
     }
 }

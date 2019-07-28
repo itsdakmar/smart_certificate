@@ -28,7 +28,7 @@ class CertificateConfig extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name','alignment', 'original', 'converted', 'convert_status', 'certificate_type', 'created_at', 'updated_at'];
+    protected $fillable = ['name','orientation', 'original', 'converted', 'convert_status', 'certificate_type', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

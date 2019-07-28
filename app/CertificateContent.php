@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $content
  * @property integer $x
  * @property integer $y
+ * @property integer $font_size
+ * @property string alignment
  * @property string $created_at
  * @property string $updated_at
  * @property CertificateConfig $certificateConfig
@@ -26,7 +28,7 @@ class CertificateContent extends Model
     /**
      * @var array
      */
-    protected $fillable = ['config_id', 'content', 'x', 'y', 'created_at', 'updated_at'];
+    protected $fillable = ['config_id', 'alignment', 'font_size', 'content', 'x', 'y', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -34,5 +36,10 @@ class CertificateContent extends Model
     public function certificateConfig()
     {
         return $this->belongsTo('App\CertificateConfig', 'config_id');
+    }
+
+    public function setAlignmentAttribute($value)
+    {
+        $this->attributes['alignment'] = strtoupper($value);
     }
 }

@@ -33,12 +33,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/programme/update/{id}','ProgrammeController@update')->name('programme.update');
     Route::post('/programme/store', 'ProgrammeController@store')->name('programme.store');
     Route::get('/programme/show/{id}', 'ProgrammeController@show')->name('programme.show');
-    Route::get('/programme/print', 'ProgrammeController@print')->name('programme.print');
+    Route::get('/programme/print/{id}', 'ProgrammeController@print')->name('programme.print');
 
     //Template Routes
     Route::get('/template/index', 'TemplateController@index')->name('template');
     Route::get('/template/orientation', 'TemplateController@orientation')->name('template.orientation');
-    Route::get('/template/create/{orientation}', 'TemplateController@create')->name('template.create');
+    Route::get('/template/create', 'TemplateController@create')->name('template.create');
+    Route::post('/template/upload', 'TemplateController@upload')->name('template.upload');
+    Route::get('/template/edit/{id}', 'TemplateController@edit')->name('template.edit');
+    Route::post('/template/update/{id}', 'TemplateController@update')->name('template.update');
+    Route::get('/template/preview/{id}', 'TemplateController@preview')->name('template.preview');
 
 
     //Candidate Routes

@@ -52,6 +52,7 @@ class ProgrammeController extends Controller
      */
     public function store(Request $request, Programme $programme)
     {
+        dd($request->all());
         $programme->create($request->merge([
             'certificate_conf' => 1, //Default Template Layout
             'status' => 1, // Permohonan

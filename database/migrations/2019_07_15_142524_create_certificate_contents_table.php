@@ -19,6 +19,8 @@ class CreateCertificateContentsTable extends Migration
             $table->string('content');
             $table->unsignedSmallInteger('x');
             $table->unsignedSmallInteger('y');
+            $table->string('alignment')->nullable();
+            $table->unsignedInteger('font_size')->nullable();
             $table->timestamps();
             $table->foreign('config_id')->references('id')->on('certificate_configs');
         });

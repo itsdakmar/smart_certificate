@@ -30,6 +30,13 @@ return [
     "programme_total_cert" => "Total Certificate",
     "programme_management" => "Programme Management",
     "programme_location" => "Programme Location",
+    "axis_position" => "Axis XY Position",
+    "alignment" => "Alignment",
+    "font_size" => "Font Size",
+    "x" => "X",
+    "y" => "Y",
+    "cert_content" => "Content",
+
 
 
     "registered_programme" => "List Of Programmes",
