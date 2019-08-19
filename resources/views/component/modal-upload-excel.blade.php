@@ -26,12 +26,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" value="1" name="filter">
                 <button type="submit" class="btn btn-primary">Save changes</button>
+
             </div>
             </form>
         </div>
     </div>
 </div>
+

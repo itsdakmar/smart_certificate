@@ -8,76 +8,58 @@
     ])
 
     <style>
-        .hovereffect {
-            width: 100%;
-            height: 100%;
-            float: left;
-            overflow: hidden;
-            position: relative;
-            text-align: center;
-            cursor: default;
+        .carousel-control-next-icon:after {
+            content: '>';
+            font-size: 30px;
+            color: black;
         }
 
-        .hovereffect:hover {
-            background: #5e72e4;
-        }
-
-        .hovereffect .overlay {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            overflow: hidden;
-            top: 15%;
-            left: 0;
-            padding: 50px 20px;
-        }
-
-        .hovereffect:hover img {
-            opacity: 0.2;
-            filter: alpha(opacity=40);
-            -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-        }
-
-        .hovereffect a, .hovereffect:hover span, .hovereffect p {
-            color: #FFF;
-            opacity: 0;
-            filter: alpha(opacity=0);
-            -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
-            transition: opacity 0.35s, transform 0.35s;
-            -webkit-transform: translate3d(100%, 0, 0);
-            transform: translate3d(100%, 0, 0);
-        }
-
-        .hovereffect:hover a, .hovereffect:hover span, .hovereffect:hover p {
-            opacity: 1;
-            filter: alpha(opacity=100);
-            -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+        .carousel-control-prev-icon:after {
+            content: '<';
+            font-size: 30px;
+            color: black;
         }
     </style>
+
     <div class="container-fluid mt--7">
         <div class="row">
             <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
                 <div class="card" id="border">
                     <div class="card-body">
                         <h5 class="heading-small card-title">{{ __('label.programme_information') }}</h5>
-                        <div class="hovereffect">
-                            <img src="{{ asset('argon') }}/img/template/layout/layout_2.png"
-                                 class="img-fluid img-thumbnail"
-                                 alt="Chosen layout">
-                            <div class="overlay">
-                                <p>
-                                    <a href="#"><i class="fas fa-wrench fa-8x mb-4"></i>
-                                        <br/>
-                                        <span>Change Layout.</span>
-                                    </a>
-                                </p>
+
+
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{{ asset('uploaded') }}/template/converted/{{ $programme->certParticipants->converted }}"
+                                         class="img-fluid img-thumbnail"
+                                         alt="Chosen layout">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{  asset('uploaded') }}/template/converted/{{ $programme->certCommittees->converted }}"
+                                         class="img-fluid img-thumbnail"
+                                         alt="Chosen layout">
+                                </div>
+
                             </div>
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                               data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                               data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="false"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
                         </div>
+
                     </div>
                 </div>
+
             </div>
+
             <div class="col-xl-8 order-xl-1">
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
@@ -101,13 +83,46 @@
                             <div class="tab-pane fade show active p-3" id="one" role="tabpanel"
                                  aria-labelledby="one-tab">
                                 <div class="row justify-content-between">
-                                    <div class="col-6">
+                                    <div class="col-12">
 
                                         <h6 class="heading-small text-muted mb-4 ">{{ __('label.programme_information') }}
+
+
+                                            @hasanyrole('admin|secretariat')
                                             <a href="#" class="btn btn-sm btn-primary text-right ml-2"><i
-                                                        class="fas fa-pencil-alt mr-1"></i> {{('label.edit')}}</a></h6>
+                                                        class="fas fa-pencil-alt mr-1"></i> {{ __('label.edit')}}</a>
+                                            @endhasanyrole
+                                            @role('director')
+                                            @if($programme->status == 2)
+                                                
+                                                <form style="display: inline;" action="{{ route('programme.approve', $programme) }}"
+                                                      method="post">
+                                                    @csrf
+                                                    @method('put')
+                                                    <button type="button" class="btn btn-sm btn-success text-right ml-2" onclick="confirm('{{ __("Are you sure you?") }}') ? this.parentElement.submit() : ''">
+                                                        <i class="fas fa-check mr-1"></i>Approve
+                                                    </button>
+                                                </form>
+                                            @endif
+                                            @endrole
+                                            @hasanyrole('director|admin|secretariat')
 
+                                            <div class="dropdown {{ ($programme->status !== 2) ? 'ml-2' : '' }}">
+                                                <a class="btn btn-sm btn-primary" href="#" role="button"
+                                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-file-pdf mr-1"></i> {{ __('label.preview_certs') }}
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
 
+                                                    <a class="dropdown-item"
+                                                       href="{{ route('programme.preview', ['id' => $programme->id , 'type' => 1]) }}">{{ __('label.preview_cert_candidates')}}</a>
+                                                    <a class="dropdown-item"
+                                                       href="{{ route('programme.preview', ['id' => $programme->id , 'type' => 2]) }}">{{ __('label.preview_cert_committees')}}</a>
+                                                </div>
+                                            </div>
+                                            @endhasanyrole
+
+                                        </h6>
                                     </div>
                                 </div>
                                 <div class="table-responsive">
@@ -115,7 +130,7 @@
                                         <tr>
                                             <td><span class="text-uppercase">{{ __('label.programme_name') }}</span>
                                             </td>
-                                            <td><span class="text-uppercase">
+                                            <td><span class="font-weight-bold text-uppercase">
                                                 {{ $programme->programme_name }}
                                                 </span>
                                             </td>
@@ -141,7 +156,7 @@
                                                 <span class="text-uppercase">{{ __('label.programme_status') }}</span>
                                             </td>
                                             <td>
-                                                {!! $programme->status !!}
+                                                {!! $programme->label !!}
                                             </td>
                                         </tr>
                                     </table>
@@ -181,15 +196,16 @@
                 <div class="card bg-secondary shadow {{ (!session('status')) ? 'mt-5' : '' }}">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
-                            <h3 class="col mb-0">{{ __('label.participants') }}</h3>
+                            <h3 class="col mb-0">{{ __('label.committees') }}</h3>
                             <div class="col text-right">
                                 <div class="btn-group" role="group" aria-label="Third group">
                                     <button class="btn btn-icon btn-sm btn-2 btn-primary" type="button"
                                             data-toggle="modal" data-target="#filterProgram">
                                         <span class="btn-inner--icon"><i class="fas fa-filter"></i></span>
                                     </button>
+                                    @hasanyrole('admin|secretariat')
                                     <a href="{{ route('candidate.create' , ['id' => $programme->id]) }}"
-                                       class="btn btn-sm btn-primary">{{ __('label.add_participants') }}</a>
+                                       class="btn btn-sm btn-primary">{{ __('label.add_committees') }}</a>
                                     <button class="btn btn-icon btn-sm btn-primary" type="button"
                                             data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false">
@@ -198,12 +214,13 @@
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
 
                                         <a class="dropdown-item" data-toggle="modal"
-                                           data-target="#uploadCandidate">{{ __('label.upload_candidate_excel') }}</a>
+                                           data-target="#uploadCandidate">{{ __('label.upload_committees_excel') }}</a>
 
                                         <a class="dropdown-item"
-                                           href="#">{{ __('label.download_candidate_excel_template') }}</a>
+                                           href="#">{{ __('label.download_committees_excel_template') }}</a>
 
                                     </div>
+                                    @endhasanyrole
                                 </div>
                             </div>
                         </div>
@@ -214,8 +231,8 @@
                                class="table align-items-center table-flush table-hover">
                             <thead class="thead-light">
                             <tr>
-                                <th scope="col">{{ __('label.programme_student_name') }}</th>
-                                <th scope="col">{{ __('label.programme_student_ic') }}</th>
+                                <th scope="col">{{ __('label.programme_committees_name') }}</th>
+                                <th scope="col">{{ __('label.programme_committees_ic') }}</th>
                                 <th scope="col">&nbsp;</th>
                             </tr>
                             </thead>
@@ -268,13 +285,14 @@
                 <div class="card bg-secondary shadow {{ (!session('status')) ? 'mt-5' : '' }}">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
-                            <h3 class="col mb-0">{{ __('label.participants') }}</h3>
+                            <h3 class="col mb-0">{{ __('label.candidate') }}</h3>
                             <div class="col text-right">
                                 <div class="btn-group" role="group" aria-label="Third group">
                                     <button class="btn btn-icon btn-sm btn-2 btn-primary" type="button"
                                             data-toggle="modal" data-target="#filterProgram">
                                         <span class="btn-inner--icon"><i class="fas fa-filter"></i></span>
                                     </button>
+                                    @hasanyrole('admin|secretariat')
                                     <a href="{{ route('candidate.create' , ['id' => $programme->id]) }}"
                                        class="btn btn-sm btn-primary">{{ __('label.add_participants') }}</a>
                                     <button class="btn btn-icon btn-sm btn-primary" type="button"
@@ -291,6 +309,7 @@
                                            href="#">{{ __('label.download_candidate_excel_template') }}</a>
 
                                     </div>
+                                    @endhasanyrole
                                 </div>
                             </div>
                         </div>
@@ -327,7 +346,7 @@
                                                         @method('delete')
 
                                                         <a class="dropdown-item"
-                                                           href="{{ route('programme.edit', $candidate) }}">{{ __('Edit') }}</a>
+                                                           href="{{ route('candidate.edit', $candidate) }}">{{ __('Edit') }}</a>
                                                         <button type="button" class="dropdown-item"
                                                                 onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
                                                             {{ __('Delete') }}
@@ -362,6 +381,17 @@
                     'title' => 'Upload Excel Candidate',
                     'programme_id' => $programme->id
                     ])
+
+    @push('js')
+        <script>
+            $('.custom-file-input').on('change', function (e) {
+                //get the file name
+                var fileName = e.target.files[0].name;
+                //replace the "Choose a file" label
+                $(this).next('.custom-file-label').html(fileName);
+            })
+        </script>
+    @endpush
 
 
 @endsection

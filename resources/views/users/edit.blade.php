@@ -24,6 +24,31 @@
 
                             <h6 class="heading-small text-muted mb-4">{{ __('User information') }}</h6>
                             <div class="pl-lg-4">
+                                <div class="form-group{{ $errors->has('roles') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-roles">{{ __('Roles') }}</label>
+                                    <select name="roles" class="form-control">
+                                        @foreach($items as $id => $item)
+
+                                            <option {{ old('roles', $user->getRoleNames()) == $item ? 'selected' : '' }} value="{{ $id }}">{{ $item }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('roles'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('roles') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="form-group{{ $errors->has('identity_card') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-identity_card">{{ __('identity_card') }}</label>
+                                    <input type="text" name="identity_card" id="input-identity_card" class="form-control form-control-alternative{{ $errors->has('identity_card') ? ' is-invalid' : '' }}" placeholder="{{ __('identity_card') }}" value="{{ old('identity_card',$user->identity_card) }}" required autofocus>
+
+                                    @if ($errors->has('identity_card'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('identity_card') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                                 <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-name">{{ __('Name') }}</label>
                                     <input type="text" name="name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Name') }}" value="{{ old('name', $user->name) }}" required autofocus>
@@ -44,14 +69,29 @@
                                         </span>
                                     @endif
                                 </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card bg-secondary shadow mt-4">
+                <div class="card-body">
+                        <form method="post" action="{{ route('user.password', $user) }}" autocomplete="off">
+                            @csrf
+                            @method('put')
+                            <h6 class="heading-small text-muted mb-4">{{ __('Update Password') }}</h6>
+                            <div class="pl-lg-4">
                                 <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-password">{{ __('Password') }}</label>
                                     <input type="password" name="password" id="input-password" class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Password') }}" value="">
-                                    
+
                                     @if ($errors->has('password'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span>
+                                                        <strong>{{ $errors->first('password') }}</strong>
+                                                    </span>
                                     @endif
                                 </div>
                                 <div class="form-group">

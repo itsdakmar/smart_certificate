@@ -2,7 +2,7 @@
 
 @section('content')
     @include('layouts.headers.empty',[
-    'title' => __('label.template'),
+    'title' => __('label.template_management'),
 
     ])
 

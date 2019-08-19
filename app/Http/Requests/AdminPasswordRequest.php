@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\User;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class AdminPasswordRequest extends FormRequest
 {
 
     /**
@@ -27,15 +25,6 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'required', 'min:3'
-            ],
-            'email' => [
-                'required', 'email', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
-            ],
-            'identity_card' => [
-                'required', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
-            ],
             'password' => [
                 $this->route()->user ? 'nullable' : 'required', 'confirmed', 'min:6'
             ]

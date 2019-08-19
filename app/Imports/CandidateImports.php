@@ -22,7 +22,7 @@ class CandidateImports implements ToModel
     public function model(array $row)
     {
         return new Candidate([
-            'identity_card'     => $row[0],
+            'identity_card' => $row[0],
             'name'    => $row[1],
             'type' => 1,
             'programme_id' => $this->programme_id

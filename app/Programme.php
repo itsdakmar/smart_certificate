@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 
-    /**
+/**
  * @property integer $id
  * @property integer $certificate_conf
  * @property integer $created_by
@@ -26,7 +26,7 @@ class Programme extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -34,7 +34,7 @@ class Programme extends Model
     /**
      * @var array
      */
-    protected $fillable = ['cert_committees','cert_participants', 'created_by', 'programme_name', 'programme_location', 'programme_start', 'programme_end', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['cert_committees','slug','cert_participants', 'created_by', 'programme_name', 'programme_location', 'programme_start', 'programme_end', 'status', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.
@@ -46,12 +46,14 @@ class Programme extends Model
         'programme_end' => 'date:d / m / Y',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function certificateConfig()
+    public function certCommittees()
     {
-        return $this->belongsTo('App\CertificateConfig', 'certificate_conf');
+        return $this->belongsTo('App\CertificateConfig', 'cert_committees');
+    }
+
+    public function certParticipants()
+    {
+        return $this->belongsTo('App\CertificateConfig', 'cert_participants');
     }
 
     /**
@@ -90,23 +92,23 @@ class Programme extends Model
      * @return string
      * @var integer
      */
-    public function getStatusAttribute($value)
+    public function getLabelAttribute()
     {
-        switch($value) {
+        switch($this->status) {
             case 1:
-                $this->attributes['status'] = '<span><i class="fas fa-circle text-primary mr-1"></i>'.__('label.draft').'</span>';
+                $label = '<span><i class="fas fa-circle text-primary mr-1"></i>'.__('label.draft').'</span>';
                 break;
             case 2:
-                $this->attributes['status'] = '<span><i class="fas fa-circle text-info mr-1"></i>'.__('label.wait_approval').'</span>';
+                $label = '<span><i class="fas fa-circle text-info mr-1"></i>'.__('label.wait_approval').'</span>';
                 break;
             case 3:
-                $this->attributes['status'] = '<span><i class="fas fa-circle text-success mr-1"></i>'.__('label.approved').'</span>';
+                $label = '<span><i class="fas fa-circle text-success mr-1"></i>'.__('label.approved').'</span>';
                 break;
             default:
-                $this->attributes['status'] = '<span><i class="fas fa-circle text-danger mr-1"></i>'.__('label.unknown').'</span>';
+                $label = '<span><i class="fas fa-circle text-danger mr-1"></i>'.__('label.unknown').'</span>';
         }
 
-        return $this->attributes['status'];
+        return $label;
     }
 
     /**
@@ -173,4 +175,10 @@ class Programme extends Model
 
         return $query;
     }
+
+    public function totalCertificate()
+    {
+        return $this->candidates()->count();
+    }
 }
+

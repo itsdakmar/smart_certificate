@@ -93,16 +93,16 @@
         }
     };
 
-    $("#template-border").change(function(){
+    $("#template-border").change(function () {
         readURL(this);
     });
 
     // $(document).ready(function($) {
-        $('#programme-table tr td:not(:last-child)').click(function () {
-            location.href = $(this).closest('tr').data('href');
-        });
-    // });
 
+    $('#programme-table tr td:not(.avoid)').click(function () {
+        location.href = $(this).closest('tr').data('href');
+    });
+    // });
 
 
 </script>

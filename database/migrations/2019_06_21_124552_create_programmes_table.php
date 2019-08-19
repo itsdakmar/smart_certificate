@@ -16,6 +16,7 @@ class CreateProgrammesTable extends Migration
         Schema::create('programmes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('programme_name');
+            $table->string('slug');
             $table->string('programme_location')->nullable();
             $table->date('programme_start');
             $table->date('programme_end');

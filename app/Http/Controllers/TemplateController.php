@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\CertificateConfig;
 use App\CertificateContent;
+use App\Programme;
+use App\SystemConfigs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RobbieP\CloudConvertLaravel\Facades\CloudConvert;
@@ -43,16 +45,21 @@ class TemplateController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'cert_content.*' => 'required|string',
+            'alignment_director' => 'required_if:show_director,1',
             'alignment.*' => 'required',
             'font_size.*' => 'required|string',
             'x.*' => 'required|numeric|min:1|max:176',
             'y.*' => 'required|numeric|min:1|max:290',
         ]);
 
+
         if ($validator->fails()) return back()->withErrors($validator)->withInput()->with('row', sizeof($request->get('cert_content')));
 
 
         CertificateContent::where(['config_id' => $layout_id])->delete();
+
+        $certs = CertificateConfig::find($layout_id);
+        $certs->update(['show_director' => ($request->show_director) ? 1 : 0 ]);
 
         $count = count($request->cert_content);
         for ($i = 0; $i < $count; $i++) {
@@ -78,7 +85,7 @@ class TemplateController extends Controller
     public function upload(Request $request)
     {
         $message = [
-            'template' => 'regex: anjir :attribute tidak betul pak.'
+            'template' => 'regex: j :attribute tidak betul pak.'
         ];
 
         $request->validate([
@@ -108,6 +115,15 @@ class TemplateController extends Controller
     {
         $cert = CertificateConfig::where(['id' =>$id])->with('certificateContents')->first();
 
+        if($cert->show_director == 1){
+            $director = SystemConfigs::first();
+
+            $director_details = '<span>'.$director->director_name.'</span><br/>
+                                 <span>PENGARAH</span><br/>
+                                 <span>KOLEJ KOMUNITI KEMAMAN</span><br/>
+                                 <span>JABATAN KEMENTERIAN PENDIDIKAN MALAYSIA</span>';
+        }
+
         PDF::SetTitle('Certificate {{ NAMA_PROGRAM }}');
 
         PDF::setHeaderCallback(function ($pdf) use ($cert) {
@@ -115,8 +131,8 @@ class TemplateController extends Controller
             $pdf->Image(public_path('uploaded/template/converted/'.$cert->converted), 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
             $pdf->setPageMark();
         });
-        PDF::setCellPaddings(16, 0, 6);
 
+        PDF::setCellPaddings(16, 0, 6);
         PDF::AddPage('P', 'A4');
 
         $findme = [
@@ -133,6 +149,10 @@ class TemplateController extends Controller
             PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = true);
         }
 
+        if($cert->show_director == 1 ){
+            PDF::SetFontSize(11);
+            PDF::writeHTMLCell(0, 0, 1, 265, $director_details, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = true);
+        }
 
         return PDF::Output('certificate.pdf');
     }

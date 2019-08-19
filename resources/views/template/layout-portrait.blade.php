@@ -183,6 +183,54 @@
                                         </div>
                                     </div>
                                 @endfor
+                                    <div class="card bg-secondary shadow my-2">
+                                        <div class="card-body">
+
+                                            <label class="form-control-label"
+                                                   for="input-name">{{ __('label.director_show') }}</label>
+
+                                            <label class="custom-toggle  float-right mr-2 mb-4">
+                                                <input name="show_director" value="{{ old('show_director') }}" {{ (old('show_director')? 'checked': '') }} type="checkbox">
+                                                <span class="custom-toggle-slider rounded-circle"></span>
+                                            </label>
+                                            <span class=" float-right mr-2 mb-4">Show</span>
+                                            @if ($errors->has('show_director'))
+                                                <span class="invalid-feedback float-right mr-2 mb-4" style="display:block;"
+                                                      role="alert"><strong>{{ $errors->first('show_director') }}</strong></span>
+                                            @endif
+
+                                            <div class="row ">
+                                                <div class="col-xl-2 col-sm-6">
+
+                                                    <label for="cert_select">{{ __('label.alignment') }}</label>
+
+                                                    <div class="btn-group btn-group-sm" role="group"
+                                                         aria-label="Basic example">
+                                                        <button type="button"
+                                                                class="btn btn-outline-primary click-me"
+                                                                data-value="L"><i class="fas fa-align-left"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-outline-primary click-me"
+                                                                data-value="C"><i class="fas fa-align-center"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-outline-primary click-me"
+                                                                data-value="R"><i class="fas fa-align-right"></i>
+                                                        </button>
+                                                    </div>
+
+
+                                                    <input type="hidden" class="alignment" name="alignment_director"
+                                                           value="" >
+                                                </div>
+                                                @if ($errors->has('alignment_director'))
+                                                    <span class="invalid-feedback" style="display:block;"
+                                                          role="alert"><strong>{{ $errors->first('alignment_director') }}</strong></span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                             <div class="card-footer">
                                 <div class="row justify-content-end">
@@ -303,6 +351,45 @@
                                         </div>
                                     </div>
                                 @endforeach
+                                    <div class="card bg-secondary shadow my-2">
+                                        <div class="card-body">
+
+                                            <label class="form-control-label"
+                                                   for="input-name">{{ __('label.director_show') }}</label>
+
+                                            <label class="custom-toggle  float-right mr-2 mb-4">
+                                                <input name="show_director" value="1" type="checkbox" {{ ($certificate_conf->show_director)? 'checked' : '' }}>
+                                                <span class="custom-toggle-slider rounded-circle"></span>
+                                            </label>
+                                            <span class=" float-right mr-2 mb-4">Show</span>
+
+
+                                            <div class="row ">
+                                                <div class="col-xl-2 col-sm-6">
+
+                                                    <label for="cert_select">{{ __('label.alignment') }}</label>
+
+                                                    <div class="btn-group btn-group-sm" role="group"
+                                                         aria-label="Basic example">
+                                                        <button type="button"
+                                                                class="btn {{ ($certificate_conf->alignment_director == 'L') ? 'btn-primary' : 'btn-outline-primary' }} click-me"
+                                                                data-value="L"><i class="fas fa-align-left"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn {{ ($certificate_conf->alignment_director == 'C') ? 'btn-primary' : 'btn-outline-primary' }} click-me"
+                                                                data-value="C"><i class="fas fa-align-center"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn {{ ($certificate_conf->alignment_director == 'R') ? 'btn-primary' : 'btn-outline-primary' }} click-me"
+                                                                data-value="R"><i class="fas fa-align-right"></i>
+                                                        </button>
+                                                    </div>
+                                                    <input type="hidden" name="alignment_director"
+                                                           value="{{ $certificate_conf->alignment_director }}" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                             <div class="card-footer">
                                 <div class="row justify-content-end">
@@ -409,6 +496,48 @@
                                                 </div>
                                                 <input type="hidden" name="alignment[]" class="alignment">
                                             </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card bg-secondary shadow my-2">
+                                    <div class="card-body">
+
+                                        <label class="form-control-label"
+                                               for="input-name">{{ __('label.director_show') }}</label>
+
+                                        <label class="custom-toggle  float-right mr-2 mb-4">
+                                            <input name="show_director" value="1" type="checkbox">
+                                            <span class="custom-toggle-slider rounded-circle"></span>
+                                        </label>
+                                        <span class=" float-right mr-2 mb-4">Show</span>
+
+
+                                        <div class="row ">
+                                            <div class="col-xl-2 col-sm-6">
+
+                                                <label for="cert_select">{{ __('label.alignment') }}</label>
+
+                                                <div class="btn-group btn-group-sm" role="group"
+                                                     aria-label="Basic example">
+                                                    <button type="button"
+                                                            class="btn btn-outline-primary click-me"
+                                                            data-value="L"><i class="fas fa-align-left"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                            class="btn btn-outline-primary click-me"
+                                                            data-value="C"><i class="fas fa-align-center"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                            class="btn btn-outline-primary click-me"
+                                                            data-value="R"><i class="fas fa-align-right"></i>
+                                                    </button>
+                                                </div>
+                                                <input type="hidden" class="alignment" name="alignment_director"
+                                                       value="" >
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -455,7 +584,7 @@
             let $tr = $(this).closest('.clone-me');
             let $clone = $tr.clone();
             $clone.find(':input').val('');
-            $clone.children().find('.click-meoc').removeClass('btn-primary').addClass('btn-outline-primary')
+            $clone.children().find('.click-me').removeClass('btn-primary').addClass('btn-outline-primary')
             $tr.after($clone);
         });
 

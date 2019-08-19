@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Candidate;
 use App\Imports\CandidateImports;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -39,6 +40,25 @@ class CandidateController extends Controller
 
         }
         return redirect()->route('programme.show', ['id' => $programme_id])->withStatus(__('Candidates successfully added.'));
+    }
+
+    public function edit($id)
+    {
+        dd(Hash::make('1'));
+        $candidate = Candidate::findOrFail($id);
+        return view('candidate.edit' , compact('candidate'));
+
+    }
+
+    public function update(Request $request, $id)
+    {
+        $candidate = Candidate::findOrFail($id);
+        $candidate->update([
+            'name' => $request->candidate_name,
+            'identity_card' => $request->candidate_ic,
+        ]);
+
+        return redirect()->route('programme.show', ['id' => $candidate->programme_id])->withStatus(__('Candidate was successfully updated.'));
     }
 
     /**

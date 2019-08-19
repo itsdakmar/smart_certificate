@@ -36,8 +36,10 @@
                                             data-toggle="modal" data-target="#filterProgramme">
                                         <span class="btn-inner--icon"><i class="fas fa-filter"></i></span>
                                     </button>
+                                    @hasanyrole('admin|secretariat')
                                     <a href="{{ route('programme.create') }}"
                                        class="btn btn-sm btn-primary ">{{ __('label.register_programme') }}</a>
+                                    @endhasanyrole
                                 </div>
                             </div>
                         </div>
@@ -64,6 +66,7 @@
                                 <th scope="col">{{ __('label.programme_status') }}</th>
                                 <th scope="col">{{ __('label.programme_total_cert') }}</th>
                                 <th scope="col"></th>
+                                <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -75,9 +78,35 @@
                                     </td>
                                     <td>{!! $programme->programme_date !!}</td>
                                     <td>{{ $programme->user->name  }}</td>
-                                    <td>{!! $programme->status  !!}</td>
-                                    <td>{{ $programme->user->name  }}</td>
-                                    <td class="programme-setting text-right">
+                                    <td>{!! $programme->label  !!}</td>
+                                    <td>{{ $programme->totalCertificate()  }}</td>
+                                    <td class="avoid">
+                                        @if ($programme->totalCertificate() > 0 && $programme->status == 1)
+                                            <form action="{{ route('programme.submit', $programme->id) }}"
+                                                  method="post">
+                                                @csrf
+                                                @method('put')
+
+                                                <button type="button" class="btn btn-sm btn-icon-only text-light" onclick="confirm('{{ __("Are you sure you want to submit?") }}') ? this.parentElement.submit() : ''" data-toggle="tooltip" data-placement="top" title="Submit">
+                                                    <i class="text-success fas fa-paper-plane"></i>
+                                                </button>
+                                            </form>
+                                        @elseif($programme->totalCertificate() > 0 && $programme->status == 3)
+                                            <div class="dropdown">
+                                                <a class="btn btn-sm btn-icon-only text-primary" href="#" role="button"
+                                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-print"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                    <a class="dropdown-item" target="_blank"
+                                                       href="{{ route('programme.print', [$programme->id,'type' => 1]) }}">{{ __("Print Candidate's Certificate") }}</a>
+                                                    <a class="dropdown-item" target="_blank"
+                                                       href="{{ route('programme.print', [$programme->id,'type' => 1]) }}">{{ __("Print Committee's Certificate") }}</a>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td class="avoid text-right">
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

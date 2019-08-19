@@ -10,7 +10,10 @@ namespace App\Http\Controllers;
 
 use App\CertificateConfig;
 use App\Programme;
+use App\SystemConfigs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use PDF;
 
 
@@ -26,6 +29,11 @@ class ProgrammeController extends Controller
      */
     public function index(Request $request, Programme $programme)
     {
+        if(Auth::user()->getRoleNames()->first() == "director")
+        {
+           $programme =  $programme->whereIn('status', [2,3]);
+        }
+
         return view('programme.index', ['programmes' => $programme->filter($request)->paginate(15)]);
     }
 
@@ -52,11 +60,10 @@ class ProgrammeController extends Controller
      */
     public function store(Request $request, Programme $programme)
     {
-        dd($request->all());
         $programme->create($request->merge([
-            'certificate_conf' => 1, //Default Template Layout
             'status' => 1, // Permohonan
             'created_by' => auth()->user()->id,
+            'slug' => Str::slug($request->programme_name),
         ])->all());
 
         return redirect()->route('programme')->withStatus(__('Programme successfully created.'));
@@ -92,6 +99,36 @@ class ProgrammeController extends Controller
     }
 
     /**
+ * Updating programme Status To Submitted // status - 2 - Submitted
+ *
+ * @param  integer $programme_id
+ *
+ * @return \Illuminate\View\View;
+ */
+    public function submit($programme_id)
+    {
+        $programme = Programme::find($programme_id);
+        $programme->update(['status' => 2]);
+
+        return redirect()->route('programme')->withStatus(__('Programme successfully submitted, waiting for approval.'));
+    }
+
+    /**
+     * Updating programme Status To Approved // status - 3 - Approved
+     *
+     * @param  integer $programme_id
+     *
+     * @return \Illuminate\View\View;
+     */
+    public function approve($programme_id)
+    {
+        $programme = Programme::find($programme_id);
+        $programme->update(['status' => 3]);
+
+        return redirect()->route('programme')->withStatus(__('Programme was successfully approved.'));
+    }
+
+    /**
      * Render programme's details page
      *
      * @param  integer $programme_id
@@ -101,18 +138,80 @@ class ProgrammeController extends Controller
     public function show($programme_id)
     {
         $programme = Programme::findOrFail($programme_id);
-
         $candidates = $programme->candidates()->paginate(5, ['*'], 'candidates');
         $committees = $programme->committees()->paginate(5, ['*'], 'committees');
 
         return view('programme.show', compact('programme','candidates','committees'));
     }
 
-    public function print($programme_id)
+    public function scan($qr){
+        dd($qr);
+    }
+
+    public function preview($id, $type)
+    {
+        $programme = Programme::findOrFail($id);
+
+        $cert =  ($type == 1 ) ? $programme->certParticipants()->first() : $programme->certCommittees()->first();
+
+        if($cert->show_director == 1){
+            $director = SystemConfigs::first();
+
+            $director_details = '<span>'.$director->director_name.'</span><br/>
+                                 <span>PENGARAH</span><br/>
+                                 <span>KOLEJ KOMUNITI KEMAMAN</span><br/>
+                                 <span>JABATAN KEMENTERIAN PENDIDIKAN MALAYSIA</span>';
+        }
+
+        PDF::SetTitle('Certificate for '.$programme->programme_name);
+
+        PDF::setHeaderCallback(function ($pdf) use ($cert) {
+            $pdf->SetAutoPageBreak(false, 0);
+            $pdf->Image(public_path('uploaded/template/converted/'.$cert->converted), 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+            $pdf->setPageMark();
+        });
+
+        PDF::setCellPaddings(16, 0, 6);
+        PDF::AddPage('P', 'A4');
+
+        $findme = [
+            '{nama_peserta}' => '<b> MUHAMMAD AMMAR BIN MOHD RAZAMAN </b>',
+            '{ic_peserta}' => '<b> 960208-14-5611 </b>',
+            '{nama_program}' => '<b>'.$programme->programme_name.'</b>',
+            '{lokasi_program}' => '<b>'.$programme->programme_location.'</b>',
+            '{tarikh_program}' => '<b>'.$programme->programme_date_for_cert.'</b>',
+        ];
+
+        foreach ($cert->certificateContents as $content) {
+            $parse_content = strtr($content->content, $findme);
+            PDF::SetFontSize($content->font_size);
+            PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = true);
+        }
+
+        if($cert->show_director == 1 ){
+            PDF::SetFontSize(11);
+            PDF::writeHTMLCell(0, 0, 1, 265, $director_details, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = true);
+        }
+
+         PDF::write2DBarcode(route('programme.scan',$programme->slug), 'QRCODE,L', 170, 250, 35, 35, NULL, 'N');
+
+
+        return PDF::Output('certificate.pdf');
+    }
+
+    public function print($programme_id , $type)
     {
         $programme = Programme::findOrFail($programme_id);
-        $cert = $programme->certificateConfig()->first();
+        $cert =  ($type == 1 ) ? $programme->certParticipants()->first() : $programme->certCommittees()->first();
 
+        if($cert->show_director == 1){
+            $director = SystemConfigs::first();
+
+            $director_details = '<span>'.$director->director_name.'</span><br/>
+                                 <span>PENGARAH</span><br/>
+                                 <span>KOLEJ KOMUNITI KEMAMAN</span><br/>
+                                 <span>JABATAN KEMENTERIAN PENDIDIKAN MALAYSIA</span>';
+        }
 
         PDF::SetTitle('Hello World');
 
@@ -138,8 +237,13 @@ class ProgrammeController extends Controller
                 $parse_content = strtr($content->content, $findme);
 
                 PDF::SetFontSize($content->font_size);
-                PDF::SetFont('courier');
                 PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = true);
+            }
+
+
+            if($cert->show_director == 1 ){
+                PDF::SetFontSize(11);
+                PDF::writeHTMLCell(0, 0, 1, 265, $director_details, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = true);
             }
         }
 

@@ -16,12 +16,14 @@ class UsersTableSeeder extends Seeder
             'name' => 'Admin Admin',
             'email' => 'admin@argon.com',
             'identity_card' => '960208145611',
-            'phone' => '0126360644',
-            'type' => 1,
             'email_verified_at' => now(),
             'password' => Hash::make('secret'),
             'created_at' => now(),
             'updated_at' => now()
         ]);
+
+
+        $user = \App\User::first();
+        $user->assignRole('admin');
     }
 }

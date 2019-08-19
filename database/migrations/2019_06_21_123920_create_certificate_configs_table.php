@@ -19,6 +19,7 @@ class CreateCertificateConfigsTable extends Migration
             $table->string('orientation');
             $table->string('original');
             $table->string('converted')->nullable();
+            $table->unsignedSmallInteger('show_director')->default(0);
             $table->unsignedInteger('convert_status')->nullable();
             $table->unsignedInteger('certificate_type')->nullable();
             $table->timestamps();

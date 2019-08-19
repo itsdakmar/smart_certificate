@@ -18,6 +18,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'UserController', ['except' => ['show']]);
 
+
+    Route::put('/user/password/{id}', 'UserController@password')->name('user.password');
+
+
     //Profile Routes
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
@@ -31,9 +35,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/programme/create','ProgrammeController@create')->name('programme.create');
     Route::get('/programme/edit/{id}','ProgrammeController@edit')->name('programme.edit');
     Route::put('/programme/update/{id}','ProgrammeController@update')->name('programme.update');
+    Route::put('/programme/submit/{id}','ProgrammeController@submit')->name('programme.submit');
+    Route::put('/programme/approve/{id}','ProgrammeController@approve')->name('programme.approve');
     Route::post('/programme/store', 'ProgrammeController@store')->name('programme.store');
     Route::get('/programme/show/{id}', 'ProgrammeController@show')->name('programme.show');
-    Route::get('/programme/print/{id}', 'ProgrammeController@print')->name('programme.print');
+    Route::get('/programme/print/{id}/{type}', 'ProgrammeController@print')->name('programme.print');
+    Route::get('/programme/preview/{id}/{type}/', 'ProgrammeController@preview')->name('programme.preview');
+    Route::get('/programme/scan/{qrcode}', 'ProgrammeController@scan')->name('programme.scan');
 
     //Template Routes
     Route::get('/template/index', 'TemplateController@index')->name('template');
@@ -49,6 +57,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/programme/{id}/candidate/create',['as' => 'candidate.create', 'uses' => 'CandidateController@create']);
     Route::post('/programme/{id}/candidate/store',['as' => 'candidate.store', 'uses' => 'CandidateController@store']);
     Route::post('/programme/{id}/candidate/upload',['as' => 'candidate.upload', 'uses' => 'CandidateController@importExcel']);
+    Route::get('/candidate/edit/{id}', 'CandidateController@edit')->name('candidate.edit');
+    Route::put('/candidate/update/{id}', 'CandidateController@update')->name('candidate.update');
 
 
 });

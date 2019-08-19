@@ -19,8 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('identity_card')->unique();
             $table->string('image_url')->nullable();
-            $table->string('phone');
-            $table->set('type',[1,2,3]);
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->string('password');

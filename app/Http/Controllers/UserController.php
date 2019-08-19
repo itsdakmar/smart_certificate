@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminPasswordRequest;
+use App\Role;
 use App\User;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -16,6 +20,7 @@ class UserController extends Controller
      */
     public function index(User $model)
     {
+        auth()->user()->assignRole('admin');
         return view('users.index', ['users' => $model->paginate(15)]);
     }
 
@@ -26,7 +31,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $items = Role::pluck('name', 'id');
+
+        return view('users.create',compact('items'));
     }
 
     /**
@@ -38,10 +45,13 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
-        $model->create($request->merge(['password' => Hash::make($request->get('password'))])->all());
-
+        $role = Role::find($request->roles);
+        $user = $model->create($request->merge(['password' => Hash::make($request->get('password'))])->all());
+        $user->assignRole($role->name);
         return redirect()->route('user.index')->withStatus(__('User successfully created.'));
     }
+
+
 
     /**
      * Show the form for editing the specified user
@@ -51,7 +61,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+
+        $items = Role::pluck('name', 'id');
+        return view('users.edit', compact('user','items'));
     }
 
     /**
@@ -67,6 +79,14 @@ class UserController extends Controller
             $request->merge(['password' => Hash::make($request->get('password'))])
                 ->except([$request->get('password') ? '' : 'password']
         ));
+
+        return redirect()->route('user.index')->withStatus(__('User successfully updated.'));
+    }
+
+    public function password(AdminPasswordRequest $request, $user)
+    {
+        $user = User::findOrFail($user);
+        $user->update(['password' => Hash::make($request->get('password'))]);
 
         return redirect()->route('user.index')->withStatus(__('User successfully updated.'));
     }
