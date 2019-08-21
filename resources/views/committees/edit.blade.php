@@ -1,7 +1,7 @@
-@extends('layouts.app', ['title' => __('label.edit_candidate')])
+@extends('layouts.app', ['title' => __('label.edit_committee')])
 
 @section('content')
-    @include('users.partials.header', ['title' => __('label.edit_candidate')])
+    @include('users.partials.header', ['title' => __('label.edit_committee')])
 
     <div class="container-fluid mt--7">
         <div class="row">
@@ -14,7 +14,7 @@
                         <div class="card-header bg-white border-0">
                             <div class="row align-items-center">
                                 <div class="col-8">
-                                    <h3 class="mb-0">{{ __('label.edit_candidate') }}</h3>
+                                    <h3 class="mb-0">{{ __('label.edit_committee') }}</h3>
                                 </div>
                                 <div class="col-4 text-right">
                                     <a href="{{ route('programme') }}"
@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="heading-small text-muted mb-4">{{ __('label.candidate_information') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('label.committee_information') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
                                     <table id="candidate-table" class="table table-flush">
@@ -34,7 +34,7 @@
                                                 <label class="col-form-label">Candidate Name</label>
                                                 <input type="text" name="candidate_name" id="input-name"
                                                        class="form-control form-control-alternative{{ $errors->has('programme_name') ? ' is-invalid' : '' }}"
-                                                       placeholder="{{ __('label.candidate_name') }}"
+                                                       placeholder="{{ __('label.committee_name') }}"
                                                        value="{{ old('programme_name', $candidate->name) }}"
                                                        required
                                                        autofocus>
@@ -52,7 +52,7 @@
 
                                                     <input type="text" name="candidate_ic" id="input-name"
                                                            class="form-control form-control-alternative{{ $errors->has('programme_name') ? ' is-invalid' : '' }}"
-                                                           placeholder="{{ __('label.candidate_ic') }}"
+                                                           placeholder="{{ __('label.committee_ic') }}"
                                                            value="{{ old('candidate_ic', $candidate->identity_card) }}"
                                                            required>
 

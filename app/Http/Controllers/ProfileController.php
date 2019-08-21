@@ -30,16 +30,7 @@ class ProfileController extends Controller
      */
     public function update(ProfileRequest $request)
     {
-        $message = [
-            'regex' => ':attribute tidak betul pak.'
-        ];
-
-        $request->validate([
-            'phone' => 'regex:/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/'
-        ], $message);
-
         auth()->user()->update($request->all());
-
 
         return back()->withStatus(__('Profile successfully updated.'));
     }

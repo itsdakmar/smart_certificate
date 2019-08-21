@@ -2,9 +2,9 @@
 
 @section('content')
     @include('layouts.headers.empty', [
-        'title' => __('Hello') . ' '. auth()->user()->name,
-        'description' => __('This is your profile page. You can see the progress you\'ve made with your work and manage your projects or assigned tasks'),
-        'class' => 'col-lg-7'
+       'title' => $programme->programme_name,
+        'description' => __('This is programme management page. Here you can see your programme details.'),
+        'class' => 'col-lg-10'
     ])
 
     <style>
@@ -21,10 +21,27 @@
         }
     </style>
 
+
+
     <div class="container-fluid mt--7">
+
+        @if (session('status'))
+            <div class="row">
+                <div class="col">
+
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('status') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        @endif
         <div class="row">
+
             <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
-                <div class="card" id="border">
+                <div class="card " id="border">
                     <div class="card-body">
                         <h5 class="heading-small card-title">{{ __('label.programme_information') }}</h5>
 
@@ -61,18 +78,18 @@
             </div>
 
             <div class="col-xl-8 order-xl-1">
-                <div class="card bg-secondary shadow">
+                <div class="card  bg-secondary shadow">
                     <div class="card-header bg-white border-0">
                         <ul class="nav nav-pills nav-fill">
-                            <li class="nav-item my-2">
+                            <li class="nav-item ">
                                 <a class="nav-link active" id="one-tab" data-toggle="tab" href="#one" role="tab"
                                    aria-controls="One" aria-selected="true">{{ __('label.programme_information') }}</a>
                             </li>
-                            <li class="nav-item my-2">
+                            <li class="nav-item ">
                                 <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab"
                                    aria-controls="Two" aria-selected="false">{{ __('label.programme_photos') }}</a>
                             </li>
-                            <li class="nav-item my-2">
+                            <li class="nav-item ">
                                 <a class="nav-link" id="three-tab" data-toggle="tab" href="#three" role="tab"
                                    aria-controls="Three" aria-selected="false">{{ __('label.programme_documents') }}</a>
                             </li>
@@ -94,12 +111,14 @@
                                             @endhasanyrole
                                             @role('director')
                                             @if($programme->status == 2)
-                                                
-                                                <form style="display: inline;" action="{{ route('programme.approve', $programme) }}"
+
+                                                <form style="display: inline;"
+                                                      action="{{ route('programme.approve', $programme) }}"
                                                       method="post">
                                                     @csrf
                                                     @method('put')
-                                                    <button type="button" class="btn btn-sm btn-success text-right ml-2" onclick="confirm('{{ __("Are you sure you?") }}') ? this.parentElement.submit() : ''">
+                                                    <button type="button" class="btn btn-sm btn-success text-right ml-2"
+                                                            onclick="confirm('{{ __("Are you sure you?") }}') ? this.parentElement.submit() : ''">
                                                         <i class="fas fa-check mr-1"></i>Approve
                                                     </button>
                                                 </form>
@@ -162,38 +181,19 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
-                                <h5 class="card-title">Tab Card Two</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <div class="tab-pane fade p-3" style="overflow: auto;height: 500px;" id="two"
+                                 role="tabpanel" aria-labelledby="two-tab">
+                                @include('programme.gallery.index', ['programme' => $programme])
                             </div>
                             <div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
-                                <h5 class="card-title">Tab Card Three</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                @include('programme.document',['programme' => $programme])
                             </div>
 
                         </div>
                     </div>
                 </div>
 
-                @if (session('status'))
-                    <div class="row mt-2">
-                        <div class="col">
-
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                {{ session('status') }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-
-                <div class="card bg-secondary shadow {{ (!session('status')) ? 'mt-5' : '' }}">
+                <div class="card  bg-secondary shadow mt-4">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
                             <h3 class="col mb-0">{{ __('label.committees') }}</h3>
@@ -204,7 +204,7 @@
                                         <span class="btn-inner--icon"><i class="fas fa-filter"></i></span>
                                     </button>
                                     @hasanyrole('admin|secretariat')
-                                    <a href="{{ route('candidate.create' , ['id' => $programme->id]) }}"
+                                    <a href="{{ route('candidate.create' , ['type' => 2, 'id' => $programme->id]) }}"
                                        class="btn btn-sm btn-primary">{{ __('label.add_committees') }}</a>
                                     <button class="btn btn-icon btn-sm btn-primary" type="button"
                                             data-toggle="dropdown" aria-haspopup="true"
@@ -214,7 +214,7 @@
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
 
                                         <a class="dropdown-item" data-toggle="modal"
-                                           data-target="#uploadCandidate">{{ __('label.upload_committees_excel') }}</a>
+                                           data-target="#uploadCommittees">{{ __('label.upload_committees_excel') }}</a>
 
                                         <a class="dropdown-item"
                                            href="#">{{ __('label.download_committees_excel_template') }}</a>
@@ -250,23 +250,20 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                @if ($committee->id != auth()->id())
-                                                    <form action="{{ route('user.destroy', $committee) }}"
-                                                          method="post">
-                                                        @csrf
-                                                        @method('delete')
+                                                @hasanyrole('admin|secreteriat')
+                                                <form action="{{ route('candidate.destroy', ['committee' => $committee, 'programme' => $programme]) }}"
+                                                      method="post">
+                                                    @csrf
+                                                    @method('delete')
 
-                                                        <a class="dropdown-item"
-                                                           href="{{ route('programme.edit', $committee) }}">{{ __('Edit') }}</a>
-                                                        <button type="button" class="dropdown-item"
-                                                                onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
-                                                            {{ __('Delete') }}
-                                                        </button>
-                                                    </form>
-                                                @else
                                                     <a class="dropdown-item"
-                                                       href="{{ route('profile.edit') }}">{{ __('Edit') }}</a>
-                                                @endif
+                                                       href="{{ route('candidate.edit', ['committee' => $committee, 'type' => 2]) }}">{{ __('Edit') }}</a>
+                                                    <button type="button" class="dropdown-item"
+                                                            onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
+                                                        {{ __('Delete') }}
+                                                    </button>
+                                                </form>
+                                                @endhasanyrole
                                             </div>
                                         </div>
                                     </td>
@@ -282,7 +279,7 @@
                     </div>
                 </div>
 
-                <div class="card bg-secondary shadow {{ (!session('status')) ? 'mt-5' : '' }}">
+                <div class="card  bg-secondary shadow mt-4">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
                             <h3 class="col mb-0">{{ __('label.candidate') }}</h3>
@@ -293,7 +290,7 @@
                                         <span class="btn-inner--icon"><i class="fas fa-filter"></i></span>
                                     </button>
                                     @hasanyrole('admin|secretariat')
-                                    <a href="{{ route('candidate.create' , ['id' => $programme->id]) }}"
+                                    <a href="{{ route('candidate.create' , ['type' => 1, 'id' => $programme->id]) }}"
                                        class="btn btn-sm btn-primary">{{ __('label.add_participants') }}</a>
                                     <button class="btn btn-icon btn-sm btn-primary" type="button"
                                             data-toggle="dropdown" aria-haspopup="true"
@@ -339,23 +336,20 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                @if ($candidate->id != auth()->id())
-                                                    <form action="{{ route('user.destroy', $candidate) }}"
-                                                          method="post">
-                                                        @csrf
-                                                        @method('delete')
+                                                @hasanyrole('admin|secreteriat')
+                                                <form action="{{ route('candidate.destroy', ['candidate' => $candidate, 'programme' => $programme]) }}"
+                                                      method="post">
+                                                    @csrf
+                                                    @method('delete')
 
-                                                        <a class="dropdown-item"
-                                                           href="{{ route('candidate.edit', $candidate) }}">{{ __('Edit') }}</a>
-                                                        <button type="button" class="dropdown-item"
-                                                                onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
-                                                            {{ __('Delete') }}
-                                                        </button>
-                                                    </form>
-                                                @else
                                                     <a class="dropdown-item"
-                                                       href="{{ route('profile.edit') }}">{{ __('Edit') }}</a>
-                                                @endif
+                                                       href="{{ route('candidate.edit', ['candidate' => $candidate, 'type' => 1]) }}">{{ __('Edit') }}</a>
+                                                    <button type="button" class="dropdown-item"
+                                                            onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
+                                                        {{ __('Delete') }}
+                                                    </button>
+                                                </form>
+                                                @endhasanyrole
                                             </div>
                                         </div>
                                     </td>
@@ -379,8 +373,23 @@
     @include('component.modal-upload-excel',[
                     'id' => 'uploadCandidate',
                     'title' => 'Upload Excel Candidate',
+                    'type' => 1,
                     'programme_id' => $programme->id
                     ])
+
+    @include('component.modal-upload-excel',[
+                'id' => 'uploadCommittees',
+                'title' => 'Upload Excel Committees',
+                'type' => 2,
+                'programme_id' => $programme->id
+                ])
+
+    @include('component.modal-upload-document',[
+              'id' => 'uploadDocument',
+              'title' => 'Upload Document',
+              'type' => 2,
+              'programme_id' => $programme->id
+              ])
 
     @push('js')
         <script>

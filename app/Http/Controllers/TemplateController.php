@@ -85,7 +85,7 @@ class TemplateController extends Controller
     public function upload(Request $request)
     {
         $message = [
-            'template' => 'regex: j :attribute tidak betul pak.'
+            'template' => ':attribute only doc,dotx,docx,ppt,pptx,pdf accepted'
         ];
 
         $request->validate([

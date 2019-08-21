@@ -1,18 +1,18 @@
-@extends('layouts.app', ['title' => __('label.add_candidate')])
+@extends('layouts.app', ['title' => __('label.add_committees')])
 
 @section('content')
-    @include('users.partials.header', ['title' => __('label.add_candidate')])
+    @include('users.partials.header', ['title' => __('label.add_committees')])
 
     <div class="container-fluid mt--7">
         <div class="row">
             <div class="col-xl-12 order-xl-1">
                 <div class="card bg-secondary shadow">
-                    <form method="post" action="{{ route('candidate.store' , ['type' => $type ,'id' => $programme_id]) }}" autocomplete="off">
+                    <form method="post" action="{{ route('candidate.store' , ['type' => $type, 'id' => $programme_id]) }}" autocomplete="off">
                         @csrf
                         <div class="card-header bg-white border-0">
                             <div class="row align-items-center">
                                 <div class="col-8">
-                                    <h3 class="mb-0">{{ __('label.add_candidate') }}</h3>
+                                    <h3 class="mb-0">{{ __('label.add_committees') }}</h3>
                                 </div>
                                 <div class="col-4 text-right">
                                     <a href="{{ route('programme') }}"
@@ -21,7 +21,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="heading-small text-muted mb-4">{{ __('label.candidate_information') }}</h6>
+                            <h6 class="heading-small text-muted mb-4">{{ __('label.committee_information') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
                                     <table id="candidate-table" class="table table-flush">
@@ -37,7 +37,7 @@
 
                                                             <input type="text" name="candidate_name[]" id="input-name"
                                                                    class="form-control form-control-alternative{{ $errors->has('candidate_name.'.$index) ? ' is-invalid' : '' }}"
-                                                                   placeholder="{{ __('label.candidate_name') }}"
+                                                                   placeholder="{{ __('label.committee_name') }}"
                                                                    value="{{ old('candidate_name.'.$index) }}"
                                                                    required
                                                                    autofocus>
@@ -53,7 +53,7 @@
 
                                                             <input type="text" name="candidate_ic[]" id="input-name"
                                                                    class="form-control form-control-alternative{{ $errors->has('candidate_ic.'.$index) ? ' is-invalid' : '' }}"
-                                                                   placeholder="{{ __('label.candidate_ic') }}"
+                                                                   placeholder="{{ __('label.committee_ic') }}"
                                                                    value="{{ old('candidate_ic.'.$index) }}"
                                                                    required>
 
@@ -89,7 +89,7 @@
 
                                                         <input type="text" name="candidate_name[]" id="input-name"
                                                                class="form-control form-control-alternative{{ $errors->has('programme_name') ? ' is-invalid' : '' }}"
-                                                               placeholder="{{ __('label.candidate_name') }}"
+                                                               placeholder="{{ __('label.committee_name') }}"
                                                                value="{{ old('programme_name') }}"
                                                                required
                                                                autofocus>
@@ -105,7 +105,7 @@
 
                                                         <input type="text" name="candidate_ic[]" id="input-name"
                                                                class="form-control form-control-alternative{{ $errors->has('programme_name') ? ' is-invalid' : '' }}"
-                                                               placeholder="{{ __('label.candidate_ic') }}"
+                                                               placeholder="{{ __('label.committee_ic') }}"
                                                                value="{{ old('candidate_ic') }}"
                                                                required>
 

@@ -12,12 +12,16 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class CandidateController extends Controller
 {
-    public function create($programme_id)
+    public function create($programme_id, $type)
     {
-        return view('candidate.create' , compact('programme_id'));
+        if ($type == 1) {
+            return view('candidate.create', compact('type', 'programme_id'));
+        } else {
+            return view('committees.create', compact('type', 'programme_id'));
+        }
     }
 
-    public function store(Request $request , $programme_id)
+    public function store(Request $request, $programme_id, $type)
     {
 
         $validator = Validator::make($request->all(), [
@@ -30,24 +34,28 @@ class CandidateController extends Controller
         }
 
         $count = count($request->candidate_name);
-        for($i = 0; $i < $count; $i++){
+        for ($i = 0; $i < $count; $i++) {
             $candidate = new Candidate();
             $candidate->name = $request->candidate_name[$i];
             $candidate->identity_card = $request->candidate_ic[$i];
             $candidate->programme_id = $programme_id;
-            $candidate->type = 1;
+            $candidate->type = $type;
             $candidate->save();
 
         }
         return redirect()->route('programme.show', ['id' => $programme_id])->withStatus(__('Candidates successfully added.'));
     }
 
-    public function edit($id)
+    public function edit($id, $type)
     {
-        dd(Hash::make('1'));
         $candidate = Candidate::findOrFail($id);
-        return view('candidate.edit' , compact('candidate'));
 
+        if ($type == 1) {
+            return view('candidate.edit', compact('candidate'));
+
+        } else {
+            return view('committees.edit', compact('candidate'));
+        }
     }
 
     public function update(Request $request, $id)
@@ -61,26 +69,29 @@ class CandidateController extends Controller
         return redirect()->route('programme.show', ['id' => $candidate->programme_id])->withStatus(__('Candidate was successfully updated.'));
     }
 
+    public function destroy($programme_id, Candidate $candidate)
+    {
+        $candidate->delete();
+        return redirect()->route('programme.show', ['id' => $programme_id])->withStatus(__('Candidates successfully deleted.'));
+
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function importExcel(Request $request, $programme_id)
+    public function importExcel(Request $request, $programme_id, $type)
     {
         $request->validate([
             'import_file' => 'required'
         ]);
 
+        Excel::import(new CandidateImports($programme_id, $type), request()->file('import_file'));
 
-        $candidates = Excel::import(new CandidateImports($programme_id), request()->file('import_file'));
+        $type = ($type == 1) ? 'Candidates' : 'Committees';
+        return redirect()->route('programme.show', ['id' => $programme_id])->withStatus(__($type . ' was successfully uploaded.'));
 
-        if($candidates){
-            return back()->with('success', 'Insert Record successfully.');
-        }else {
-            return back()->with('failed', 'Insert Record failed.');
-
-        }
 
     }
 }

@@ -2,9 +2,9 @@
 
 @section('content')
     @include('users.partials.header', [
-        'title' => __('Hello') . ' '. auth()->user()->name,
-        'description' => __('This is your profile page. You can see the progress you\'ve made with your work and manage your projects or assigned tasks'),
-        'class' => 'col-lg-7'
+        'title' => __('Hello,') . ' '. auth()->user()->name,
+        'description' => __('This is your profile page. Here you can see your profile details and update your details'),
+        'class' => 'col-lg-10'
     ])
 
     <div class="container-fluid mt--7">
@@ -52,21 +52,16 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <h3>
-                                {{ auth()->user()->name }}<span class="font-weight-light">, 27</span>
-                            </h3>
-                            <div class="h5 font-weight-300">
-                                <i class="ni location_pin mr-2"></i>{{ __('Bucharest, Romania') }}
-                            </div>
-                            <div class="h5 mt-4">
-                                <i class="ni business_briefcase-24 mr-2"></i>{{ __('Solution Manager - Creative Tim Officer') }}
+                            <h2>
+                                {{ auth()->user()->name }}<span class="font-weight-light"></span>
+                            </h2>
+                            <hr>
+                            <div class="h3 mt-4">
+                                <i class="ni business_briefcase-24 mr-2"></i>Role - {{ auth()->user()->getRoleNames() }}
                             </div>
                             <div>
-                                <i class="ni education_hat mr-2"></i>{{ __('University of Computer Science') }}
+                                <i class="ni education_hat mr-2"></i>{{ __('Kolej Komuniti Kemaman') }}
                             </div>
-                            <hr class="my-4"/>
-                            <p>{{ __('Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music.') }}</p>
-                            <a href="#">{{ __('Show more') }}</a>
                         </div>
                     </div>
                 </div>
@@ -120,19 +115,6 @@
                                     @if ($errors->has('email'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('email') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label" for="input-phone">{{ __('Phone') }}</label>
-                                    <input type="text" name="phone" id="input-phone"
-                                           class="form-control form-control-alternative{{ $errors->has('phone') ? ' is-invalid' : '' }}"
-                                           placeholder="{{ __('Phone') }}"
-                                           value="{{ old('phone', auth()->user()->phone) }}" required>
-
-                                    @if ($errors->has('phone'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('phone') }}</strong>
                                         </span>
                                     @endif
                                 </div>

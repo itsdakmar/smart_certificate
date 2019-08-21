@@ -4,7 +4,7 @@
     @include('layouts.headers.empty', [
         'title' => __('label.programme_management'),
         'description' => __('description.programme_management'),
-        'url' => '../public/argon/img/brand/teaching.jpg'
+        'url' => '../argon/img/brand/teaching.jpg'
     ])
 
     <style>
@@ -139,6 +139,7 @@
                         </table>
                     </div>
                     <div class="card-footer py-4">
+                        <nav>Scroll to view more <i class="ml-1 fas fa-long-arrow-alt-right"></i></nav>
                         <nav class="d-flex justify-content-end" aria-label="...">
                             {{ $programmes->links() }}
                         </nav>

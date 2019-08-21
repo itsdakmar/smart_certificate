@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ __('label.programme_name') }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ __('label.programme_filter') }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -44,10 +44,23 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Status</label>
+                                <select class="form-control" name="status" id="exampleFormControlSelect1">
+                                    <option value="1" {{ (old('status') == '1') ? 'selected' : '' }}>Draft</option>
+                                    <option value="2" {{ (old('status') == '2') ? 'selected' : '' }}>Waiting For Approval</option>
+                                    <option value="3" {{ (old('status') == '3') ? 'selected' : '' }}>Approved</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-secondary" href="{{ route('programme') }}">Reset</a>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Filter</button>
                 </div>
             </form>
         </div>

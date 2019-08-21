@@ -34,7 +34,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">{{ __('Name') }}</th>
-                                    <th scope="col">{{ __('Identity_card') }}</th>
+                                    <th scope="col">{{ __('IC Number') }}</th>
                                     <th scope="col">{{ __('Role') }}</th>
                                     <th scope="col">{{ __('Email') }}</th>
                                     <th scope="col">{{ __('Creation Date') }}</th>

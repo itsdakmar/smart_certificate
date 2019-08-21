@@ -67,6 +67,14 @@ class Programme extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function galleries()
+    {
+        return $this->hasMany('App\Gallery');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function candidates()
     {
         return $this->hasMany('App\Candidate');
@@ -171,6 +179,10 @@ class Programme extends Model
                 Carbon::create($request->input('programme_date'))->startOfYear(),
                 Carbon::create($request->input('programme_date'))->endOfYear(),
             ]);
+        }
+
+        if ($request->has('status')) {
+            $query->where('status', $request->input('status'));
         }
 
         return $query;

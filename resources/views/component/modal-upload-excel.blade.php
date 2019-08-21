@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="{{ route('candidate.upload', ['id' => $programme_id]) }}" enctype="multipart/form-data" autocomplete="off">
+            <form method="post" action="{{ route('candidate.upload', ['type' => $type, 'id' => $programme_id]) }}" enctype="multipart/form-data" autocomplete="off">
                 @csrf
             <div class="modal-body">
                 <div class="row">
