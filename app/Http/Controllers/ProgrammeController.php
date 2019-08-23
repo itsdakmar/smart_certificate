@@ -276,6 +276,9 @@ class ProgrammeController extends Controller
                 PDF::SetFontSize(11);
                 PDF::writeHTMLCell(0, 0, 1, 265, $director_details, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment, $autopadding = true);
             }
+
+            PDF::write2DBarcode(route('programme.scan', $programme->slug), 'QRCODE,L', 170, 250, 35, 35, NULL, 'N');
+
         }
 
         return PDF::Output('hello_world.pdf');

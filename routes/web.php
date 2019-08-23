@@ -14,6 +14,10 @@
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/programme/{qr}', 'ScanController@index')->name('programme.scan');
+Route::get('/programme/get/document/{path}', 'ProgrammeController@getDocuments')->name('programme.get.document');
+Route::get('/gallery/photos/{path}', 'GalleryController@getPhoto')->name('gallery.photo');
+
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'UserController', ['except' => ['show']]);
@@ -40,8 +44,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/programme/show/{id}', 'ProgrammeController@show')->name('programme.show');
     Route::get('/programme/print/{id}/{type}', 'ProgrammeController@print')->name('programme.print');
     Route::get('/programme/preview/{id}/{type}/', 'ProgrammeController@preview')->name('programme.preview');
-    Route::get('/programme/scan/{qrcode}', 'ProgrammeController@scan')->name('programme.scan');
-    Route::get('/programme/get/document/{path}', 'ProgrammeController@getDocuments')->name('programme.get.document');
     Route::delete('programme/{id}/document/delete/{path}', 'ProgrammeController@destroyDocuments')->name('document.destroy');
 
 
@@ -67,7 +69,6 @@ Route::group(['middleware' => 'auth'], function () {
     //Gallery Routes
     Route::get('/programme/{id}/gallery/', 'ProgrammeController@gallery')->name('programme.gallery');
     Route::post('/programme/{id}/gallery/store', 'GalleryController@store')->name('gallery.store');
-    Route::get('/gallery/photos/{path}', 'GalleryController@getPhoto')->name('gallery.photo');
     Route::delete('programme/{id}/gallery/destroy', 'GalleryController@destroy')->name('gallery.destroy');
 
 
