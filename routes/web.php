@@ -14,7 +14,7 @@
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/programme/{qr}', 'ScanController@index')->name('programme.scan');
+Route::get('/programme/scan/{qr}', 'ScanController@index')->name('programme.scan');
 Route::get('/programme/get/document/{path}', 'ProgrammeController@getDocuments')->name('programme.get.document');
 Route::get('/gallery/photos/{path}', 'GalleryController@getPhoto')->name('gallery.photo');
 
