@@ -15,6 +15,7 @@ class AlterProgrammesTable extends Migration
     {
         Schema::table('programmes', function (Blueprint $table) {
             $table->string('organiser')->after('slug');
+            $table->timestamp('deleted_at')->nullable();
 
         });
     }
