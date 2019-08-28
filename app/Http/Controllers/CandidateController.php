@@ -15,7 +15,7 @@ class CandidateController extends Controller
     public function create($programme_id, $type)
     {
         if ($type == 1) {
-            return view('candidate.create', compact('type', 'programme_id'));
+            return view('participants.create', compact('type', 'programme_id'));
         } else {
             return view('committees.create', compact('type', 'programme_id'));
         }
@@ -51,7 +51,7 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrFail($id);
 
         if ($type == 1) {
-            return view('candidate.edit', compact('candidate'));
+            return view('participants.edit', compact('candidate'));
 
         } else {
             return view('committees.edit', compact('candidate'));

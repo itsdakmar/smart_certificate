@@ -24,7 +24,7 @@ return [
     "programme_register" => "Register Programme",
     "programme_name" => "Programme Name",
     "programme_start" => "Programme Starting Date",
-    "programme_end" => "Programme Ending Date",
+    "programme_end" => "Programme End Date",
     "programme_date" => "Programme Date",
     "programme_status" => "Programme Status",
     "programme_total_cert" => "Total Certificate",
@@ -35,16 +35,28 @@ return [
     "font_size" => "Font Size",
     "x" => "X",
     "y" => "Y",
+    "l" => "Left",
+    "r" => "Right",
+    "h" => "H",
+    "w" => "W",
+    "width" => "Width",
+    "height" => "Height",
+    "width_&_height" => "Width & Height",
+    "margin" => "Margin",
+    "director_show" => "Show Director",
+    "notice_position" => "Positioning Guide",
+    "notice" => "Notice",
+    "chosen_template" => "Chosen Template",
     "cert_content" => "Content",
     "draft" => "Draft",
     "wait_approval" => "Waiting For Approval",
-
+    "qr_code" => "Qr Code",
     "edit" => "Edit",
     "approve" => "Approve",
     "approved" => "Approved",
 
     "preview_certs" => "Preview Certificate",
-    "preview_cert_candidates" => "Candidate's Certificate",
+    "preview_cert_candidates" => "Participant's Certificate",
     "preview_cert_committees" => "Committee's Certificate",
 
     "committees" => "Committees",
@@ -54,13 +66,13 @@ return [
     "upload_committees_excel" => "Upload Excel Committees List ",
     "download_committees_excel_template" => "Download Committees Excel Template",
 
-    "candidate" => "Candidates",
-    "programme_student_name" => "Candidate's Name",
-    "programme_student_ic" => "Candidate's IC",
-    "add_participants" => "Add New Candidate",
-    "upload_candidate_excel" => "Upload Excel Candidate List ",
-    "download_candidate_excel_template" => "Download Candidate Excel Template",
-
+    "candidate" => "Participants",
+    "programme_student_name" => "Participant's Name",
+    "programme_student_ic" => "Participant's IC",
+    "add_participants" => "Add New Participant",
+    "upload_candidate_excel" => "Upload Excel Participant List ",
+    "download_candidate_excel_template" => "Download Participant Excel Template",
+    "register_programme" => "Add new programme",
 
     "template_management" => "Template Management",
     "template" => "Template",
@@ -82,5 +94,7 @@ return [
 
 
     "btn_save" => "<span><i class='fas fa-check mr-1'></i>Save</span>",
+    "btn_update" => "<span><i class='fas fa-check mr-1'></i>Update</span>",
     "btn_back" => "<span><i class='fas fa-arrow-left mr-1'></i>Back</span>",
+    "btn_back_to_list" => "<span><i class='fas fa-arrow-left mr-1'></i>Back to list</span>",
 ];

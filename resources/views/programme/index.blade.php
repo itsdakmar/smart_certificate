@@ -62,11 +62,13 @@
                             <tr>
                                 <th scope="col">{{ __('label.programme_name') }}</th>
                                 <th scope="col">{{ __('label.programme_date') }}</th>
-                                <th scope="col">{{ __('label.created_by') }}</th>
-                                <th scope="col">{{ __('label.programme_status') }}</th>
                                 <th scope="col">{{ __('label.programme_total_cert') }}</th>
+                                <th scope="col">{{ __('label.programme_status') }}</th>
+                                <th scope="col">{{ __('label.created_by') }}</th>
                                 <th scope="col"></th>
+                                @hasanyrole('admin|secreteriat')
                                 <th scope="col"></th>
+                                @endhasanyrole
                             </tr>
                             </thead>
                             <tbody>
@@ -77,20 +79,24 @@
                                         <a href="#" class="text-decoration-none">{{ $programme->programme_name }}</a>
                                     </td>
                                     <td>{!! $programme->programme_date !!}</td>
-                                    <td>{{ $programme->user->name  }}</td>
-                                    <td>{!! $programme->label  !!}</td>
                                     <td>{{ $programme->totalCertificate()  }}</td>
+                                    <td>{!! $programme->label  !!}</td>
+                                    <td>{{ $programme->user->name  }}</td>
                                     <td class="avoid">
+                                        @hasanyrole('admin|secretariat')
                                         @if ($programme->totalCertificate() > 0 && $programme->status == 1)
                                             <form action="{{ route('programme.submit', $programme->id) }}"
                                                   method="post">
                                                 @csrf
                                                 @method('put')
 
-                                                <button type="button" class="btn btn-sm btn-icon-only text-light" onclick="confirm('{{ __("Are you sure you want to submit?") }}') ? this.parentElement.submit() : ''" data-toggle="tooltip" data-placement="top" title="Submit">
+                                                <button type="button" class="btn btn-sm btn-icon-only text-light"
+                                                        onclick="confirm('{{ __("Are you sure you want to submit?") }}') ? this.parentElement.submit() : ''"
+                                                        data-toggle="tooltip" data-placement="top" title="Submit">
                                                     <i class="text-success fas fa-paper-plane"></i>
                                                 </button>
                                             </form>
+
                                         @elseif($programme->totalCertificate() > 0 && $programme->status == 3)
                                             <div class="dropdown">
                                                 <a class="btn btn-sm btn-icon-only text-primary" href="#" role="button"
@@ -105,7 +111,25 @@
                                                 </div>
                                             </div>
                                         @endif
+                                        @endhasanyrole
+                                        @role('director')
+                                        @if($programme->totalCertificate() > 0 && $programme->status == 2)
+                                            <form action="{{ route('programme.approve', $programme->id) }}"
+                                                  method="post">
+                                                @csrf
+                                                @method('put')
+
+                                                <button type="button" class="btn btn-sm btn-icon-only text-light"
+                                                        onclick="confirm('{{ __("Are you sure you want to approved?") }}') ? this.parentElement.submit() : ''"
+                                                        data-toggle="tooltip" data-placement="top" title="Submit">
+                                                    <i class="text-success fas fa-paper-plane"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+                                        @endrole
+
                                     </td>
+                                    @hasanyrole('admin|secreteriat')
                                     <td class="avoid text-right">
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
@@ -113,26 +137,24 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                @if ($programme->created_by != auth()->id())
-                                                    <form action="{{ route('user.destroy', $programme) }}"
-                                                          method="post">
-                                                        @csrf
-                                                        @method('delete')
 
-                                                        <a class="dropdown-item"
-                                                           href="{{ route('programme.edit', $programme) }}">{{ __('Edit') }}</a>
-                                                        <button type="button" class="dropdown-item"
-                                                                onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
-                                                            {{ __('Delete') }}
-                                                        </button>
-                                                    </form>
-                                                @else
+                                                <form action="{{ route('programme.destroy', $programme) }}"
+                                                      method="post">
+                                                    @csrf
+                                                    @method('delete')
+
                                                     <a class="dropdown-item"
-                                                       href="{{ route('profile.edit') }}">{{ __('Edit') }}</a>
-                                                @endif
+                                                       href="{{ route('programme.edit', $programme) }}">{{ __('Edit') }}</a>
+                                                    <button type="button" class="dropdown-item"
+                                                            onclick="confirm('{{ __("Are you sure you want to delete this programme?") }}') ? this.parentElement.submit() : ''">
+                                                        {{ __('Delete') }}
+                                                    </button>
+                                                </form>
+
                                             </div>
                                         </div>
                                     </td>
+                                    @endhasanyrole
                                 </tr>
                             @endforeach
                             </tbody>

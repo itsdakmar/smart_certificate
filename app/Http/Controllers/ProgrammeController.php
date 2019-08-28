@@ -68,6 +68,16 @@ class ProgrammeController extends Controller
      */
     public function store(Request $request, Programme $programme)
     {
+
+        $request->validate([
+            'cert_committees' => 'required',
+            'cert_participants' => 'required',
+            'programme_start' => 'required',
+            'programme_end' => 'required',
+            'organiser' => 'required',
+        ]);
+
+
         $programme->create($request->merge([
             'status' => 1, // Permohonan
             'created_by' => auth()->user()->id,
@@ -86,8 +96,12 @@ class ProgrammeController extends Controller
      */
     public function edit($programme_id)
     {
-        $Programme = Programme::findOrFail($programme_id);
-        return view('programme.edit', compact('Programme'));
+        $participants = CertificateConfig::where(['certificate_type' => 1])->get()->sortByDesc('id');
+        $committees = CertificateConfig::where(['certificate_type' => 2])->get()->sortByDesc('id');
+
+
+        $programmes = Programme::findOrFail($programme_id);
+        return view('programme.edit', compact('programmes','participants','committees'));
     }
 
     /**
@@ -206,11 +220,12 @@ class ProgrammeController extends Controller
         PDF::AddPage('P', 'A4');
 
         $findme = [
-            '{nama_peserta}' => '<b> MUHAMMAD AMMAR BIN MOHD RAZAMAN </b>',
-            '{ic_peserta}' => '<b> 960208-14-5611 </b>',
-            '{nama_program}' => '<b>' . $programme->programme_name . '</b>',
-            '{lokasi_program}' => '<b>' . $programme->programme_location . '</b>',
-            '{tarikh_program}' => '<b>' . $programme->programme_date_for_cert . '</b>',
+            '{nama_peserta}' => '<b class="text-uppercase"> MUHAMMAD AMMAR BIN MOHD RAZAMAN </b>',
+            '{penganjur_program}' => '<b class="text-uppercase">' . $programme->organiser . '</b>',
+            '{ic_peserta}' => '<b class="text-uppercase"> 000000-00-0000 </b>',
+            '{nama_program}' => '<b class="text-uppercase">' . $programme->programme_name . '</b>',
+            '{lokasi_program}' => '<b class="text-uppercase">' . $programme->programme_location . '</b>',
+            '{tugas}' => '<b class="text-uppercase">PENCERAMAH</b>',
         ];
 
         foreach ($cert->certificateContents as $content) {
@@ -257,17 +272,20 @@ class ProgrammeController extends Controller
 
 
             $findme = [
-                '{nama_peserta}' => '<b>' . $candidate->name . '</b>',
-                '{ic_peserta}' => '<b>' . $candidate->identity_card . '</b>',
-                '{nama_program}' => '<b>' . $programme->programme_name . '</b>',
-                '{lokasi_program}' => '<b>' . $programme->programme_location . '</b>',
-                '{tarikh_program}' => '<b>' . $programme->programme_date_for_cert . '</b>',
+                '{nama_peserta}' => '<b class="text-uppercase">' . $candidate->name . '</b>',
+                '{penganjur_program}' => '<b class="text-uppercase">' . $programme->organiser . '</b>',
+                '{ic_peserta}' => '<b class="text-uppercase">' . $candidate->identity_card . '</b>',
+                '{nama_program}' => '<b class="text-uppercase">' . $programme->programme_name . '</b>',
+                '{lokasi_program}' => '<b class="text-uppercase">' . $programme->programme_location . '</b>',
+                '{tarikh_program}' => '<b class="text-uppercase">' . $programme->programme_date_for_cert . '</b>',
+                '{tugas}' => '<b class="text-uppercase">' . $candidate->task . '</b>',
             ];
 
             foreach ($cert->certificateContents as $content) {
                 $parse_content = strtr($content->content, $findme);
 
                 PDF::SetFontSize($content->font_size);
+                PDF::setCellPaddings($content->margin_left,0,$content->margin_right);
                 PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment, $autopadding = true);
             }
 
@@ -277,7 +295,7 @@ class ProgrammeController extends Controller
                 PDF::writeHTMLCell(0, 0, 1, 265, $director_details, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment, $autopadding = true);
             }
 
-            PDF::write2DBarcode(route('programme.scan', $programme->slug), 'QRCODE,L', 160, 250, 35, 35, NULL, 'N');
+            PDF::write2DBarcode(route('programme.scan', $programme->slug), $cert->qr_x, $cert->qr_y, $cert->qr_width, $cert->qr_height, NULL, 'N');
 
         }
 
@@ -300,6 +318,15 @@ class ProgrammeController extends Controller
         Document::destroy($filename);
 
         return redirect()->route('programme.show', $programme_id)->withStatus(__('Documents was successfully deleted.'));
+    }
+
+    public function destroy($programme_id)
+    {
+        $programme = Programme::findOrFail($programme_id);
+        $programme->delete();
+
+        return redirect()->route('programme')->withStatus(__('Programme was successfully deleted.'));
+
     }
 
 }

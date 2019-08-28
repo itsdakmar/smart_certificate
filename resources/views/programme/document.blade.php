@@ -7,7 +7,7 @@
             @hasanyrole('admin|secretariat')
             <button type="button" class="btn btn-sm btn-primary text-right ml-2" data-toggle="modal"
                     data-target="#uploadDocument"><i
-                        class="fas fa-pencil-alt mr-1"></i> {{ __('label.edit')}}</button>
+                        class="fas fa-pencil-alt mr-1"></i> {{ __('Add New')}}</button>
             @endhasanyrole
 
         </h6>

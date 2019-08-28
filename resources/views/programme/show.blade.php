@@ -233,7 +233,9 @@
                             <tr>
                                 <th scope="col">{{ __('label.programme_committees_name') }}</th>
                                 <th scope="col">{{ __('label.programme_committees_ic') }}</th>
+                                @hasanyrole('admin|secreteriat')
                                 <th scope="col">&nbsp;</th>
+                                @endhasanyrole
                             </tr>
                             </thead>
                             <tbody>
@@ -241,6 +243,7 @@
                                 <tr>
                                     <td>{{ $committee->name }}</td>
                                     <td>{{ $committee->identity_card }}</td>
+                                    @hasanyrole('admin|secreteriat')
                                     <td class="programme-setting text-right">
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-icon-only text-light" href="#"
@@ -250,7 +253,6 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                @hasanyrole('admin|secreteriat')
                                                 <form action="{{ route('candidate.destroy', ['committee' => $committee, 'programme' => $programme]) }}"
                                                       method="post">
                                                     @csrf
@@ -263,10 +265,10 @@
                                                         {{ __('Delete') }}
                                                     </button>
                                                 </form>
-                                                @endhasanyrole
                                             </div>
                                         </div>
                                     </td>
+                                    @endhasanyrole
                                 </tr>
                             @endforeach
                             </tbody>
@@ -319,7 +321,9 @@
                             <tr>
                                 <th scope="col">{{ __('label.programme_student_name') }}</th>
                                 <th scope="col">{{ __('label.programme_student_ic') }}</th>
+                                @hasanyrole('admin|secreteriat')
                                 <th scope="col">&nbsp;</th>
+                                @endhasanyrole
                             </tr>
                             </thead>
                             <tbody>
@@ -327,6 +331,7 @@
                                 <tr>
                                     <td>{{ $candidate->name }}</td>
                                     <td>{{ $candidate->identity_card }}</td>
+                                    @hasanyrole('admin|secreteriat')
                                     <td class="programme-setting text-right">
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-icon-only text-light" href="#"
@@ -336,7 +341,7 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                @hasanyrole('admin|secreteriat')
+
                                                 <form action="{{ route('candidate.destroy', ['candidate' => $candidate, 'programme' => $programme]) }}"
                                                       method="post">
                                                     @csrf
@@ -349,10 +354,11 @@
                                                         {{ __('Delete') }}
                                                     </button>
                                                 </form>
-                                                @endhasanyrole
+
                                             </div>
                                         </div>
                                     </td>
+                                    @endhasanyrole
                                 </tr>
                             @endforeach
                             </tbody>

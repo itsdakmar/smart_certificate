@@ -14,13 +14,13 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="document">Document Name</label>
+                        <label class="form-control-label" for="document">Document Name</label>
                         <input type="text" class="form-control" id="document" name="document_name" aria-describedby="document"
                                placeholder="Enter Document Name" required>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-control-label" for="input-current-password">{{ __('Current Password') }}</label>
+                        <label class="form-control-label" for="input-current-password">{{ __('Choose File (PDF only)') }}</label>
                         <div class="input-group">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" name="document" id="inputGroupFile01"

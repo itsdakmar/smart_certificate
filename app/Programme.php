@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 
@@ -24,6 +25,7 @@ use Illuminate\Http\Request;
  */
 class Programme extends Model
 {
+    use SoftDeletes;
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -34,7 +36,7 @@ class Programme extends Model
     /**
      * @var array
      */
-    protected $fillable = ['cert_committees','slug','cert_participants', 'created_by', 'programme_name', 'programme_location', 'programme_start', 'programme_end', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['cert_committees','organiser','slug','cert_participants', 'created_by', 'programme_name', 'programme_location', 'programme_start', 'programme_end', 'status', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.
@@ -143,8 +145,8 @@ class Programme extends Model
      */
     public function getProgrammeDateForCertAttribute()
     {
-        $start_date = Carbon::parse($this->programme_start)->format('d / m / Y');
-        $end_date = Carbon::parse($this->programme_end)->format('d / m / Y');
+        $start_date = Carbon::parse($this->programme_start)->format('d F Y');
+        $end_date = Carbon::parse($this->programme_end)->format('d F Y');
 
         if ($start_date !== $end_date) {
             return $start_date . ' Sehingga ' . $end_date;
@@ -156,6 +158,11 @@ class Programme extends Model
     public function setProgrammeNameAttribute($value)
     {
         $this->attributes['programme_name'] = strtoupper($value);
+    }
+
+    public function setProgrammeLocationAttribute($value)
+    {
+        $this->attributes['programme_location'] = strtoupper($value);
     }
 
     public function setProgrammeStartAttribute($value)

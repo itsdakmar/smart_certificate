@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $programme_id
  * @property string $identity_card
  * @property string $name
+ * @property string $task
  * @property integer $type
  * @property string $created_at
  * @property string $updated_at
@@ -26,7 +27,7 @@ class Candidate extends Model
     /**
      * @var array
      */
-    protected $fillable = ['programme_id', 'identity_card', 'name', 'type', 'created_at', 'updated_at'];
+    protected $fillable = ['programme_id', 'task', 'identity_card', 'name', 'type', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

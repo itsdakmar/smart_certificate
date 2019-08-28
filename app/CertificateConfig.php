@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $original
  * @property string $converted
+ * @property string $alignment_director
  * @property int $convert_status
  * @property int $certificate_type
  * @property string $created_at
@@ -28,7 +29,7 @@ class CertificateConfig extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name','orientation','show_director', 'original', 'converted', 'convert_status', 'certificate_type', 'created_at', 'updated_at'];
+    protected $fillable = ['name','orientation','alignment_director','qr_x','qr_y','qr_width','qr_height','show_director', 'original', 'converted', 'convert_status', 'certificate_type', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -38,6 +38,8 @@ class TemplateController extends Controller
     {
         $certificate_conf = CertificateConfig::findOrFail($layout_id);
         $contents = $certificate_conf->certificateContents();
+
+
         return view('template.layout-portrait', compact('certificate_conf', 'contents'));
     }
 
@@ -47,19 +49,41 @@ class TemplateController extends Controller
             'cert_content.*' => 'required|string',
             'alignment_director' => 'required_if:show_director,1',
             'alignment.*' => 'required',
-            'font_size.*' => 'required|string',
+            'font_size.*' => 'required|numeric',
             'x.*' => 'required|numeric|min:1|max:176',
             'y.*' => 'required|numeric|min:1|max:290',
+            'margin_left.*' => 'numeric',
+            'margin_right.*' => 'numeric',
+            'qr_x' => 'required|numeric',
+            'qr_y' => 'required|numeric',
+            'qr_width' => 'required|numeric',
+            'qr_height' => 'required|numeric',
         ]);
 
 
         if ($validator->fails()) return back()->withErrors($validator)->withInput()->with('row', sizeof($request->get('cert_content')));
 
-
         CertificateContent::where(['config_id' => $layout_id])->delete();
-
         $certs = CertificateConfig::find($layout_id);
-        $certs->update(['show_director' => ($request->show_director) ? 1 : 0 ]);
+
+        if($request->show_director){
+            $certs->update([
+                'show_director' => 1,
+                'alignment_director' => $request->alignment_director,
+                'qr_x' => $request->qr_x,
+                'qr_y' => $request->qr_y,
+                'qr_width' => $request->qr_width,
+                'qr_height' => $request->qr_height,
+            ]);
+        }else{
+            $certs->update([
+                'show_director' => 0,
+                'qr_x' => $request->qr_x,
+                'qr_y' => $request->qr_y,
+                'qr_width' => $request->qr_width,
+                'qr_height' => $request->qr_height,
+            ]);
+        }
 
         $count = count($request->cert_content);
         for ($i = 0; $i < $count; $i++) {
@@ -68,6 +92,8 @@ class TemplateController extends Controller
             $certContent->config_id = $layout_id;
             $certContent->x = $request->x[$i];
             $certContent->y = $request->y[$i];
+            $certContent->margin_left = $request->margin_left[$i];
+            $certContent->margin_right = $request->margin_right[$i];
             $certContent->font_size = $request->font_size[$i];
             $certContent->alignment = $request->alignment[$i];
             $certContent->save();
@@ -136,23 +162,29 @@ class TemplateController extends Controller
         PDF::AddPage('P', 'A4');
 
         $findme = [
-            '{nama_peserta}' => '<b> MUHAMMAD AMMAR BIN MOHD RAZAMAN </b>',
-            '{ic_peserta}' => '<b> 960208-14-5611 </b>',
-            '{nama_program}' => '<b> Program Pengaturcaraan PHP</b>',
-            '{lokasi_program}' => '<b> Kolej Komuniti Kemaman </b>',
-            '{tarikh_program}' => '<b> 29 Julai 2019 Sehingga 30 Julai 2019</b>',
+            '{nama_peserta}' => '<b class="text-uppercase"> MUHAMMAD AMMAR BIN MOHD RAZAMAN </b>',
+            '{penganjur_program}' => '<b class="text-uppercase">UNIT IT</b>',
+            '{ic_peserta}' => '<b class="text-uppercase"> 000000-00-0000 </b>',
+            '{nama_program}' => '<b class="text-uppercase">PROGRAM PENGATURCARAAN PHP</b>',
+            '{lokasi_program}' => '<b class="text-uppercase">KOLEJ KOMUNITI KEMAMAN</b>',
+            '{tugas}' => '<b class="text-uppercase">PENCERAMAH</b>',
         ];
+
+
 
         foreach ($cert->certificateContents as $content) {
             $parse_content = strtr($content->content, $findme);
             PDF::SetFontSize($content->font_size);
-            PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = true);
+            PDF::setCellPaddings($content->margin_left,0,$content->margin_right);
+            PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = false);
         }
 
         if($cert->show_director == 1 ){
             PDF::SetFontSize(11);
             PDF::writeHTMLCell(0, 0, 1, 265, $director_details, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = true);
         }
+
+        PDF::write2DBarcode('ican.my', 'QRCODE,L', $cert->qr_x, $cert->qr_y, $cert->qr_width, $cert->qr_height, NULL, 'N');
 
         return PDF::Output('certificate.pdf');
     }

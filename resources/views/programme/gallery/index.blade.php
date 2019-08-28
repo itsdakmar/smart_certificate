@@ -1,9 +1,9 @@
 <!-- Page Content -->
 
-<h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Programme Photos Gallery <a
-            href="{{ route('programme.gallery', $programme) }}" class="btn btn-primary btn-sm float-right">Add & Edit
-        Images</a></h1>
-
+<h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Programme Photos Gallery
+    @role('admin|secretariat')
+    <a href="{{ route('programme.gallery', $programme) }}" class="btn btn-primary btn-sm float-right">Add & Edit Images</a></h1>
+    @endrole
 <hr class="mt-2 mb-5">
 
 <div class="row text-center text-lg-left overflow-auto">

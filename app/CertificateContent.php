@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $content
  * @property integer $x
  * @property integer $y
+ * @property integer $margin_left
+ * @property integer $margin_right
  * @property integer $font_size
  * @property string alignment
  * @property string $created_at
@@ -28,7 +30,7 @@ class CertificateContent extends Model
     /**
      * @var array
      */
-    protected $fillable = ['config_id', 'alignment', 'font_size', 'content', 'x', 'y', 'created_at', 'updated_at'];
+    protected $fillable = ['config_id', 'alignment', 'font_size', 'content', 'x', 'y', 'margin_left', 'margin_right', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

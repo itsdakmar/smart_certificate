@@ -29,7 +29,7 @@
             box-shadow: 0 0 2px 2px #2dce89;;
         }
     </style>
-    <div class="container-fluid mt--7">
+    <div class="container mt--7">
         <form method="post" action="{{ route('programme.store') }}" autocomplete="off">
             @csrf
             <div class="card bg-secondary shadow">
@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-4 text-right">
                             <a href="{{ route('programme') }}"
-                               class="btn btn-sm btn-primary">{!!  __('label.btn_back') !!}</a>
+                               class="btn btn-block btn-primary">{!!  __('label.btn_back_to_list') !!}</a>
                         </div>
                     </div>
                 </div>
@@ -67,6 +67,25 @@
 
                     <div class="row">
                         <div class="col">
+                            <div class="form-group{{ $errors->has('organiser') ? ' has-danger' : '' }}">
+                                <label class="form-control-label"
+                                       for="input-name">{{ __('label.organiser') }}</label>
+                                <input type="text" name="organiser" id="input-name"
+                                       class="form-control form-control-alternative{{ $errors->has('organiser') ? ' is-invalid' : '' }}"
+                                       placeholder="{{ __('label.organiser') }}"
+                                       value="{{ old('organiser') }}" required autofocus>
+
+                                @if ($errors->has('organiser'))
+                                    <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('organiser') }}</strong>
+                                        </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
                             <div class="form-group{{ $errors->has('programme_location') ? ' has-danger' : '' }}">
                                 <label class="form-control-label"
                                        for="input-name">{{ __('label.programme_location') }}</label>
@@ -85,10 +104,10 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-6">
-                            <div class="input-daterange row align-items-center input-group" id="programme_date">
-                                <div class="col">
-                                    <div class="form-group {{ $errors->has('programme_start') ? ' has-danger' : '' }}">
+                        <div class="col">
+                            <div class="input-daterange align-items-center input-group" id="programme_date">
+                                <div class="col pl-0">
+                                    <div class="form-group">
                                         <label class="form-control-label"
                                                for="input-name">{{ __('label.programme_start') }}</label>
                                         <div class="input-group input-group-alternative">
@@ -96,13 +115,20 @@
                                                     <span class="input-group-text"><i
                                                                 class="ni ni-calendar-grid-58"></i></span>
                                             </div>
-                                            <input class="form-control"
+                                            <input class="form-control {{ $errors->has('programme_start') ? ' is-invalid' : '' }}"
                                                    placeholder="{{ __('label.programme_start') }}"
                                                    name="programme_start" type="text" value="">
                                         </div>
+                                        @if ($errors->has('programme_start'))
+                                            <span class="invalid-feedback" style="display:block;" role="alert">
+                                            <strong>{{ $errors->first('programme_start') }}</strong>
+                                        </span>
+                                        @endif
                                     </div>
+
+
                                 </div>
-                                <div class="col">
+                                <div class="col pr-0">
                                     <div class="form-group">
                                         <label class="form-control-label"
                                                for="input-name">{{ __('label.programme_end') }}</label>
@@ -111,13 +137,13 @@
                                                     <span class="input-group-text"><i
                                                                 class="ni ni-calendar-grid-58"></i></span>
                                             </div>
-                                            <input class="form-control"
+                                            <input class="form-control {{ $errors->has('programme_end') ? ' is-invalid' : '' }}"
                                                    placeholder="{{ __('label.programme_end') }}"
                                                    name="programme_end" type="text" value="">
                                         </div>
-                                        @if ($errors->has('programme_date'))
-                                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('programme_date') }}</strong>
+                                        @if ($errors->has('programme_end'))
+                                            <span class="invalid-feedback" style="display:block;" role="alert">
+                                            <strong>{{ $errors->first('programme_end') }}</strong>
                                         </span>
                                         @endif
                                     </div>
@@ -139,6 +165,11 @@
                                     </label>
                                 @endforeach
                             </div>
+                            @if ($errors->has('cert_participants'))
+                                <span class="invalid-feedback" style="display: block" role="alert">
+                                            <strong>{{ $errors->first('cert_participants') }}</strong>
+                                        </span>
+                            @endif
                         </div>
                     </div>
 
@@ -155,14 +186,17 @@
                                     </label>
                                 @endforeach
                             </div>
+                            @if ($errors->has('cert_committees'))
+                                <span class="invalid-feedback" style="display: block" role="alert">
+                                            <strong>{{ $errors->first('cert_committees') }}</strong>
+                                        </span>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div class="float-lg-left float-sm-right">
                         <button type="submit"
-                                class="btn bg-gradient-success text-white">{!!  __('label.btn_save')  !!}</button>
-                    </div>
+                                class="btn btn-block bg-gradient-success text-white">{!!  __('label.btn_save')  !!}</button>
                 </div>
             </div>
         </form>

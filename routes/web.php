@@ -36,7 +36,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/programme/index', 'ProgrammeController@index')->name('programme.filter');
     Route::get('/programme/create','ProgrammeController@create')->name('programme.create');
     Route::get('/programme/edit/{id}','ProgrammeController@edit')->name('programme.edit');
-    Route::put('/programme/update/{id}','ProgrammeController@update')->name('programme.update');
+    Route::get('/programme/update/{id}','ProgrammeController@update')->name('programme.update');
+    Route::delete('/programme/destroy/{id}','ProgrammeController@destroy')->name('programme.destroy');
     Route::post('/programme/document/{id}','ProgrammeController@document')->name('programme.document');
     Route::put('/programme/submit/{id}','ProgrammeController@submit')->name('programme.submit');
     Route::put('/programme/approve/{id}','ProgrammeController@approve')->name('programme.approve');

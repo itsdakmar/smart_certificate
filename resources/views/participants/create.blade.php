@@ -10,13 +10,13 @@
                     <form method="post" action="{{ route('candidate.store' , ['type' => $type ,'id' => $programme_id]) }}" autocomplete="off">
                         @csrf
                         <div class="card-header bg-white border-0">
-                            <div class="row align-items-center">
+                            <div class="row justify-content-end">
                                 <div class="col-8">
-                                    <h3 class="mb-0">{{ __('label.add_candidate') }}</h3>
+                                    <h6 class="heading-small text-muted ">{{ __('label.participant_information') }}</h6>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="{{ route('programme') }}"
-                                       class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
+                                    <a href="{{ route('programme.show',$programme_id) }}"
+                                       class="btn btn-block btn-primary">{!!  __('label.btn_back_to_list') !!}</a>
                                 </div>
                             </div>
                         </div>
@@ -88,9 +88,9 @@
                                                     <div class="form-group{{ $errors->has('candidate_name') ? ' has-danger' : '' }}">
 
                                                         <input type="text" name="candidate_name[]" id="input-name"
-                                                               class="form-control form-control-alternative{{ $errors->has('programme_name') ? ' is-invalid' : '' }}"
+                                                               class="form-control form-control-alternative{{ $errors->has('candidate_name') ? ' is-invalid' : '' }}"
                                                                placeholder="{{ __('label.candidate_name') }}"
-                                                               value="{{ old('programme_name') }}"
+                                                               value="{{ old('candidate_name') }}"
                                                                required
                                                                autofocus>
 
@@ -104,7 +104,7 @@
                                                     <div class="form-group{{ $errors->has('candidate_ic') ? ' has-danger' : '' }}">
 
                                                         <input type="text" name="candidate_ic[]" id="input-name"
-                                                               class="form-control form-control-alternative{{ $errors->has('programme_name') ? ' is-invalid' : '' }}"
+                                                               class="form-control form-control-alternative{{ $errors->has('candidate_ic') ? ' is-invalid' : '' }}"
                                                                placeholder="{{ __('label.candidate_ic') }}"
                                                                value="{{ old('candidate_ic') }}"
                                                                required>
@@ -137,7 +137,8 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-success">{{ __('Save') }}</button>
+                            <button type="submit"
+                                    class="btn btn-block bg-gradient-success text-white">{!!  __('label.btn_save')  !!}</button>
                         </div>
                     </form>
 

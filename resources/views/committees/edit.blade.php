@@ -12,13 +12,13 @@
                         @csrf
                         @method('put')
                         <div class="card-header bg-white border-0">
-                            <div class="row align-items-center">
+                            <div class="row justify-content-end">
                                 <div class="col-8">
-                                    <h3 class="mb-0">{{ __('label.edit_committee') }}</h3>
+                                    <h6 class="heading-small text-muted ">{{ __('label.committee_information') }}</h6>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="{{ route('programme') }}"
-                                       class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
+                                    <a href="{{ route('programme.show',$candidate->programme_id) }}"
+                                       class="btn btn-block btn-primary">{!!  __('label.btn_back_to_list') !!}</a>
                                 </div>
                             </div>
                         </div>
@@ -63,13 +63,32 @@
                                                 </div>
                                             </td>
 
+                                            <td>
+                                                <div class="form-group{{ $errors->has('task') ? ' has-danger' : '' }}">
+
+                                                    <label class="col-form-label">Task</label>
+
+                                                    <input type="text" name="task" id="input-name"
+                                                           class="form-control form-control-alternative{{ $errors->has('task') ? ' is-invalid' : '' }}"
+                                                           placeholder="{{ __('label.task') }}"
+                                                           value="{{ old('task', $candidate->task) }}"
+                                                           required>
+
+                                                    @if ($errors->has('task'))
+                                                        <span class="invalid-feedback"
+                                                              role="alert"><strong>{{ $errors->get('task') }}</strong></span>
+                                                    @endif
+                                                </div>
+                                            </td>
+
                                         </tr>
                                     </table>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-success">{{ __('Update') }}</button>
+                            <button type="submit"
+                                    class="btn btn-block bg-gradient-success text-white">{!!  __('label.btn_update')  !!}</button>
                         </div>
                     </form>
 

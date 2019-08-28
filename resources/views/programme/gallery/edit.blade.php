@@ -3,7 +3,7 @@
 @section('content')
     @include('layouts.headers.empty', [
        'title' => 'Gallery Management',
-        'description' => __('This is programme management page. Here you can see your programme details.'),
+        'description' => __("This is Gallery management page. Here you can see your photo's gallery. You can add, update & delete photo."),
         'class' => 'col-lg-10'
     ])
 
@@ -12,10 +12,14 @@
         <div class="row mb-4">
             <div class="col-xl-12">
                 <div class="card shadow">
-                    <div class="card-header border-0">
-                        <div class="row align-items-center">
+                    <div class="card-header bg-white border-0">
+                        <div class="row justify-content-end">
                             <div class="col-8">
-                                <h3 class="mb-0">{{ __('Gallery Management') }}</h3>
+                                <h3 class="heading text-muted ">{{ __('label.add_new_photo') }}</h3>
+                            </div>
+                            <div class="col-4 text-right">
+                                <a href="{{ route('programme.show',$programme) }}"
+                                   class="btn btn-block btn-primary">{!!  __('label.btn_back_to_list') !!}</a>
                             </div>
                         </div>
                     </div>
