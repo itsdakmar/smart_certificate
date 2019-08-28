@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\CertificateConfig;
 use App\CertificateContent;
-use App\Programme;
 use App\SystemConfigs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -99,6 +98,15 @@ class TemplateController extends Controller
             $certContent->save();
         }
         return back()->withStatus(__('status.success_update'));
+    }
+
+    public function destroy($id)
+    {
+        $template = CertificateConfig::findOrFail($id);
+        $template->delete();
+
+        return redirect()->route('template')->withStatus(__('Template was successfully deleted.'));
+
     }
 
     /**

@@ -54,6 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/template/create', 'TemplateController@create')->name('template.create');
     Route::post('/template/upload', 'TemplateController@upload')->name('template.upload');
     Route::get('/template/edit/{id}', 'TemplateController@edit')->name('template.edit');
+    Route::delete('/template/destroy/{id}', 'TemplateController@destroy')->name('template.delete');
     Route::post('/template/update/{id}', 'TemplateController@update')->name('template.update');
     Route::get('/template/preview/{id}', 'TemplateController@preview')->name('template.preview');
 

@@ -58,8 +58,18 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                <a class="dropdown-item"
-                                                   href="{{ route('template.edit', ['id' => $template->id]) }}">{{ __('edit.template') }}</a>
+                                                <form action="{{ route('template.delete', $template) }}"
+                                                      method="post">
+                                                    @csrf
+                                                    @method('delete')
+
+                                                    <a class="dropdown-item"
+                                                       href="{{ route('template.edit', ['id' => $template->id]) }}">{{ __('label.edit') }}</a>
+                                                    <button type="button" class="dropdown-item"
+                                                            onclick="confirm('{{ __("Are you sure you want to delete this template?") }}') ? this.parentElement.submit() : ''">
+                                                        {{ __('Delete') }}
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </td>
