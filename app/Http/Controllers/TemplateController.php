@@ -167,6 +167,7 @@ class TemplateController extends Controller
             '{ic_peserta}' => '<b class="text-uppercase"> 000000-00-0000 </b>',
             '{nama_program}' => '<b class="text-uppercase">PROGRAM PENGATURCARAAN PHP</b>',
             '{lokasi_program}' => '<b class="text-uppercase">KOLEJ KOMUNITI KEMAMAN</b>',
+            '{tarikh_program}' => '<b class="text-uppercase">16 July 2019</b>',
             '{tugas}' => '<b class="text-uppercase">PENCERAMAH</b>',
         ];
 

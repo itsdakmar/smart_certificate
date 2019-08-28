@@ -225,6 +225,7 @@ class ProgrammeController extends Controller
             '{ic_peserta}' => '<b class="text-uppercase"> 000000-00-0000 </b>',
             '{nama_program}' => '<b class="text-uppercase">' . $programme->programme_name . '</b>',
             '{lokasi_program}' => '<b class="text-uppercase">' . $programme->programme_location . '</b>',
+            '{tarikh_program}' => '<b class="text-uppercase">' . $programme->programme_date . '</b>',
             '{tugas}' => '<b class="text-uppercase">PENCERAMAH</b>',
         ];
 
@@ -239,7 +240,8 @@ class ProgrammeController extends Controller
             PDF::writeHTMLCell(0, 0, 1, 265, $director_details, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment, $autopadding = true);
         }
 
-        PDF::write2DBarcode(route('programme.scan', $programme->slug), 'QRCODE,L', 160, 250, 35, 35, NULL, 'N');
+        PDF::write2DBarcode(route('programme.scan', $programme->slug), 'QRCODE,L', $cert->qr_x ?? 160, $cert->qr_y ?? 250, $cert->qr_width ?? 20, $cert->qr_height ?? 20, NULL, 'N');
+
 
 
         return PDF::Output('certificate.pdf');
@@ -295,7 +297,7 @@ class ProgrammeController extends Controller
                 PDF::writeHTMLCell(0, 0, 1, 265, $director_details, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment, $autopadding = true);
             }
 
-            PDF::write2DBarcode(route('programme.scan', $programme->slug), $cert->qr_x, $cert->qr_y, $cert->qr_width, $cert->qr_height, NULL, 'N');
+            PDF::write2DBarcode(route('programme.scan', $programme->slug), 'QRCODE,L', $cert->qr_x ?? 160, $cert->qr_y ?? 250, $cert->qr_width ?? 20, $cert->qr_height ?? 20, NULL, 'N');
 
         }
 
