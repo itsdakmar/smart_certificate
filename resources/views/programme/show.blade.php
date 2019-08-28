@@ -106,7 +106,7 @@
 
 
                                             @hasanyrole('admin|secretariat')
-                                            <a href="#" class="btn btn-sm btn-primary text-right ml-2"><i
+                                            <a href="{{ route('programme.edit',$programme) }}" class="btn btn-sm btn-primary text-right ml-2"><i
                                                         class="fas fa-pencil-alt mr-1"></i> {{ __('label.edit')}}</a>
                                             @endhasanyrole
                                             @role('director')

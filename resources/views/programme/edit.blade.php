@@ -37,11 +37,11 @@
                         <div class="card-header bg-white border-0">
                             <div class="row align-items-center">
                                 <div class="col-8">
-                                    <h3 class="mb-0">{{ __('Programme Management') }}</h3>
+                                    <h3 class="mb-0">{{ __('label.programme_information') }}</h3>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="{{ route('programme') }}"
-                                       class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
+                                    <a href="{{ route('programme.show', $programmes) }}"
+                                       class="btn btn-block btn-primary">{!!  __('label.btn_back_to_list') !!}</a>
                                 </div>
                             </div>
                         </div>

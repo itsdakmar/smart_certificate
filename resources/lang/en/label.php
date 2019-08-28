@@ -86,6 +86,9 @@ return [
     "processing" => "Processing",
     "processed" => "Processed",
 
+    "cert_for_participants" => "Template Design For Participants",
+    "cert_for_committees" => "Template Design For Committees",
+
 
     "registered_programme" => "List Of Programmes",
 
