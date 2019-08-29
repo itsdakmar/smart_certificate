@@ -182,7 +182,7 @@ class ProgrammeController extends Controller
     {
         $programme = Programme::findOrFail($programme_id);
 
-        $candidates = $programme->candidates()->paginate(15, ['*'], 'candidates');
+        $candidates = $programme->participants()->paginate(15, ['*'], 'candidates');
         $committees = $programme->committees()->paginate(15, ['*'], 'committees');
 
         return view('programme.show', compact('programme', 'candidates', 'committees'));
