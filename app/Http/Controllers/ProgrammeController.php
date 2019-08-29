@@ -261,7 +261,7 @@ class ProgrammeController extends Controller
                                  <span>JABATAN KEMENTERIAN PENDIDIKAN MALAYSIA</span>';
         }
 
-        PDF::SetTitle('Hello World');
+        PDF::SetTitle('Certificate for ' . $programme->programme_name);
 
         PDF::setHeaderCallback(function ($pdf) use ($cert) {
             $pdf->SetAutoPageBreak(false, 0);
