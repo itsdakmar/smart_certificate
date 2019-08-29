@@ -225,7 +225,7 @@ class ProgrammeController extends Controller
             '{ic_peserta}' => '<b class="text-uppercase"> 000000-00-0000 </b>',
             '{nama_program}' => '<b class="text-uppercase">' . $programme->programme_name . '</b>',
             '{lokasi_program}' => '<b class="text-uppercase">' . $programme->programme_location . '</b>',
-            '{tarikh_program}' => '<b class="text-uppercase">' . $programme->programme_date . '</b>',
+            '{tarikh_program}' => '<b class="text-uppercase">' . $programme->programme_date_for_cert . '</b>',
             '{tugas}' => '<b class="text-uppercase">PENCERAMAH</b>',
         ];
 
