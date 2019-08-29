@@ -81,6 +81,21 @@
                                     @endif
                                 </div>
 
+                                <div class="form-group{{ $errors->has('programme_location') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label"
+                                           for="input-name">{{ __('label.programme_location') }}</label>
+                                    <input type="text" name="programme_location" id="input-name"
+                                           class="form-control form-control-alternative{{ $errors->has('programme_location') ? ' is-invalid' : '' }}"
+                                           placeholder="{{ __('label.programme_location') }}"
+                                           value="{{ old('programme_location', $programmes->programme_location) }}" required autofocus>
+
+                                    @if ($errors->has('programme_location'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('programme_location') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
                                 <div class="input-daterange datepicker row align-items-center" id="programme_date">
                                     <div class="col">
                                         <div class="form-group {{ $errors->has('programme_start') ? ' has-danger' : '' }}">
