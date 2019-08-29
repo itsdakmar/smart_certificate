@@ -4,7 +4,7 @@
     @include('users.partials.header', [
         'title' => __('Hello,') . ' '. auth()->user()->name,
         'description' => __('This is your profile page. Here you can see your profile details and update your details'),
-        'class' => 'col-lg-10'
+        'class' => 'col-lg-12'
     ])
 
     <div class="container-fluid mt--7">
@@ -19,7 +19,7 @@
                                     <input type="file" name="img" id="img_upload" style="display:none"/>
                                     <a id="upload_btn" href="#">
                                         <div class="image">
-                                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('local')->has(auth()->user()->image_url) ? route('profile.image', ['filename' => auth()->user()->image_url]) : asset('argon').'/img/theme/default-profile.jpg' }}" class="rounded-circle">
+                                            <img style="max-height: 180px;" src="{{ \Illuminate\Support\Facades\Storage::disk('local')->has(auth()->user()->image_url) ? route('profile.image', ['filename' => auth()->user()->image_url]) : asset('argon').'/img/theme/default-profile.jpg' }}" class="rounded-circle">
                                         </div>
                                     </a>
                                 </form>
@@ -36,18 +36,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
-                                    <div>
-                                        <span class="heading">22</span>
-                                        <span class="description">{{ __('Friends') }}</span>
-                                    </div>
-                                    <div>
-                                        <span class="heading">10</span>
-                                        <span class="description">{{ __('Photos') }}</span>
-                                    </div>
-                                    <div>
-                                        <span class="heading">89</span>
-                                        <span class="description">{{ __('Comments') }}</span>
-                                    </div>
+                                    &nbsp;
                                 </div>
                             </div>
                         </div>

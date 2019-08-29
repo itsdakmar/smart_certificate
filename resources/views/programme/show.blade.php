@@ -131,7 +131,7 @@
                                             @hasanyrole('director|admin|secretariat')
 
                                             @if($programme->status == 3)
-                                                <div class="dropdown">
+                                                <div class="dropdown ml-2">
                                                     <a class="btn btn-sm btn-primary" href="#" role="button"
                                                        data-toggle="dropdown" aria-haspopup="true"
                                                        aria-expanded="false">
