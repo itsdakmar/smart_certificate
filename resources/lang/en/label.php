@@ -85,6 +85,7 @@ return [
     "participant" => "Penyertaan",
     "processing" => "Processing",
     "processed" => "Processed",
+    "print_cert" => "Print Certificate",
 
     "programme_committees_task" => "Committee's Task",
 

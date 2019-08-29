@@ -106,8 +106,12 @@
 
 
                                             @hasanyrole('admin|secretariat')
-                                            <a href="{{ route('programme.edit',$programme) }}" class="btn btn-sm btn-primary text-right ml-2"><i
-                                                        class="fas fa-pencil-alt mr-1"></i> {{ __('label.edit')}}</a>
+                                            @if($programme->status == 1)
+                                                <a href="{{ route('programme.edit',$programme) }}"
+                                                   class="btn btn-sm btn-primary text-right ml-2"><i
+                                                            class="fas fa-pencil-alt mr-1"></i> {{ __('label.edit')}}
+                                                </a>
+                                            @endif
                                             @endhasanyrole
                                             @role('director')
                                             @if($programme->status == 2)
@@ -126,19 +130,36 @@
                                             @endrole
                                             @hasanyrole('director|admin|secretariat')
 
-                                            <div class="dropdown {{ ($programme->status !== 2) ? 'ml-2' : '' }}">
-                                                <a class="btn btn-sm btn-primary" href="#" role="button"
-                                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-file-pdf mr-1"></i> {{ __('label.preview_certs') }}
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-
-                                                    <a class="dropdown-item"
-                                                       href="{{ route('programme.preview', ['id' => $programme->id , 'type' => 1]) }}">{{ __('label.preview_cert_candidates')}}</a>
-                                                    <a class="dropdown-item"
-                                                       href="{{ route('programme.preview', ['id' => $programme->id , 'type' => 2]) }}">{{ __('label.preview_cert_committees')}}</a>
+                                            @if($programme->status == 3)
+                                                <div class="dropdown">
+                                                    <a class="btn btn-sm btn-primary" href="#" role="button"
+                                                       data-toggle="dropdown" aria-haspopup="true"
+                                                       aria-expanded="false">
+                                                        <i class="fas fa-file-pdf mr-1"></i> {{ __('label.print_cert') }}
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                        <a class="dropdown-item" target="_blank"
+                                                           href="{{ route('programme.print', [$programme->id,'type' => 1]) }}">{{ __("Print Participant's Certificate") }}</a>
+                                                        <a class="dropdown-item" target="_blank"
+                                                           href="{{ route('programme.print', [$programme->id,'type' => 2]) }}">{{ __("Print Committee's Certificate") }}</a>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @else
+                                                <div class="dropdown">
+                                                    <a class="btn btn-sm btn-primary" href="#" role="button"
+                                                       data-toggle="dropdown" aria-haspopup="true"
+                                                       aria-expanded="false">
+                                                        <i class="fas fa-file-pdf mr-1"></i> {{ __('label.preview_certs') }}
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+
+                                                        <a class="dropdown-item"
+                                                           href="{{ route('programme.preview', ['id' => $programme->id , 'type' => 1]) }}">{{ __('label.preview_cert_candidates')}}</a>
+                                                        <a class="dropdown-item"
+                                                           href="{{ route('programme.preview', ['id' => $programme->id , 'type' => 2]) }}">{{ __('label.preview_cert_committees')}}</a>
+                                                    </div>
+                                                </div>
+                                            @endif
                                             @endhasanyrole
 
                                         </h6>

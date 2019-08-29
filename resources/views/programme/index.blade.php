@@ -105,7 +105,7 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                                     <a class="dropdown-item" target="_blank"
-                                                       href="{{ route('programme.print', [$programme->id,'type' => 1]) }}">{{ __("Print Candidate's Certificate") }}</a>
+                                                       href="{{ route('programme.print', [$programme->id,'type' => 1]) }}">{{ __("Print Participant's Certificate") }}</a>
                                                     <a class="dropdown-item" target="_blank"
                                                        href="{{ route('programme.print', [$programme->id,'type' => 2]) }}">{{ __("Print Committee's Certificate") }}</a>
                                                 </div>
