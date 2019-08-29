@@ -176,6 +176,14 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td><span class="text-uppercase">{{ __('label.programme_organiser') }}</span>
+                                            </td>
+                                            <td><span class="font-weight-bold text-uppercase">
+                                                {{ $programme->organiser }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td>
                                                 <span class="text-uppercase">{{ __('label.programme_date') }}</span>
                                             </td>

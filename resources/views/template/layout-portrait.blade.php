@@ -922,7 +922,6 @@
 @push('js')
     <script>
         $(document).on('click', '.add-more', function () {
-            if ($(".clone-me").length > 9) return alert('Content cannot be more than 10.');
             let $tr = $(this).closest('.clone-me');
             let $clone = $tr.clone();
             $clone.find(':input').val('');

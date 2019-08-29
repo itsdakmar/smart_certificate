@@ -18,6 +18,8 @@ return [
     */
 
 
+    "programme_organiser" => "Programme Organiser",
+
     "programme_information" => "Programme Information",
     "programme_photos" => "Programme Photos",
     "programme_documents" => "Programme Documents",

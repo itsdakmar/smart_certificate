@@ -40,6 +40,7 @@ class CandidateController extends Controller
             $candidate->identity_card = $request->candidate_ic[$i];
             $candidate->programme_id = $programme_id;
             $candidate->type = $type;
+            $candidate->task = $request->task[$i] ?? NULL;
             $candidate->save();
 
         }

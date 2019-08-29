@@ -10,7 +10,7 @@ class ScanController extends Controller
 
         $programme = Programme::where(['slug' => $qr])->first();
 
-        $candidates = $programme->candidates()->paginate(15, ['*'], 'candidates');
+        $candidates = $programme->participants()->paginate(15, ['*'], 'candidates');
         $committees = $programme->committees()->paginate(15, ['*'], 'committees');
 
         return view('scan.index', compact('programme', 'candidates', 'committees'));
