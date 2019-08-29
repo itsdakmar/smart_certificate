@@ -269,7 +269,9 @@ class ProgrammeController extends Controller
             $pdf->setPageMark();
         });
 
-        foreach ($programme->candidates()->get() as $candidate) {
+        $candidates = ($type == 2) ? $programme->committees()->get() : $programme->participant()->get();
+
+        foreach ($candidates as $candidate) {
             PDF::AddPage('P', 'A4');
 
 

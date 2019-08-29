@@ -90,6 +90,10 @@ class Programme extends Model
         return $this->candidates()->where('type','=', 2);
     }
 
+    public function participants() {
+        return $this->candidates()->where('type','=', 1);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
