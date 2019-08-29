@@ -23,11 +23,14 @@ class CandidateImports implements ToModel
      */
     public function model(array $row)
     {
-        return new Candidate([
-            'identity_card' => $row[0],
-            'name'    => $row[1],
-            'type' => $this->type,
-            'programme_id' => $this->programme_id
-        ]);
+        if(isset($row[0])){
+            return new Candidate([
+                'identity_card' => $row[0],
+                'name'    => $row[1],
+                'task' => ($row[2] ?? NULL),
+                'type' => $this->type,
+                'programme_id' => $this->programme_id
+            ]);
+        }
     }
 }

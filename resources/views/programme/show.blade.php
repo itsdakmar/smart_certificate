@@ -233,6 +233,7 @@
                             <tr>
                                 <th scope="col">{{ __('label.programme_committees_name') }}</th>
                                 <th scope="col">{{ __('label.programme_committees_ic') }}</th>
+                                <th scope="col">{{ __('label.programme_committees_task') }}</th>
                                 @hasanyrole('admin|secreteriat')
                                 <th scope="col">&nbsp;</th>
                                 @endhasanyrole
@@ -243,6 +244,7 @@
                                 <tr>
                                     <td>{{ $committee->name }}</td>
                                     <td>{{ $committee->identity_card }}</td>
+                                    <td>{{ $committee->task }}</td>
                                     @hasanyrole('admin|secreteriat')
                                     <td class="programme-setting text-right">
                                         <div class="dropdown">
