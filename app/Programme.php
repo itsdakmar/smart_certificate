@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * @property integer $id
@@ -149,9 +150,9 @@ class Programme extends Model
         $end_date = Carbon::parse($this->programme_end)->format('d F Y');
 
         if ($start_date !== $end_date) {
-            return $start_date . ' Sehingga ' . $end_date;
+            return Str::upper($start_date . ' SEHINGGA ' . $end_date);
         } else {
-            return $start_date;
+            return Str::upper($start_date);
         }
     }
 
