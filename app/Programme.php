@@ -188,7 +188,7 @@ class Programme extends Model
 
     public function getOrganiserAttribute()
     {
-        return strtoupper($this->organiser);
+        return strtoupper($this->attributes['organiser']);
     }
 
     public function setProgrammeStartAttribute($value)
