@@ -168,7 +168,7 @@ class Programme extends Model
 
     public function getProgrammeNameAttribute()
     {
-         return strtoupper($this->programme_name);
+         return strtoupper($this->attributes['programme_name']);
     }
 
     public function setProgrammeLocationAttribute($value)
