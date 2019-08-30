@@ -6,23 +6,6 @@
         'description' => __('This is programme management page. Here you can see your programme details.'),
         'class' => 'col-lg-10'
     ])
-
-    <style>
-        .carousel-control-next-icon:after {
-            content: '>';
-            font-size: 30px;
-            color: black;
-        }
-
-        .carousel-control-prev-icon:after {
-            content: '<';
-            font-size: 30px;
-            color: black;
-        }
-    </style>
-
-
-
     <div class="container-fluid mt--7">
 
         @if (session('status'))
@@ -62,13 +45,13 @@
                             </div>
                             <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
                                data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="false"></span>
-                                <span class="sr-only">Previous</span>
+                                <span aria-hidden="false"><i class="fas fa-angle-left fa-2x text-dark"></i></span>
+
                             </a>
                             <a class="carousel-control-next" href="#carouselExampleControls" role="button"
                                data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="false"></span>
-                                <span class="sr-only">Next</span>
+                                <span aria-hidden="false"><i class="fas fa-angle-right fa-2x text-dark"></i></span>
+
                             </a>
                         </div>
 
