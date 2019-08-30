@@ -27,7 +27,7 @@ class FontController extends Controller
             'created_by' => Auth()->user()->id
         ])->all());
 
-        return redirect()->route('font.index')->withStatus(__('Font was successfully uploaded.'));
+        return redirect()->route('font')->withStatus(__('Font was successfully uploaded.'));
     }
 
     public function show($path)
