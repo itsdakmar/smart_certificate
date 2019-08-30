@@ -32,8 +32,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 
     //Program Routes
-    Route::get('/programme/index', 'ProgrammeController@index')->name('programme');
-    Route::post('/programme/index', 'ProgrammeController@index')->name('programme.filter');
+    Route::get('programme/index', 'ProgrammeController@index')->name('programme');
+    Route::post('programme/index', 'ProgrammeController@index')->name('programme.filter');
     Route::get('/programme/create','ProgrammeController@create')->name('programme.create');
     Route::get('/programme/edit/{id}','ProgrammeController@edit')->name('programme.edit');
     Route::put('/programme/update/{id}','ProgrammeController@update')->name('programme.update');
@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     //Template Routes
-    Route::get('/template/index', 'TemplateController@index')->name('template');
+    Route::get('template/index', 'TemplateController@index')->name('template');
     Route::get('/template/orientation', 'TemplateController@orientation')->name('template.orientation');
     Route::get('/template/create', 'TemplateController@create')->name('template.create');
     Route::post('/template/upload', 'TemplateController@upload')->name('template.upload');
@@ -72,6 +72,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/programme/{id}/gallery/', 'ProgrammeController@gallery')->name('programme.gallery');
     Route::post('/programme/{id}/gallery/store', 'GalleryController@store')->name('gallery.store');
     Route::delete('programme/{id}/gallery/destroy', 'GalleryController@destroy')->name('gallery.destroy');
+
+    //Font Routes
+    Route::get('fonts/index', 'FontController@index')->name('font');
+    Route::post('fonts/store', 'FontController@store')->name('font.store');
+    Route::get('{path}', 'FontController@show')->name('font.show');
+    Route::delete('fonts/{path}', 'FontController@destroy')->name('font.destroy');
+    Route::get('fonts/{id}', 'FontController@edit')->name('font.edit');
+
+
+
 
 
 

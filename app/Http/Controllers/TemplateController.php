@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\CertificateConfig;
 use App\CertificateContent;
+use App\Font;
 use App\SystemConfigs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RobbieP\CloudConvertLaravel\Facades\CloudConvert;
-use PDF;
+use Elibyy\TCPDF\Facades\TCPDF as PDF;
 
 class TemplateController extends Controller
 {
@@ -35,11 +36,12 @@ class TemplateController extends Controller
 
     public function edit($layout_id)
     {
+        $fonts = Font::all();
         $certificate_conf = CertificateConfig::findOrFail($layout_id);
         $contents = $certificate_conf->certificateContents();
 
 
-        return view('template.layout-portrait', compact('certificate_conf', 'contents'));
+        return view('template.layout-portrait', compact('certificate_conf', 'contents','fonts'));
     }
 
     public function update(Request $request, $layout_id)
@@ -49,6 +51,7 @@ class TemplateController extends Controller
             'alignment_director' => 'required_if:show_director,1',
             'alignment.*' => 'required',
             'font_size.*' => 'required|numeric',
+            'font_style.*' => 'required',
             'x.*' => 'required|numeric|min:1|max:176',
             'y.*' => 'required|numeric|min:1|max:290',
             'margin_left.*' => 'numeric',
@@ -72,7 +75,7 @@ class TemplateController extends Controller
                 'qr_x' => $request->qr_x,
                 'qr_y' => $request->qr_y,
                 'qr_width' => $request->qr_width,
-                'qr_height' => $request->qr_height,
+                'qr_height' => $request->qr_height
             ]);
         }else{
             $certs->update([
@@ -80,7 +83,7 @@ class TemplateController extends Controller
                 'qr_x' => $request->qr_x,
                 'qr_y' => $request->qr_y,
                 'qr_width' => $request->qr_width,
-                'qr_height' => $request->qr_height,
+                'qr_height' => $request->qr_height
             ]);
         }
 
@@ -94,6 +97,7 @@ class TemplateController extends Controller
             $certContent->margin_left = $request->margin_left[$i];
             $certContent->margin_right = $request->margin_right[$i];
             $certContent->font_size = $request->font_size[$i];
+            $certContent->font_style = $request->font_style[$i];
             $certContent->alignment = $request->alignment[$i];
             $certContent->save();
         }
@@ -115,6 +119,7 @@ class TemplateController extends Controller
      *
      * @param  Request $request
      * @return \Illuminate\View\View
+     *
      */
     public function upload(Request $request)
     {
@@ -158,6 +163,8 @@ class TemplateController extends Controller
                                  <span>JABATAN KEMENTERIAN PENDIDIKAN MALAYSIA</span>';
         }
 
+
+
         PDF::SetTitle('Certificate {{ NAMA_PROGRAM }}');
 
         PDF::setHeaderCallback(function ($pdf) use ($cert) {
@@ -165,6 +172,7 @@ class TemplateController extends Controller
             $pdf->Image(public_path('uploaded/template/converted/'.$cert->converted), 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
             $pdf->setPageMark();
         });
+
 
         PDF::setCellPaddings(16, 0, 6);
         PDF::AddPage('P', 'A4');
@@ -181,11 +189,21 @@ class TemplateController extends Controller
 
 
 
+
         foreach ($cert->certificateContents as $content) {
+
             $parse_content = strtr($content->content, $findme);
+
+            if($content->font_style){
+                $fontname = \TCPDF_FONTS::addTTFfont(public_path('fonts/'.$content->fontStyle->path), 'TrueTypeUnicode', '', 32);
+                PDF::SetFont($fontname);
+            }
+
             PDF::SetFontSize($content->font_size);
             PDF::setCellPaddings($content->margin_left,0,$content->margin_right);
             PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = false);
+
+            PDF::SetFont('helvetica');
         }
 
         if($cert->show_director == 1 ){

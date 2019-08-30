@@ -188,10 +188,6 @@ class ProgrammeController extends Controller
         return view('programme.show', compact('programme', 'candidates', 'committees'));
     }
 
-    public function scan($qr)
-    {
-        dd($qr);
-    }
 
     public function preview($id, $type)
     {
@@ -288,9 +284,16 @@ class ProgrammeController extends Controller
             foreach ($cert->certificateContents as $content) {
                 $parse_content = strtr($content->content, $findme);
 
+                if($content->font_style){
+                    $fontname = \TCPDF_FONTS::addTTFfont(public_path('fonts/'.$content->fontStyle->path), 'TrueTypeUnicode', '', 32);
+                    PDF::SetFont($fontname);
+                }
+
                 PDF::SetFontSize($content->font_size);
                 PDF::setCellPaddings($content->margin_left,0,$content->margin_right);
-                PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment, $autopadding = true);
+                PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = false);
+
+                PDF::SetFont('helvetica');
             }
 
 

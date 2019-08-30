@@ -3,7 +3,7 @@
 @section('content')
     @include('layouts.headers.empty', [
         'title' => __('label.programme_management'),
-        'description' => __('description.programme_management'),
+        'description' => __('This is programmes management page. Here, you can view list of registered programmes, update programme\'s details and delete programmes'),
         'url' => '../argon/img/brand/teaching.jpg'
     ])
 
@@ -120,7 +120,7 @@
                                                 @method('put')
 
                                                 <button type="button" class="btn btn-sm btn-icon-only text-light"
-                                                        onclick="confirm('{{ __("Are you sure you want to approved?") }}') ? this.parentElement.submit() : ''"
+                                                        onclick="confirm('{{ __("Are you sure you?") }}') ? this.parentElement.submit() : ''"
                                                         data-toggle="tooltip" data-placement="top" title="Submit">
                                                     <i class="text-success fas fa-paper-plane"></i>
                                                 </button>

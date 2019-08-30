@@ -87,20 +87,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#navbar-pengguna" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-pengguna">
                         <i class="fas fa-users text-blue"></i>
-                        <span class="nav-link-text">{{ __('Pengurusan Pengguna') }}</span>
+                        <span class="nav-link-text">{{ __('Users management') }}</span>
                     </a>
 
                     <div class="collapse" id="navbar-pengguna">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link @if(Route::currentRouteName() === 'profile.edit') active @endif" href="{{ route('profile.edit') }}">
-                                    {{ __('Profil Pengguna') }}
+                                    <i class="fas fa-user text-blue"></i> {{ __('User\'s profile') }}
                                 </a>
                             </li>
                             @role('admin')
                             <li class="nav-item">
                                 <a class="nav-link @if(Route::currentRouteName() === 'user.index') active @endif" href="{{ route('user.index') }}">
-                                    {{ __('Senarai Pengguna') }}
+                                    <i class="fas fa-users text-blue"></i> {{ __('List of users') }}
                                 </a>
                             </li>
                             @endrole
@@ -110,15 +110,37 @@
                 @hasanyrole('admin|secretariat|director')
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('programme') }}">
-                        <i class="fas fa-award text-blue"></i> {{ __('Pengurusan Program') }}
+                        <i class="fas fa-award text-blue"></i> {{ __('Programmes') }}
                     </a>
                 </li>
                 @endhasanyrole
 
                 @role('admin')
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('template') }}">
-                        <i class="fas fa-file-signature text-blue"></i> {{ __('Templat Sijil') }}
+                    <a class="nav-link" href="#navbar-config" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-pengguna">
+                        <i class="fas fa-file-signature text-blue"></i>
+                        <span class="nav-link-text">{{ __('Certificate templates') }}</span>
+                    </a>
+
+                    <div class="collapse" id="navbar-config">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link @if(Route::currentRouteName() === 'template') active @endif" href="{{ route('template') }}">
+                                    <i class="fas fa-file-signature text-blue"></i> {{ __('List of templates') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @if(Route::currentRouteName() === 'font') active @endif" href="{{ route('font') }}">
+                                    <i class="fas fa-font text-blue"></i> {{ __('Font') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-cog text-blue"></i> {{ __('System Configs') }}
                     </a>
                 </li>
                 @endrole

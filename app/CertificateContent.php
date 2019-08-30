@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $margin_left
  * @property integer $margin_right
  * @property integer $font_size
+ * @property integer $font_style
  * @property string alignment
  * @property string $created_at
  * @property string $updated_at
@@ -30,7 +31,7 @@ class CertificateContent extends Model
     /**
      * @var array
      */
-    protected $fillable = ['config_id', 'alignment', 'font_size', 'content', 'x', 'y', 'margin_left', 'margin_right', 'created_at', 'updated_at'];
+    protected $fillable = ['config_id', 'alignment', 'font_size','font_style', 'content', 'x', 'y', 'margin_left', 'margin_right', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -38,6 +39,14 @@ class CertificateContent extends Model
     public function certificateConfig()
     {
         return $this->belongsTo('App\CertificateConfig', 'config_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function fontStyle()
+    {
+        return $this->belongsTo('App\Font', 'font_style');
     }
 
     public function setAlignmentAttribute($value)

@@ -30,11 +30,12 @@ return [
     "programme_date" => "Programme Date",
     "programme_status" => "Programme Status",
     "programme_total_cert" => "Total Certificate",
-    "programme_management" => "Programme Management",
+    "programme_management" => "Programmes Management",
     "programme_location" => "Programme Location",
     "axis_position" => "Axis XY Position",
     "alignment" => "Alignment",
     "font_size" => "Font Size",
+    "font_style" => "Font Style",
     "x" => "X",
     "y" => "Y",
     "l" => "Left",
@@ -101,7 +102,7 @@ return [
     "created_by" => "Created By",
 
 
-    "btn_save" => "<span><i class='fas fa-check mr-1'></i>Save</span>",
+    "btn_save" => "<span><i class='fas fa-save mr-2'></i>Save</span>",
     "btn_update" => "<span><i class='fas fa-check mr-1'></i>Update</span>",
     "btn_back" => "<span><i class='fas fa-arrow-left mr-1'></i>Back</span>",
     "btn_back_to_list" => "<span><i class='fas fa-arrow-left mr-1'></i>Back to list</span>",
