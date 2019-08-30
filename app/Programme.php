@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
  * @property integer $certificate_conf
  * @property integer $created_by
  * @property string $programme_name
+ * @property string $organiser
  * @property string $programme_location
  * @property string $programme_start
  * @property string $programme_end
@@ -165,9 +166,29 @@ class Programme extends Model
         $this->attributes['programme_name'] = strtoupper($value);
     }
 
+    public function getProgrammeNameAttribute()
+    {
+         return strtoupper($this->programme_name);
+    }
+
     public function setProgrammeLocationAttribute($value)
     {
         $this->attributes['programme_location'] = strtoupper($value);
+    }
+
+    public function getProgrammeLocationAttribute()
+    {
+        return strtoupper($this->programme_location);
+    }
+
+    public function setOrganiserAttribute($value)
+    {
+        $this->attributes['organiser'] = strtoupper($value);
+    }
+
+    public function getOrganiserAttribute()
+    {
+        return strtoupper($this->organiser);
     }
 
     public function setProgrammeStartAttribute($value)
