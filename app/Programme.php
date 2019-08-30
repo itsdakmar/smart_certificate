@@ -178,7 +178,7 @@ class Programme extends Model
 
     public function getProgrammeLocationAttribute()
     {
-        return strtoupper($this->programme_location);
+        return strtoupper($this->attributes['programme_location']);
     }
 
     public function setOrganiserAttribute($value)
