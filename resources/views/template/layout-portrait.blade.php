@@ -123,6 +123,7 @@
                                                     <label for="font-style">{{ __('label.font_style') }}</label>
                                                     <select id="font-style" name="font_style[]"
                                                             class="form-control form-control-sm">
+                                                            <option value=""> Select Font</option>
                                                         @foreach($fonts as $font)
                                                             <option value="{{ $font->id }}" {{ (old('font_style.'.$index) == $font->id) ? 'selected' : '' }} >{{ $font->name }}</option>
                                                         @endforeach
@@ -455,7 +456,9 @@
                                                     <label for="font-style">{{ __('label.font_style') }}</label>
                                                     <select id="font-style" name="font_style[]"
                                                             class="form-control form-control-sm">
-                                                        @foreach($fonts as $font)
+                                                        <option value=""> Select Font</option>
+
+                                                    @foreach($fonts as $font)
                                                             <option value="{{ $font->id }}" {{ ($content->font_style == $font->id) ? 'selected' : '' }} >{{ $font->name }}</option>
                                                         @endforeach
                                                     </select>
@@ -726,7 +729,9 @@
                                                 <label for="font-style">{{ __('label.font_style') }}</label>
                                                 <select id="font-style" name="font_style[]"
                                                         class="form-control form-control-sm">
-                                                    @foreach($fonts as $font)
+                                                    <option value=""> Select Font</option>
+
+                                                @foreach($fonts as $font)
                                                         <option value="{{ $font->id }}" >{{ $font->name }}</option>
                                                     @endforeach
                                                 </select>

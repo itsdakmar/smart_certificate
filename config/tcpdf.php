@@ -16,7 +16,7 @@ return [
 	// https://raw.githubusercontent.com/tecnickcom/TCPDF/develop/config/tcpdf_config.php
 
 	//    'path_main'           => '', // K_PATH_MAIN
-	//    'path_url'            => '', // K_PATH_URL
+	    'path_url'            => public_path(), // K_PATH_URL
 	//    'header_logo'         => '', // PDF_HEADER_LOGO
 	//    'header_logo_width'   => '', // PDF_HEADER_LOGO_WIDTH
 	//    'path_cache'          => '', // K_PATH_CACHE
