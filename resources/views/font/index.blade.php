@@ -51,19 +51,29 @@
                             <div class="row p-3">
                                 <div class="col">
                                     <div class="form-group">
-                                        <input type="text" class="form-control mx-3" id="font" name="name"
+                                        <input type="text" class="form-control mx-3 {{ $errors->has('name') ? ' is-invalid' : '' }}" id="font" name="name"
                                                aria-describedby="font"
-                                               placeholder="Enter font name" required>
+                                               placeholder="Enter font name" required
+                                               value="{{ old('name') }}"
+                                        >
+
+                                        @if ($errors->has('name'))
+                                            <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('name') }}</strong>
+                                        </span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input mx-3" name="file"
+                                                <input type="file" class="custom-file-input mx-3 {{ $errors->has('file') ? ' is-invalid' : '' }}" name="file"
                                                        id="font-file"
-                                                       aria-describedby="font-file" accept=".ttf"
-                                                       required>
+                                                       aria-describedby="font-file"
+                                                       required
+                                                       accept=".ttf"
+                                                >
                                                 <label class="custom-file-label" style="display:block;" for="font-file">Choose
                                                     file</label>
                                             </div>
@@ -71,6 +81,12 @@
                                         <small id="font-file" class="text-muted mx-3">
                                             Only TTF file is accepted.
                                         </small>
+
+                                        @if ($errors->has('file'))
+                                            <span class="invalid-feedback" style="display: block" role="alert">
+                                            <strong>{{ $errors->first('file') }}</strong>
+                                        </span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

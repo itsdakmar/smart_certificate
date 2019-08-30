@@ -133,6 +133,8 @@ class TemplateController extends Controller
             'template' => 'required|mimes:doc,dotx,docx,ppt,pptx,pdf'
         ], $message);
 
+
+
         $file = $request->file('template');
         $originalName = $file->getFilename() . '.' . $file->getClientOriginalExtension();
         $file->move(public_path('/uploaded/template/original/'), $originalName);

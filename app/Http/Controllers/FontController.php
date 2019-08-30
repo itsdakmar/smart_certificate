@@ -7,6 +7,8 @@ use App\Font;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
 
 class FontController extends Controller
 {
@@ -17,6 +19,13 @@ class FontController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'file' => 'required|mimes:ttf'
+        ]);
+
+        if ($validator->fails()) return back()->withErrors($validator)->withInput();
+
         $file = $request->file('file');
 
         $originalName = uniqid() . '-' . $file->getClientOriginalName() . '.' . $file->getClientOriginalExtension();
