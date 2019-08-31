@@ -80,7 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('fonts/{path}', 'FontController@destroy')->name('font.destroy');
     Route::get('fonts/{id}', 'FontController@edit')->name('font.edit');
 
-
+    Route::get('/home/chart','HomeController@chart')->name('chart');
 
 
 
