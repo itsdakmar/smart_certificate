@@ -11,6 +11,8 @@
 |
 */
 
+setlocale(LC_TIME, 'ms_MY', 'Malay_malaysia', 'Malaysian');
+
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
