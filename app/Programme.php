@@ -153,7 +153,7 @@ class Programme extends Model
     public function getProgrammeDateForCertAttribute()
     {
 
-        $start_date = Carbon::parse($this->programme_start)->getTranslatedMonthName()->formatLocalized('%e %B %G');
+        $start_date = Carbon::parse($this->programme_start)->formatLocalized('%e %B %G');
         $end_date = Carbon::parse($this->programme_end)->formatLocalized('%e %B %G');
 
 
