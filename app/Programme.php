@@ -151,7 +151,7 @@ class Programme extends Model
      */
     public function getProgrammeDateForCertAttribute()
     {
-        setlocale(LC_TIME, '	ms_MY.UTF-8', 'Malay_malaysia.1252', 'Malaysian');
+        setlocale(LC_TIME, '	ms_MY.utf8', 'Malay_malaysia.1252', 'Malaysian');
 
         $start_date = Carbon::parse($this->programme_start)->formatLocalized('%e %B %G');
         $end_date = Carbon::parse($this->programme_end)->formatLocalized('%e %B %G');
