@@ -151,13 +151,18 @@ class Programme extends Model
      */
     public function getProgrammeDateForCertAttribute()
     {
-        $start_date = Carbon::parse($this->programme_start)->formatLocalized('%e %B %G');
-        $end_date = Carbon::parse($this->programme_end)->formatLocalized('%e %B %G');
+        $start_date = Carbon::parse($this->programme_start);
+        $end_date = Carbon::parse($this->programme_end);
+
+        setlocale(LC_TIME, 'ms_MY.UTF-8', 'Malay_malaysia.1252', 'Malaysian');
+
+        $start_date_postfix = strftime("%e %B %G", strtotime($start_date));
+        $end_date_postfix = strftime("%e %B %G", strtotime($end_date));
 
         if ($start_date !== $end_date) {
-            return Str::upper($start_date . ' SEHINGGA ' . $end_date);
+            return Str::upper($start_date_postfix . ' SEHINGGA ' . $end_date_postfix);
         } else {
-            return Str::upper($start_date);
+            return Str::upper($start_date_postfix);
         }
     }
 
