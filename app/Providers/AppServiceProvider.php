@@ -42,10 +42,10 @@ class AppServiceProvider extends ServiceProvider
             $findCert->update([
                 'convert_status' => 2
             ]);
-            $user = User::whereHas("roles", function($q){ $q->whereIn("name", ["Admin","Secretariat"]); })->pluck('email');
-
-
-            Mail::to([$user])->send(new SendEmailConvert());
+            $users = User::whereHas("roles", function($q){ $q->whereIn("name", ["Admin","Secretariat"]); })->pluck('email')->toArray();
+            foreach($users as $user){
+                Mail::to($user)->send(new SendEmailConvert());
+            }
         });
 
         Queue::failing(function ($connection, $job) {
@@ -53,10 +53,10 @@ class AppServiceProvider extends ServiceProvider
             $findCert->update([
                 'convert_status' => 0
             ]);
-            $user = User::whereHas("roles", function($q){ $q->whereIn("name", ["Admin","Secretariat"]); })->pluck('email');
-
-
-            Mail::to([$user])->send(new SendEmailConvertFailed($job));
+            $users = User::whereHas("roles", function($q){ $q->whereIn("name", ["Admin","Secretariat"]); })->pluck('email')->toArray();
+            foreach($users as $user){
+                Mail::to($user)->send(new SendEmailConvert());
+            }
         });
     }
 }
