@@ -38,7 +38,7 @@
                                     <label for="orientation">{{ __('label.orientation') }}</label>
                                     <select name="orientation" class="form-control form-control-alternative {{ $errors->has('orientation') ? ' is-invalid' : '' }}" id="orientation" required>
                                         <option value="P">{{ __('label.portrait') }}</option>
-                                        <option value="Lp">{{ __('label.landscape') }}</option>
+                                        <option value="L">{{ __('label.landscape') }}</option>
                                     </select>
 
                                     @if ($errors->has('cert_type'))
