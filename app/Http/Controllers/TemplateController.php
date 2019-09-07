@@ -170,6 +170,12 @@ class TemplateController extends Controller
 
         PDF::setHeaderCallback(function ($pdf) use ($cert) {
             $pdf->SetAutoPageBreak(false, 0);
+            if($cert->orientation == "L"){
+                $pdf->Image(public_path('uploaded/template/converted/'.$cert->converted), 0, 0, 297, 210, '', '', '', false, 300, '', false, false, 0);
+            }else {
+                $pdf->Image(public_path('uploaded/template/converted/' . $cert->converted), 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+            }
+
             $pdf->Image(public_path('uploaded/template/converted/'.$cert->converted), 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
             $pdf->setPageMark();
         });
