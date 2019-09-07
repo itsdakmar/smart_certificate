@@ -32,7 +32,7 @@
                 <tr>
                     <td class="header"
                         style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; padding: 25px 0; text-align: center;">
-                        <a href="{{ route('template') }}"
+                        <a href="{{ action('TemplateController@index') }}"
                            style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #bbbfc3; font-size: 19px; font-weight: bold; text-decoration: none; text-shadow: 0 1px 0 white;">
                             Intelligent Certificate Application (I-CAn)
                         </a>
@@ -67,7 +67,7 @@
                                                                    style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box;">
                                                                 <tr>
                                                                     <td style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box;">
-                                                                        <a href="{{ route('template') }}"
+                                                                        <a href="{{ action('TemplateController@index') }}"
                                                                            class="button button-primary" target="_blank"
                                                                            style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; border-radius: 3px; box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16); color: #FFF; display: inline-block; text-decoration: none; -webkit-text-size-adjust: none; background-color: #3097D1; border-top: 10px solid #3097D1; border-right: 18px solid #3097D1; border-bottom: 10px solid #3097D1; border-left: 18px solid #3097D1;">Click here to view</a>
                                                                     </td>
@@ -89,8 +89,8 @@
                                                 <p style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #74787E; line-height: 1.5em; margin-top: 0; text-align: left; font-size: 12px;">
                                                     If you’re having trouble clicking the "Reset Password" button, copy
                                                     and paste the URL below
-                                                    into your web browser: <a href="{{ route('template') }}"
-                                                                              style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #3869D4;">{{ route('template') }}</a>
+                                                    into your web browser: <a href="{{ action('TemplateController@index') }}"
+                                                                              style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #3869D4;">{{ action('TemplateController@index') }}</a>
                                                 </p>
                                             </td>
                                         </tr>

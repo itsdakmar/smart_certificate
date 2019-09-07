@@ -28,6 +28,8 @@ class SendEmailConvert extends Mailable
      */
     public function build()
     {
-        return $this->view('email.index');
+        return $this->from('notify.ican@gmail.com')
+            ->subject('I-CAn Notification')
+            ->markdown('email.index');
     }
 }

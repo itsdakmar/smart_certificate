@@ -29,6 +29,10 @@ class SendEmailConvertFailed extends Mailable
      */
     public function build()
     {
-        return $this->view('email.failed', compact($this->reason));
+        $data = $this->reason;
+
+        return $this->from('notify.ican@gmail.com')
+            ->subject('I-CAn Notification')
+            ->markdown('email.failed', compact('data'));
     }
 }
