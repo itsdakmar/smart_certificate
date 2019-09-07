@@ -51,7 +51,7 @@ class TemplateController extends Controller
             'alignment_director' => 'required_if:show_director,1',
             'alignment.*' => 'required',
             'font_size.*' => 'required|numeric',
-            'x.*' => 'required|numeric|min:1|max:176',
+            'x.*' => 'required|numeric|min:1|max:290',
             'y.*' => 'required|numeric|min:1|max:290',
             'margin_left.*' => 'numeric',
             'margin_right.*' => 'numeric',

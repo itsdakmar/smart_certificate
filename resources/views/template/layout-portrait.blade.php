@@ -604,7 +604,7 @@
                                                                     readonly>{{ __('label.x') }}</button>
                                                         </div>
                                                         <input type="number" name="qr_x"
-                                                               min="1" max="176"
+                                                               min="1" max="{{ ($certificate_conf->orientation == "P") ? 176 : 290 }}"
                                                                class="form-control px-2"
                                                                placeholder="{{ __('label.x') }}"
                                                                value="{{ $certificate_conf->qr_x }}">
@@ -766,7 +766,7 @@
                                                                     readonly>{{ __('label.x') }}</button>
                                                         </div>
                                                         <input type="number" name="x[]"
-                                                               min="1" max="176"
+                                                               min="1" max="{{ ($certificate_conf->orientation == "P") ? 176 : 290 }}"
                                                                class="form-control px-2"
                                                                placeholder="{{ __('label.x') }}">
                                                     </div>
@@ -874,7 +874,7 @@
                                                                     readonly>{{ __('label.x') }}</button>
                                                         </div>
                                                         <input type="number" name="qr_x"
-                                                               min="1" max="176"
+                                                               min="1" max="{{ ($certificate_conf->orientation == "P") ? 176 : 290 }}"
                                                                class="form-control px-2"
                                                                placeholder="{{ __('label.x') }}"
                                                         >
