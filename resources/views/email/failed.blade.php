@@ -32,7 +32,7 @@
                 <tr>
                     <td class="header"
                         style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; padding: 25px 0; text-align: center;">
-                        <a href="{{ action('TemplateController@index') }}"
+                        <a href="https://ican.my/template/index"
                            style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #bbbfc3; font-size: 19px; font-weight: bold; text-decoration: none; text-shadow: 0 1px 0 white;">
                             Intelligent Certificate Application (I-CAn)
                         </a>
@@ -89,8 +89,8 @@
                                                 <p style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #74787E; line-height: 1.5em; margin-top: 0; text-align: left; font-size: 12px;">
                                                     If you’re having trouble clicking the "Reset Password" button, copy
                                                     and paste the URL below
-                                                    into your web browser: <a href="{{ action('TemplateController@index') }}"
-                                                                              style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #3869D4;">{{ action('TemplateController@index') }}</a>
+                                                    into your web browser: <a href="https://ican.my/template/index"
+                                                                              style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #3869D4;">https://ican.my/template/index</a>
                                                 </p>
                                             </td>
                                         </tr>
