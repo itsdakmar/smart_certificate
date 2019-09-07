@@ -24,6 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $array = [
             1 => 0,
             2 => 0,
@@ -40,7 +41,7 @@ class HomeController extends Controller
         ];
 
         $programmes = DB::table('programmes')
-            ->selectRaw('MONTH(created_at) month , COUNT(*) total')
+            ->selectRaw('MONTH(programme_start) month , COUNT(*) total')
             ->whereYear('created_at', date('Y'))
             ->groupBy('month')
             ->get()->toArray();

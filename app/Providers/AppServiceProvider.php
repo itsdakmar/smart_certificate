@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\CertificateConfig;
 use App\Mail\SendEmailConvert;
 use App\Mail\SendEmailConvertFailed;
+use App\User;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
@@ -12,6 +13,13 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    private $user;
+    public function __construct(\Illuminate\Contracts\Foundation\Application $app)
+    {
+        parent::__construct($app);
+
+    }
+
     /**
      * Register any application services.
      *
@@ -29,12 +37,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->user = User::whereHas("roles", function($q){ $q->whereIn("name", ["Admin","Secretariat"]); })->pluck('email');
+
         Queue::after(function (JobProcessed $event) {
             $findCert = CertificateConfig::orderBy('id', 'desc')->first();
             $findCert->update([
                 'convert_status' => 2
             ]);
-            Mail::to('ali@gmail.com')->send(new SendEmailConvert());
+
+
+            Mail::to([$this->user])->send(new SendEmailConvert());
         });
 
         Queue::failing(function ($connection, $job) {
@@ -42,7 +54,8 @@ class AppServiceProvider extends ServiceProvider
             $findCert->update([
                 'convert_status' => 0
             ]);
-            Mail::to('ali@gmail.com')->send(new SendEmailConvertFailed());
+
+            Mail::to([$this->user])->send(new SendEmailConvertFailed($job));
         });
     }
 }

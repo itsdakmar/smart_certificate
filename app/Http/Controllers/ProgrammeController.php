@@ -11,11 +11,14 @@ namespace App\Http\Controllers;
 use App\CertificateConfig;
 use App\Document;
 use App\Gallery;
+use App\Mail\SendDirectorEmail;
 use App\Programme;
 use App\SystemConfigs;
+use App\User;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PDF;
@@ -132,6 +135,17 @@ class ProgrammeController extends Controller
         $programme = Programme::find($programme_id);
         $programme->update(['status' => 2]);
 
+        $user = User::whereHas("roles", function($q){ $q->where("name", "Director"); })->latest('created_at')->first();
+
+        $data = [
+            'sender' => Auth::user()->name,
+            'programme' => $programme_id,
+            'programme_name' => $programme->programme_name,
+        ];
+
+        Mail::to($user)->send(new SendDirectorEmail($data));
+
+
         return redirect()->route('programme')->withStatus(__('Programme successfully submitted, waiting for approval.'));
     }
 
@@ -213,7 +227,7 @@ class ProgrammeController extends Controller
         });
 
         PDF::setCellPaddings(16, 0, 6);
-        PDF::AddPage('P', 'A4');
+        PDF::AddPage($cert->orientation, 'A4');
 
         $findme = [
             '{nama_peserta}' => '<b class="text-uppercase"> MUHAMMAD AMMAR BIN MOHD RAZAMAN </b>',
@@ -275,8 +289,7 @@ class ProgrammeController extends Controller
         $candidates = ($type == 2) ? $programme->committees()->get() : $programme->participants()->get();
 
         foreach ($candidates as $candidate) {
-            PDF::AddPage('P', 'A4');
-
+            PDF::AddPage($cert->orientation, 'A4');
 
             $findme = [
                 '{nama_peserta}' => '<b class="text-uppercase">' . $candidate->name . '</b>',

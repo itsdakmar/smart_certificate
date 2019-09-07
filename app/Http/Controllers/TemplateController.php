@@ -176,7 +176,7 @@ class TemplateController extends Controller
 
 
         PDF::setCellPaddings(16, 0, 6);
-        PDF::AddPage('P', 'A4');
+        PDF::AddPage($cert->orientation, 'A4');
 
         $findme = [
             '{nama_peserta}' => '<b class="text-uppercase"> MUHAMMAD AMMAR BIN MOHD RAZAMAN </b>',
