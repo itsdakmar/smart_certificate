@@ -45,7 +45,7 @@ class ProgrammeController extends Controller
             session()->flashInput($request->input());
         }
 
-        return view('programme.index', ['programmes' => $programme->filter($request)->paginate(15)]);
+        return view('programme.index', ['programmes' => $programme->orderBy('created_at','desc')->filter($request)->paginate(15)]);
     }
 
     /**
