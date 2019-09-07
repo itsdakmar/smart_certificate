@@ -13,7 +13,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    private $user;
     public function __construct(\Illuminate\Contracts\Foundation\Application $app)
     {
         parent::__construct($app);
@@ -37,16 +36,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->user = User::whereHas("roles", function($q){ $q->whereIn("name", ["Admin","Secretariat"]); })->pluck('email');
 
         Queue::after(function (JobProcessed $event) {
             $findCert = CertificateConfig::orderBy('id', 'desc')->first();
             $findCert->update([
                 'convert_status' => 2
             ]);
+            $user = User::whereHas("roles", function($q){ $q->whereIn("name", ["Admin","Secretariat"]); })->pluck('email');
 
 
-            Mail::to([$this->user])->send(new SendEmailConvert());
+            Mail::to([$user])->send(new SendEmailConvert());
         });
 
         Queue::failing(function ($connection, $job) {
@@ -54,8 +53,10 @@ class AppServiceProvider extends ServiceProvider
             $findCert->update([
                 'convert_status' => 0
             ]);
+            $user = User::whereHas("roles", function($q){ $q->whereIn("name", ["Admin","Secretariat"]); })->pluck('email');
 
-            Mail::to([$this->user])->send(new SendEmailConvertFailed($job));
+
+            Mail::to([$user])->send(new SendEmailConvertFailed($job));
         });
     }
 }
