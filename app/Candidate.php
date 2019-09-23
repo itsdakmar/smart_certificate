@@ -43,7 +43,7 @@ class Candidate extends Model
         $this->attributes['name'] = strtoupper($value);
     }
 
-    function getIdentityCardAttribute(){
+    function getHiddenAttribute(){
 
 //        $last4Digits    = preg_replace( "#(.*?)(\d{4})$#", "$2", $this->attributes['identity_card']);
         $firstDigits    = preg_replace( "#(.*?)(\d{4})$#", "$1", $this->attributes['identity_card']);

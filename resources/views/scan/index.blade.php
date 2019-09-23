@@ -22,6 +22,10 @@
                                    aria-controls="Two" aria-selected="false">{{ __('label.programme_photos') }}</a>
                             </li>
                             <li class="nav-item ">
+                                <a class="nav-link" id="two-tab" data-toggle="tab" href="#twohalf" role="tab"
+                                   aria-controls="Two" aria-selected="false">{{ __('label.programme_photos') }}</a>
+                            </li>
+                            <li class="nav-item ">
                                 <a class="nav-link" id="three-tab" data-toggle="tab" href="#three" role="tab"
                                    aria-controls="Three" aria-selected="false">{{ __('label.programme_documents') }}</a>
                             </li>
@@ -74,6 +78,10 @@
                                  role="tabpanel" aria-labelledby="two-tab">
                                 @include('programme.gallery.index', ['programme' => $programme])
                             </div>
+                            <div class="tab-pane fade p-3" style="overflow: auto;height: 500px;" id="twohalf"
+                                 role="tabpanel" aria-labelledby="twohalf-tab">
+                                @include('programme.gallery.video', ['programme' => $programme])
+                            </div>
                             <div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
                                 @include('programme.document',['programme' => $programme])
                             </div>
@@ -102,7 +110,7 @@
                             @foreach ($committees as $committee)
                                 <tr>
                                     <td>{{ $committee->name }}</td>
-                                    <td>{{ $committee->identity_card }}</td>
+                                    <td>{{ $committee->hidden }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -134,7 +142,7 @@
                             @foreach ($candidates as $candidate)
                                 <tr>
                                     <td>{{ $candidate->name }}</td>
-                                    <td>{{ $candidate->identity_card }}</td>
+                                    <td>{{ $candidate->hidden }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
