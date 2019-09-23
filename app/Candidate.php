@@ -42,4 +42,11 @@ class Candidate extends Model
     {
         $this->attributes['name'] = strtoupper($value);
     }
+
+    function getIdentityCardAttribute(){
+
+//        $last4Digits    = preg_replace( "#(.*?)(\d{4})$#", "$2", $this->attributes['identity_card']);
+        $firstDigits    = preg_replace( "#(.*?)(\d{4})$#", "$1", $this->attributes['identity_card']);
+        return preg_replace("#(\d)#", "*", $firstDigits);
+    }
 }

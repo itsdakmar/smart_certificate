@@ -138,11 +138,11 @@
                     </div>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-cog text-blue"></i> {{ __('System Configs') }}
-                    </a>
-                </li>
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link" href="#">--}}
+                        {{--<i class="fas fa-cog text-blue"></i> {{ __('System Configs') }}--}}
+                    {{--</a>--}}
+                {{--</li>--}}
                 @endrole
             </ul>
             <!-- Divider -->
@@ -152,7 +152,7 @@
             <!-- Navigation -->
             <ul class="navbar-nav mb-md-3">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" target="_blank" href="{{ asset('argon') }}/user-manual.pdf">
                         <i class="ni ni-spaceship"></i> User Manual
                     </a>
                 </li>
