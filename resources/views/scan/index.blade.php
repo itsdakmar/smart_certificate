@@ -21,10 +21,10 @@
                                 <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab"
                                    aria-controls="Two" aria-selected="false">{{ __('label.programme_photos') }}</a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" id="two-tab" data-toggle="tab" href="#twohalf" role="tab"
-                                   aria-controls="Two" aria-selected="false">{{ __('label.programme_photos') }}</a>
-                            </li>
+                            {{--<li class="nav-item ">--}}
+                                {{--<a class="nav-link" id="two-tab" data-toggle="tab" href="#twohalf" role="tab"--}}
+                                   {{--aria-controls="Two" aria-selected="false">{{ __('label.programme_photos') }}</a>--}}
+                            {{--</li>--}}
                             <li class="nav-item ">
                                 <a class="nav-link" id="three-tab" data-toggle="tab" href="#three" role="tab"
                                    aria-controls="Three" aria-selected="false">{{ __('label.programme_documents') }}</a>
@@ -78,10 +78,10 @@
                                  role="tabpanel" aria-labelledby="two-tab">
                                 @include('programme.gallery.index', ['programme' => $programme])
                             </div>
-                            <div class="tab-pane fade p-3" style="overflow: auto;height: 500px;" id="twohalf"
-                                 role="tabpanel" aria-labelledby="twohalf-tab">
-                                @include('programme.gallery.video', ['programme' => $programme])
-                            </div>
+                            {{--<div class="tab-pane fade p-3" style="overflow: auto;height: 500px;" id="twohalf"--}}
+                                 {{--role="tabpanel" aria-labelledby="twohalf-tab">--}}
+                                {{--@include('programme.gallery.video', ['programme' => $programme])--}}
+                            {{--</div>--}}
                             <div class="tab-pane fade p-3" id="three" role="tabpanel" aria-labelledby="three-tab">
                                 @include('programme.document',['programme' => $programme])
                             </div>
