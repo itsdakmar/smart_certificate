@@ -37,7 +37,7 @@ class SendDirectorEmail extends Mailable
         $programme_name = $this->programme_name;
         $sender = $this->sender;
 
-        return $this->from('notify.ican@gmail.com')
+        return $this->from('notify@ican.my')
             ->subject('I-CAn Notification')
             ->markdown('email.director', compact('programme_id','programme_name','sender'));
     }

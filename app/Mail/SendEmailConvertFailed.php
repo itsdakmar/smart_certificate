@@ -31,7 +31,7 @@ class SendEmailConvertFailed extends Mailable
     {
         $data = $this->reason;
 
-        return $this->from('notify.ican@gmail.com')
+        return $this->from('notify@ican.my')
             ->subject('I-CAn Notification')
             ->markdown('email.failed', compact('data'));
     }
