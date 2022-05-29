@@ -6,10 +6,13 @@ use App\CertificateConfig;
 use App\CertificateContent;
 use App\Font;
 use App\SystemConfigs;
+use CloudConvert\CloudConvert;
+use CloudConvert\Models\Job;
+use CloudConvert\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use RobbieP\CloudConvertLaravel\Facades\CloudConvert;
 use Elibyy\TCPDF\Facades\TCPDF as PDF;
+use Imagick;
 
 class TemplateController extends Controller
 {
@@ -132,23 +135,34 @@ class TemplateController extends Controller
             'template' => 'required|mimes:doc,dotx,docx,ppt,pptx,pdf'
         ], $message);
 
-
-
         $file = $request->file('template');
         $originalName = $file->getFilename() . '.' . $file->getClientOriginalExtension();
         $file->move(public_path('/uploaded/template/original/'), $originalName);
-        CloudConvert::file(public_path('/uploaded/template/original/') . $originalName)->queue('to', public_path('/uploaded/template/converted/') . $file->getFilename() . '.jpg');
+
+        $imagick = new Imagick();
+        $imagick->setResolution(300, 300);
+        $imagick->readImage(public_path('/uploaded/template/original/'.$originalName));
+
+        $imagick->setImageFormat('jpeg');
+        $imagick->setImageCompression(imagick::COMPRESSION_JPEG);
+        $imagick->setImageCompressionQuality(100);
+
+        $convertedFileName = uniqid().'.jpg';
+        $saveImagePath = public_path('/uploaded/template/converted/'.$convertedFileName);
+        $imagick->writeImages($saveImagePath, true);
+
 
         CertificateConfig::create([
             'orientation' => $request->orientation,
             'name' => $request->layout_name,
             'original' => $originalName,
-            'converted' => $file->getFilename() . '.jpg',
+            'converted' => $convertedFileName,
             'certificate_type' => $request->cert_type,
-            'convert_status' => 1,
+            'convert_status' => 2,
         ]);
 
-        return redirect()->route('template')->withStatus(__('status.success_wait_for_notify'));
+
+        return redirect()->route('template')->withStatus(__('successfully creating template'));
     }
 
     public function preview($id)

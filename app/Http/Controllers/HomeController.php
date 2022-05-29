@@ -61,6 +61,6 @@ class HomeController extends Controller
 
        $generated = $certificates[0]->total;
 
-        return view('dashboard', compact('data','generated',''));
+        return view('dashboard', compact('data','generated'));
     }
 }

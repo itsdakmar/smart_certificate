@@ -163,7 +163,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-        RobbieP\CloudConvertLaravel\CloudConvertLaravelServiceProvider::class,
         Elibyy\TCPDF\ServiceProvider::class,
         /*
          * Package Service Providers...
