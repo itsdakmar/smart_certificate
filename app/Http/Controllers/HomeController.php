@@ -42,7 +42,7 @@ class HomeController extends Controller
 
         $programmes = DB::table('programmes')
             ->selectRaw('MONTH(programme_start) month , COUNT(*) total')
-            ->whereYear('created_at', date('Y'))
+            ->whereYear('programme_start', date('Y'))
             ->groupBy('month')
             ->get()->toArray();
 
