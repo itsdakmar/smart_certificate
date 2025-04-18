@@ -254,7 +254,8 @@ class ProgrammeController extends Controller
             PDF::setCellPaddings($content->margin_left,0,$content->margin_right);
             PDF::writeHTMLCell(0, 0, $content->x, $content->y, $parse_content, $border = 0, $ln = 0, $fill = false, $reseth = true, $align = $content->alignment , $autopadding = false);
 
-            // PDF::SetFont('helvetica');}
+            PDF::SetFont('helvetica');
+        }
 
         if ($cert->show_director == 1) {
             PDF::SetFontSize(11);
@@ -262,8 +263,6 @@ class ProgrammeController extends Controller
         }
 
         PDF::write2DBarcode(route('programme.scan', $programme->slug), 'QRCODE,L', $cert->qr_x ?? 160, $cert->qr_y ?? 250, $cert->qr_width ?? 20, $cert->qr_height ?? 20, NULL, 'N');
-
-
 
         return PDF::Output('certificate.pdf');
     }
