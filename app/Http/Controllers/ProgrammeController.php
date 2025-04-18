@@ -245,10 +245,10 @@ class ProgrammeController extends Controller
 
         foreach ($cert->certificateContents as $content) {
             $parse_content = strtr($content->content, $findme);
-            // if($content->font_style){
-            //     $fontname = \TCPDF_FONTS::addTTFfont(public_path('fonts/'.$content->fontStyle->path), 'TrueTypeUnicode', '', 32);
-            //     PDF::SetFont($fontname);
-            // }
+            if($content->font_style){
+                $fontname = \TCPDF_FONTS::addTTFfont(public_path('fonts/'.$content->fontStyle->path), 'TrueTypeUnicode', '', 32);
+                PDF::SetFont($fontname);
+            }
 
             PDF::SetFontSize($content->font_size);
             PDF::setCellPaddings($content->margin_left,0,$content->margin_right);
